@@ -2,6 +2,7 @@ from fastapi import APIRouter, UploadFile, File
 from typing import Annotated
 
 from app.modules.question_retrieval.models.jd2text import jobdes2text
+from app.modules.question_retrieval.models.text2tector import text2vector
 
 qtretrieval_router = APIRouter(prefix="/qtretrieval", tags=["qtretrieval"])
 
@@ -15,7 +16,10 @@ async def send_jd(txt_file: Annotated[UploadFile, File(..., description="The JD 
     try:
         # read the txt file with format
         jobdes = txt_file.file.read().decode("utf-8")
-        result = jobdes2text(jobdes)
-        return {"message": "Send JD successfully", "text": result}
+        sumaryjd_text = jobdes2text(jobdes)
+        print("sumaryjd_text: ", sumaryjd_text)
+        sumaryjd_vector = text2vector(sumaryjd_text)
+        print("sumaryjd_vector: ", sumaryjd_vector)
+        return {"message": "Send JD successfully"}
     except Exception as e:
-        return {"message": "Error", "error": "Please check the file format or the file content. The file should be .txt format."}
+        return {"message": "Error", "error": str(e)}

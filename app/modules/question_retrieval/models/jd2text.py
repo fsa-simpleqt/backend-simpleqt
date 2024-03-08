@@ -39,4 +39,4 @@ def jobdes2text(jobdes):
 
     result = chain.invoke(chat_message)
 
-    return result
+    return result.content
