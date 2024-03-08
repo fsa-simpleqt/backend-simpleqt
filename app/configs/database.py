@@ -84,3 +84,9 @@ def download_from_file_url(file_url_list, local_directory):
         ref.download_to_filename(local_filename)
         print(f"Downloaded {legal_file_url} to {local_filename}")
     return True
+
+def download_from_description(target_description, download_path='data\question_for_jd'):
+    database_file = query_file('EXAM-DATA')
+    file_url_list = extract_file_url_by_description(database_file, target_description)
+    download_from_file_url(file_url_list, download_path)
+    return
