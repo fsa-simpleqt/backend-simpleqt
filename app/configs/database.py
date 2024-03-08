@@ -44,6 +44,14 @@ def extract_file_url(file_dict):
         file_urls.append(value['file_url'])
     return file_urls
 
+# Extract file's url with target description from a bunch of things
+def extract_file_url_by_description(file_dict, target_description):
+    file_urls = []
+    for key, value in file_dict.items():
+        if value.get('description') == target_description:
+            file_urls.append(value.get('file_url'))
+    return file_urls
+
 # Read file content, given its url
 def read_from_file_url(file_url_list):
     temp_content_list = []
@@ -56,3 +64,17 @@ def read_from_file_url(file_url_list):
         file_content = ref.download_as_string().decode('utf-8')
         temp_content_list.append(file_content)
     return temp_content_list
+
+# Download file content, given its url
+def download_from_file_url(file_url_list, local_directory):
+    temp_content_list = []
+    bucket = storage.bucket(storageBucket)
+    for file_url in file_url_list:
+        parts = []
+        parts = file_url.split('/')
+        legal_file_url = parts[3:][0]
+        ref = bucket.blob(legal_file_url)
+        local_filename = f"{local_directory}/{legal_file_url}"
+        ref.download_to_filename(local_filename)
+        print(f"Downloaded {legal_file_url} to {local_filename}")
+    return True
