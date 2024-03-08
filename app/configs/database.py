@@ -29,13 +29,19 @@ def store_metadata(file_url, description):
     return True
 
 # Query file's url and metadata from file's metadata
-def query_file(target_description):
+def query_file_from_metadata(target_description):
     temp_file_dict = {}
     database_json = db.reference('exam_data').get()
     for key, value in database_json.items():
         if (target_description in value.get('description')):
             temp_file_dict.update({key: value})
     return temp_file_dict
+
+# Query database path
+def query_file(path):
+    database = db.reference(path)
+    ref = database.get()
+    return ref
 
 # Extract file's url from a bunch of things
 def extract_file_url(file_dict):
