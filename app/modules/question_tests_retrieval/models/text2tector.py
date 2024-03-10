@@ -1,7 +1,10 @@
 import os
 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from dotenv import load_dotenv
 
+# load the environment variables
+load_dotenv()
 # Define the google api key
 os.environ['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY')
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")

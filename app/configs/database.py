@@ -1,86 +1,43 @@
 import firebase_admin
-from firebase_admin import credentials, storage, db
+from firebase_admin import credentials
+from firebase_admin import firestore
+from firebase_admin import storage
 
-storageBucket = "fsa-firebase-tutorial.appspot.com"
-databaseURL = "https://fsa-firebase-tutorial-default-rtdb.asia-southeast1.firebasedatabase.app/"
+import os
+from dotenv import load_dotenv
 
-cred = credentials.Certificate('credentials\\fsa-firebase-database.json')
-firebase_admin.initialize_app(cred, {
-    'storageBucket': storageBucket,
-    'databaseURL': databaseURL
-})
+# load the environment variables
+load_dotenv()
 
+firebase_url_storageBucket = os.getenv("FIREBASE_URL_STORAGEBUCKET")
 
-# Upload file to storage
-def upload_file(file_path, destination_path):
-    bucket = storage.bucket(storageBucket)
-    ref = bucket.blob(destination_path)
-    ref.upload_from_filename(file_path)
-    return True
+# get credentials from .env
+credential_firebase = {
+    "type": os.getenv("FIREBASE_TYPE"),
+    "project_id": os.getenv("FIREBASE_PROJECT_ID"),
+    "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
+    "private_key": os.getenv("FIREBASE_PRIVATE_KEY").replace('\\n', '\n'),
+    "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
+    "client_id": os.getenv("FIREBASE_CLIENT_ID"),
+    "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
+    "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
+    "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL"),
+    "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN")
+}
 
-# Add file's url and metadata to realtime database
-def store_metadata(file_url, description):
-    database = db.reference('exam_data')  # Or your desired path
-    new_file_ref = database.push()
-    new_file_ref.set({
-        'file_url': file_url,
-        'description': description
+# check if firebase is not initialized
+if not firebase_admin._apps:
+    # Initialize the app with a service account, granting admin privileges
+    cred = credentials.Certificate(credential_firebase)
+    firebase_admin.initialize_app(cred, {
+        'storageBucket': firebase_url_storageBucket
     })
-    return True
 
-# Query file's url and metadata from file's metadata
-def query_file_from_metadata(target_description):
-    temp_file_dict = {}
-    database_json = db.reference('exam_data').get()
-    for key, value in database_json.items():
-        if (target_description in value.get('description')):
-            temp_file_dict.update({key: value})
-    return temp_file_dict
+# Initialize Firestore
+firebase_db = firestore.client()
+print("Firestore connected")
 
-# Query database path
-def query_file(path):
-    database = db.reference(path)
-    ref = database.get()
-    return ref
-
-# Extract file's url from a bunch of things
-def extract_file_url(file_dict):
-    file_urls = []
-    for key, value in file_dict.items():
-        file_urls.append(value['file_url'])
-    return file_urls
-
-# Extract file's url with target description from a bunch of things
-def extract_file_url_by_description(file_dict, target_description):
-    file_urls = []
-    for key, value in file_dict.items():
-        if value.get('description') == target_description:
-            file_urls.append(value.get('file_url'))
-    return file_urls
-
-# Read file content, given its url
-def read_from_file_url(file_url_list):
-    temp_content_list = []
-    bucket = storage.bucket(storageBucket)
-    for file_url in file_url_list:
-        parts = []
-        parts = file_url.split('/')
-        legal_file_url = parts[3:][0]
-        ref = bucket.blob(legal_file_url)
-        file_content = ref.download_as_string().decode('utf-8')
-        temp_content_list.append(file_content)
-    return temp_content_list
-
-# Download file content, given its url
-def download_from_file_url(file_url_list, local_directory):
-    temp_content_list = []
-    bucket = storage.bucket(storageBucket)
-    for file_url in file_url_list:
-        parts = []
-        parts = file_url.split('/')
-        legal_file_url = parts[3:][0]
-        ref = bucket.blob(legal_file_url)
-        local_filename = f"{local_directory}/{legal_file_url}"
-        ref.download_to_filename(local_filename)
-        print(f"Downloaded {legal_file_url} to {local_filename}")
-    return True
+# Initialize Storage
+firebase_bucket = storage.bucket(app=firebase_admin.get_app())
+print("Storage connected")
