@@ -1,12 +1,14 @@
+import uuid
 from app.configs.database import firebase_bucket, firebase_db
 
 # CRUD operation
 def upload_file_question_tests(file):
+    re_name_file = str(uuid.uuid4()).replace("-","_") + "_" + file.filename
     # upload file to firebase storage
-    blob = firebase_bucket.blob(file.filename)
+    blob = firebase_bucket.blob(re_name_file)
     blob.upload_from_file(file.file)
     # return gs link
-    return f"gs://{firebase_bucket.name}/{file.filename}"
+    return f"gs://{firebase_bucket.name}/{re_name_file}"
 
 def remove_file_question_tests(file_url):
     # remove file from firebase storage using "gs://" link

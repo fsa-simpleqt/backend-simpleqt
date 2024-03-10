@@ -25,10 +25,8 @@ def compare_vector(vector_extract, vector_des):
     for item in vector_des:
         two_object = (vector_extract, item)
         x = gemini_evaluator.evaluate_strings(prediction=two_object[0], reference=two_object[1])
-        # print(f"item and score: {item} - {x.get('score')}")
         if x.get('score') < maxnimun_value: 
             maxnimun_value = x.get('score')
-            print("maxnimun_value: ", maxnimun_value)
             des_item_choose = item
     if maxnimun_value == 2:
         return False
