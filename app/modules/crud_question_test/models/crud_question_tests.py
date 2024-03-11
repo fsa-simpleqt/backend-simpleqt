@@ -57,7 +57,7 @@ def update_question_test(id, data):
 
 def delete_question_test(id):
     # Delete a file from firebase storage
-    file_url = get_question_test_by_id(id)["question_tests"]
+    file_url = get_question_test_by_id(id)["question_tests_url"]
     remove_file_question_tests(file_url)
     # Delete a document by id
     firebase_db.collection("question_tests").document(id).delete()
