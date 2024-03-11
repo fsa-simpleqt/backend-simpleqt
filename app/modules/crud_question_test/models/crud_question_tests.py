@@ -1,5 +1,9 @@
 import uuid
 from app.configs.database import firebase_bucket, firebase_db
+from app.configs.qdrant_db import qdrant_client
+from app.configs.qdrant_db import models
+from app.modules.question_tests_retrieval.models.text2vector import text2vector
+
 
 # CRUD operation
 def upload_file_question_tests(file):
@@ -46,8 +50,19 @@ def create_question_test(data):
     file_url = upload_file_question_tests(file_question_tests)
     # add file url to data
     data["question_tests_url"] = file_url
+    question_tests_des = data["question_tests_description"]
     # Create a new document
-    firebase_db.collection("question_tests").add(data)
+    document_ref = firebase_db.collection("question_tests").add(data)
+    document_id = document_ref[1].id
+
+    # Upload vector to Qdrant
+    collection_info = qdrant_client.get_collection('question_tests')
+    points_count = collection_info.points_count
+    description_vector = text2vector(question_tests_des)
+    payload = {"id": document_id}
+    point = models.PointStruct(id=points_count+1, payload=payload, vector=description_vector)
+    qdrant_client.upsert(collection_name="question_tests", points=[point])
+
     return True
 
 def update_question_test(id, data):

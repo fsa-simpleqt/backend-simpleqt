@@ -20,7 +20,7 @@ async def add_question_test(description: str, role: str, file_question_tests: An
         # check if file is pdf or json
         if file_question_tests.content_type == "application/pdf":
             # create a new document
-            if create_question_test({"description": description, "role": role, "question_tests": file_question_tests}):
+            if create_question_test({"question_tests_description": description, "question_tests_role": role, "question_tests_url": file_question_tests}):
                 return {"message": "Question test added successfully"}
             else:
                 return {"message": "Error"}
