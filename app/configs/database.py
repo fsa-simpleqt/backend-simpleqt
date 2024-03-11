@@ -41,3 +41,10 @@ print("Firestore connected")
 # Initialize Storage
 firebase_bucket = storage.bucket(app=firebase_admin.get_app())
 print("Storage connected")
+
+# check have question_tests collection. If not, create it
+if "question_tests" not in firebase_db.collections():
+    firebase_db.create_collection("question_tests")
+    print("question_tests collection created")
+else:
+    print("question_tests collection already exists")
