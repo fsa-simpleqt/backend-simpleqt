@@ -22,6 +22,6 @@ async def send_jd(txt_file: Annotated[UploadFile, File(..., description="The JD 
             return {"message": "Send JD successfully and get question test successfully",
                     "sumaryjd_text": sumaryjd_text}
         else:
-            return {"message": "Error"}
+            return {"message": "Please upload only .txt file", "error": str(e)}
     except Exception as e:
-        return {"message": "Error", "error": str(e)}
+        return {"message": "Please upload only .txt file", "error": str(e)}
