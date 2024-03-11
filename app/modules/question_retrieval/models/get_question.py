@@ -37,11 +37,13 @@ def query_firebase():
         temp_file_list.append({key: (value.get('description'))})
     return temp_file_list
 
+#find the directory of firebase database
 def query_file(path):
     database = db.reference(path)
     ref = database.get()
     return ref
 
+#Extract url file by description
 def extract_file_url_by_description(file_dict, target_description):
     file_urls = []
     for key, value in file_dict.items():
@@ -49,6 +51,7 @@ def extract_file_url_by_description(file_dict, target_description):
             file_urls.append(value.get('file_url'))
     return file_urls
 
+#download test from firebase 
 def download_from_file_url(file_url_list, local_directory):
     temp_content_list = []
     bucket = storage.bucket(storageBucket)
@@ -68,7 +71,7 @@ def download_from_description(target_description, download_path='data\question_f
     download_from_file_url(file_url_list, download_path)
     return
 
-#In a list above 
+#In a list above, get all value: all description in database 
 def get_des_list(list):
     list_des = []
     for item in list:
@@ -76,20 +79,21 @@ def get_des_list(list):
              list_des.append(value)
     return list_des
 
-
+#Compare two vector: The first vector is extract text and all description in database 
 def compare_vector(vector_extract, vector_des):
     maxnimun_value = 2
     for item in vector_des:
         two_object = (vector_extract, item)
-        x = gemini_evaluator.evaluate_strings(prediction=two_object[0], reference=two_object[1])
+        x = gemini_evaluator.evaluate_strings(prediction=two_object[0], reference=two_object[1]) #use gemini_evaluator to compare two vector
         if x.get('score') < maxnimun_value: 
             maxnimun_value = x.get('score') 
             item_choose = item
         
     return item_choose  
 
+#get question (download all question) of prompt
 def get_question(text):
-    text = "Job Title is Senior AI Engineer, Level is Senior, and Brief summary of required skills is NLP, experiencing in using containers"
+    text = "Job Title is Senior AI Engineer, Level is Senior, and Brief summary of required skills is NLP, experiencing in using Docker"
     value_db = query_firebase()
     value_in_des = get_des_list(value_db)
     item_choose = compare_vector(text, value_in_des)
