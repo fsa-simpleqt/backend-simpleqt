@@ -1,0 +1,191 @@
+Content from https://proxyway.com/reviews/soax-proxies:
+
+All Reviews
+
+Types
+
+All Types
+
+Use Cases
+
+All Use Cases
+
+Locations
+
+All Locations
+
+Best Tools
+
+All Best Tools
+
+Our Tools
+
+All Our Tools
+
+SOAX’s proxies work well and offer very flexible management options.
+
+Use the code Proxyway to get a 20% discount.
+
+I remember first testing SOAX in 2021. Still a rookie provider, it already looked promising: the proxies rarely failed, offered flexible filtering options, and had decent management tools. Though painfully slow and still unfinished, the overall service was good enough for SOAX to become our Discovery of the Year.
+
+Now, SOAX can no longer be called a newbie. It has significantly improved upon the weaknesses, snatching our Contender of the Year award in 2023. How does SOAX compare with other major providers? And has it grown strong enough to compete with the market leaders: Oxylabs, Bright Data, and Smartproxy?
+
+Let’s find out.
+
+SOAX Starts Offering Datacenter Proxies
+
+SOAX Increases Its Proxy Pool by 22 Times
+
+SOAX Significantly Cuts Prices, Tests Single-Country Pools
+
+SOAX is a UK-based company established in 2019 and run by an international staff. In early 2023, SOAX introduced US-based ISP proxies, and it also runs a web scraping API under the ScrapeIn brand.
+
+The company started off as a mid-range provider, positioning itself in-between penny-pinching services with limited features like PacketStream and enterprise-facing behemoths, such as Bright Data or Oxylabs. Nowadays, it’s nearing premium providers in terms of price.
+
+SOAX invests a lot into getting your eyeballs. You can find it on most review platforms like TrustPilot, G2, or Capterra, tech websites like Trustpilot, and even Sourceforge! At one point, the provider used questionable growth hack tactics, such as spamming its website with thin Google-oriented pages; but that remains in the past.
+
+The SOAX of today looks solid. It has ethical guidelines, partners up with The World Ethical Data Forum, and runs a podcast covering ethics in data collection. (You can read or watch our interview on ethics with Stepan, SOAX’s CEO.) And while SOAX doesn’t disclose any concrete sources for its proxies, we know that it offers an SDK for developers to monetize their apps, such as free VPNs.
+
+Residential proxies are SOAX’s main and most affordable service. It consists of around 5 million monthly addresses from various countries around the world.
+
+Format: Proxy pool with 5M IPsLocations: 150+ countriesFiltering: Country, state, city, ASNRotation: Every request, 90-600 sec, as long as available
+
+The residential proxies cover most countries in the world. You might have trouble reaching remoter African locations, but the network has grown strong enough to provide an acceptable number of IPs nearly everywhere. You can check their coverage with available ASNs using a map on SOAX’s dashboard.
+
+The targeting and rotation options are very generous. Few providers offer ASN targeting, and when they do, it significantly impacts the price. Furthermore, you can choose to keep an IP until it goes offline, rotate proxies on each connection request, or specify a custom duration. This level of control you get is pretty amazing.
+
+Though advertised as unlimited, the proxies do have some limits, specifically concerning parallel requests. A basic plan gets you 300 ports (IPs you can access at the same time), and you’re advised not to go over 30 concurrent connections on each. Advanced packages increase the number.
+
+SOAX’s residential proxies support HTTP(S) and SOCKS5 protocols. However, you can only use them to access website traffic through ports 80 and 443. So there’s not much difference between the two out of the box. You can get more ports open if your use case adheres to SOAX’s terms of use.
+
+Both user:pass and whitelisted IP authentication are available. But to enable the former, you still have to whitelist an IP address first. Two IP slots are given for free; additional slots can be bought for an extra fee.
+
+SOAX offers monthly plans based on traffic. Unlike most competitors, it also factors in the number of ports you can access at once. This makes SOAX somewhat limited, but only if you scrape at a very fast pace.
+
+The plans start at $99. For this price, you get 15 GB of data ($6.6/GB) and 300 ports at your disposal. The largest plan on display offers 5 TB of data at $2.2/GB. If you want more data, or more ports, you’ll be asked to talk with SOAX’s staff for a custom quote.
+
+​​Aside from the public price, you can get small upgrades that are hard to notice until you look, such as more whitelisted IPs. However, foregoing them doesn’t impact the service in any meaningful way.
+
+To put things into context, SOAX costs less than the big fish like Bright Data and even some mid-range providers. In short, the rates are attractive for what you get throughout the whole range. The main drawback is no option to pay as you go  
+
+We last tested SOAX’s residential proxies in March 2023.
+
+#1: Pool size & composition
+
+We ran 1M requests over 21 days using the unfiltered pool, 500,000 requests over 14 days using the country pools, and 140,000 connection requests over 7 days using the Australian pool. We enriched IP data with the IP2Location database.
+
+SOAX’s residential proxy network has grown to be quite large. Throughout the testing period, we received over 50,000 unique IPs in most locations, and over 7,000 unique proxies in Australia. Compared to early 2022 when we previously tested the provider, it’s made significant improvements. 
+
+That said, the IP database identified nearly 40% of SOAX’s US proxies as non-residential addresses. This is likely because the provider included ISP proxy servers in its pool, which sometimes have trouble with IP databases. 
+
+#2: Infrastructure performance
+
+This benchmark shared the same parameters as the pool test. Our computer was located in Germany. We targeted a global CDN – it pinged a server nearest to the proxy IP and had a response size of several kilobytes.
+
+#3: Performance with popular targets
+
+We made ~2,600 connection requests to each target using US-filtered proxies and a non-headless Python scraper. Our computer was located in Germany. Note that your results may differ based on your web scraping setup.
+
+The results were nearly flawless here, as well. We experienced very few connection errors, even when accessing hard targets like Google or the photo-focused social media network. Few other providers were able to match SOAX under the same parameters when we tested them for 2023’s Proxy Market Research.
+
+Format: Proxy pool with 3.5M IPsLocations: 150+Filtering: Country, state, city, ASNRotation: Every request, 90-600 sec, as long as available
+
+Concurrency: 300-600 ports, plan basedTraffic: Plan basedSOCKS5: ✅Authentication: Credentials, IP whitelist
+
+SOAX has a unified system for its mobile and residential IPs, so they’re identical in terms of features. This means you get the same granular targeting options (including city and ASN), as well as flexible rotation settings.
+
+The number of ports is limited, but it’s hardly an issue for mobile proxies, which are often used in a more reserved fashion compared to other proxy types.
+
+Once again: if you care about the SOCKS5 protocol, note that it has very few ports open by default. It’s a good idea to ask SOAX if it’s possible to enable the ones you need before purchase.
+
+SOAX’s mobile profiles run on a subscription model that automatically renews every month until you cancel it. As it’s a peer-to-peer network, the main criterion is traffic use. SOAX also factors in ports – their number increases as you scale up.
+
+The cheapest mobile plan costs $99, or the same amount as access to SOAX’s residential proxies. Amazingly, the rates are also identical, making SOAX a great deal. Currently, these are probably the cheapest premium-level mobile proxies in the market.
+
+We last tested SOAX’s mobile proxies in March 2023.
+
+#1: Pool size & composition
+
+We ran 280,000 requests over 14 days using the unfiltered pool and country pools, and 140,000 connection requests over 7 days using the Australian pool. We enriched IP data with the IP2Location database.
+
+#2: Infrastructure performance
+
+This benchmark shared the same parameters as the pool test. Our computer was located in Germany. We targeted a global CDN – it pinged a server nearest to the proxy IP and had a response size of several kilobytes.
+
+#3: Performance with popular targets
+
+We made ~2,600 connection requests to each target using US-filtered proxies and a non-headless Python scraper. Our computer was located in Germany. Note that your results may differ based on your web scraping setup.
+
+The results were nearly flawless, showing that these IPs hadn’t experienced much abuse.
+
+To register with SOAX, you have to fill in a form with basic information and your use case, then confirm the registration via an email. 
+
+SOAX also requires undergoing a KYC check when you buy a plan, which involves sending your photo ID to a third-party service. 
+
+SOAX’s dashboard is an elegant control panel that evidently received a lot of love from the creators. The dashboard covers all the basics one could expect: you can authenticate, set up a proxy server, buy a plan, read the help docs, and get support.
+
+We especially liked the Online Check tab. It shows not only now many ASNs are online in each country but also their connection status. That’s not something we encounter often.
+
+Another thing we need to emphasize is how attentive SOAX is to new users. Multiple tabs in the dashboard have interactive onboarding wizards that guide you through the hoops of getting accustomed with the service. The Intercom-based chat also attempts to settle you in via a drip message campaign, though we’re not sure if we like this part. Flashbacks to misuse from other websites.
+
+SOAX offers self-service for its proxy networks – it’s possible to buy a plan by yourself. This doesn’t apply to cryptocurrency payments, which require contacting support.
+
+SOAX’s dashboard includes wallet functionality, so you can top up the account in advance to prevent charging your card multiple times. This is useful when you want to top up your traffic without getting a new plan. Just be aware that this process is manual, so your access can still be suspended if you’re not careful. 
+
+The dashboard has a separate tab for viewing your balance, transaction history, and downloading invoices. 
+
+The proxy setup ritual here is pretty elaborate. Even though you can authorize using a username and password, you’ll still have to whitelist an IP address first. Team SOAX argue that this is to protect themselves and their users. We argue that they don’t like resellers. In any case, keep this in mind, even if SOAX mentions a workaround for people with dynamic IPs.
+
+After whitelisting an IP address, you can set up a proxy server. There are two ways to do so: via the Login & Password flow or the IP Whitelist flow. In any case, you’ll have to choose a rotation time, specify the location and/or ISP, and then map them to the ports you have.
+
+For example, with an allowance of 100 ports, we assigned ports 10060-10070 to Spain and 10040-10049 to the UK. Note that IP address settings override Login & Password, and the provider advises against using both at once.
+
+You can also create a list of proxies and export it into a text file.
+
+One aspect that could be improved is visualization of data use. The provided graph is small and stingy. You can see how much traffic you’ve expended over a given period, but that’s pretty much it. SOAX could learn a thing or two in this regard, even if there’s no need to go all out like providers such as NetNut have.
+
+SOAX has a documentation hub covering various aspects of its service. It includes:
+
+The hub is pretty comprehensive: there are around 40 different integration guides, some of which provide instructions for multiple tools. Documentation is an area where SOAX has improved noticeably since we first tested the provider.
+
+You can contact SOAX’s support via live chat, email, phone, or Telegram. The provider also specifies tickets in the SLA but selecting the Support tab in the dashboard simply activates the live chat. 
+
+We contacted the support multiple times using the live chat functionality. The replies came quickly (one exception aside, within five minutes) and managed to answer our questions. All in all, SOAX’s support left us with a positive impression, at least during daytime in Europe.
+
+In just a few years, SOAX has grown into a competent proxy provider and a strong competitor to most mid-range and premium services. While not without flaws, it keeps the qualities that made it special, while significantly improving on the weaknesses. At this point, SOAX is a well-rounded option for anyone that needs residential or mobile proxies.
+
+Smartproxy is the first place to go if SOAX is not an option for you. It offers similar performance, great user experience, proxy-based tools and more features.
+
+Read the review
+
+Oxylabs is like a premium version of SOAX. It controls a significantly larger IP pool, and you can get specialized APIs that simplify web scraping.
+
+Read the review
+
+Bright Data is one of the biggest player in the premium space. It offers more features, some powerful proxy management tools, and complete pre-scraped data sets.
+
+Read the review
+
+Recommended for:
+
+Anyone who needs precise location and session control.
+
+Use the code proxyway to get 20% off.
+
+Use the code proxyway to get 20% off.
+
+Leave a Reply Cancel reply
+
+Your email address will not be published. Required fields are marked *
+
+Comment * 
+
+Name * 
+
+Email * 
+
+ 
+
+
+
+====================================================================================================

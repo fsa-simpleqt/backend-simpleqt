@@ -1,0 +1,192 @@
+Content from https://proxyway.com/guides/curl-with-proxy:
+
+All Reviews
+
+Types
+
+All Types
+
+Use Cases
+
+All Use Cases
+
+Locations
+
+All Locations
+
+Best Tools
+
+All Best Tools
+
+Our Tools
+
+All Our Tools
+
+We use affiliate links. They let us sustain ourselves at no cost to you.
+
+cURL is a handy command line tool for testing proxies and even doing some light web scraping. This guide will give you the basics you need to effectively use cURL with a proxy server.
+
+cURL is a text-based tool that runs in the terminal and allows transferring data over the internet. It’s over 20 years old, supports most internet protocols, and runs out of the box in all modern operating systems.
+
+cURL is often used with APIs: to get acquainted them, play around with endpoints, or do straight up serious work. In the proxy industry, cURL has become a popular tool for testing backconnect proxy servers (so, anything that involves the terms rotating, residential, or mobile).
+
+If you have time, you can read this great e-book to learn all about cURL. This article focuses on delivering practical knowledge that you can apply right away.
+
+For one, cURL is long standing, widely available, and uses a simple text interface that works the same on every system. That aside, cURL is also pretty powerful. The tool can be used to write elaborate scripts that involve authentication, SSL connections, proxy tunnelling, cookies, and more. If that’s unnecessary, the basic syntax is easy to grasp, so you can quickly start doing useful work with it.
+
+At its most basic, cURL uses the following syntax:
+
+[option] refers to commands that tell cURL what to do. For example, -x tells cURL that the connection will go through a proxy server. Many options have alternative names: instead of -x, you can also write ‐‐proxy. Some options may go after the URL, for example, -v that asks cURL to display the connection information. Options aren’t obligatory to the syntax, but you’ll be using them most of the time.
+
+[url] refers to the domain you want to interact with.
+
+cURL supports over 20 protocols, which should be enough for all proxy server use cases. The list includes HTTP, HTTPS, SOCKS, POP3, SMTP, IMAP, and many others you probably won’t use. If you don’t specify the protocol in the URL, cURL will assume you want to use the HTTP protocol since the default proxy protocol is HTTP
+
+If you use a modern operating system, probably yes. By modern, I refer to Windows 10 or any supported version of macOS. Linux-based distributions may or may not have cURL installed – there’s simply too much variety to say for certain.
+
+How to check? Simple: open the Terminal and write curl ‐‐man. The manual page for cURL should appear.
+
+If it doesn’t, here’s how to install cURL:
+
+Alright, now that you know what cURL proxy is and have it installed on your computer, let’s see what we can do with it.
+
+If you’ve set up a proxy server on your OS, you can quickly check your IP address and location by running the following command:
+
+Example response:
+
+Of course, it’s not often that you’d want to set up proxies on the operating system level. So, you can test if your proxies are working using another way. cURL has the -x or ‐‐proxy option to specify the proxy that’s going to be used in the request:
+
+or
+
+In this example, 127.0.0.1 is the proxy server’s IP address and 80 is the port number.
+
+Instead of an IP address, you can also use a domain name:
+
+Most providers that offer HTTPS proxy let you connect to the proxy server via HTTP and then establish an HTTPS connection with the website. So, your cURL command should look the same whether you’re connecting to an HTTP or HTTPS proxy server.
+
+You’ll need to cURL HTTPS in some cases, so simply add the ‘s’ to the HTTP. But note that first, you have to create the cURL.
+
+
+				It only works when you have created the curlrc file with a proxy.  Then it will be used by default.
+
+			
+
+If you want to use cURL with the SOCKS protocol, there are several ways to do so. You can specify the protocol together with the proxy IP. Alternatively, you can add socks5:// or use the ‐‐socks5 option instead of -x:
+
+Paid providers often require proxy authentication before you can use them. If you’ve whitelisted your IP address, that’s fine. But if you’re using a username and password, you’ll need to include another option called -U or ‐‐proxy-user:
+
+It’s also possible to pass the username and password together with the proxy itself:
+
+In macOS and Linux, you can also use a proxy with cURL by setting environment variables. Remember that it sets a proxy for the whole system, not just for cURL. Environment variables let you customize how the operating system works and the applications on that system.
+
+You can tell cURL to use the proxy by the environment variables in a single line.
+
+Another method is to use the http_proxy environment variable. You can do that with the export command.
+
+Also, you can specify the proxy variable, so you wouldn’t need to add cURL options every time. And the same way you can unset the global proxy settings.
+
+While the solution above works, you can also use the ~/.curlrc file. It’s a default option, so cURL will always search for such a file in your home directory. On Linux and macOS, it will look for a ~/.curlrc file, and on Windows _curlrc.
+
+Unlike environment variables, with a .curlrc file you can set up a proxy specifically for cURL and not for all the programs This can be achieved by adding the line below to the ~/.curlrc file.
+
+If the ~/.curlrc file doesn’t exist, you can create a new one.
+
+You might want more information about what happens when you send a request. For example, you might be interested in the request or response headers, response code, or the user agent you send. Adding the -v or ‐‐verbose option will print out what’s going on behind the scenes. Knowing how to use this option can be very useful for debugging.
+
+
+				Response codes: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status 
+
+If you want to save the logs (to analyze them or berate your proxy provider for things that don’t work), you can use the -o or ‐‐output option to write the result to a file.
+
+For example, the command below creates a new file called output.txt in your active directory and prints the response directly to it:
+
+If you don’t want a website to treat you as a bot, you’ll need to send appropriate headers. cURL allows doing just that.
+
+To see what headers you normally send to the target website, click the right mouse button, select Inspect, and navigate to the Network tab. Refresh the site, and you’ll see all of the requests being made while it’s loading.
+
+Pro tip: You can right click on the request and copy it as a cURL command to take a better look at it.
+
+So, how do you actually set those headers in cURL? With the -H or ‐‐header option. For example, we can send an Accept header to the target site:
+
+
+				More on headers:
+
+https://developer.mozilla.org/en-US/docs/Glossary/Request_header
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers 
+
+By default, cURL announces itself to websites as… well, cURL. There are times when we don’t want that – once again, to prevent getting treated as a bot and then blocked. cURL allows us to spoof our user-agent using the option -A or ‐‐user-agent:
+
+The verbose output lets us see that the user-agent has changed:
+
+> User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0
+
+It’s also possible to send the User-Agent in the header using the -H option:
+
+
+				More on user-agents: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent 
+
+Cookies help websites remember information about you, and sometimes they’re necessary for the site to work. If you need them, you use the -b or ‐‐cookie option to specify cookies or the file they should be read from.
+
+For example, if there’s an active session and you need to send the ‘sess_id’ cookie of its ID with the request, you can use:
+
+It’s also possible to receive cookies from the target server and store them for later use. cURL has the -c or ‐‐cookie-jar option that allows specifying the output file:
+
+You can then read those cookies from the file and use them for subsequent requests with the -b command:
+
+Sometimes, you may encounter an issue when the output just says Found or Found. Redirecting to https://somewhere.com. In such cases, you’ll see a HTTP code 302 in the verbose output.
+
+The issue is easy to solve: just add the -L or ‐‐location option to the request:
+
+There may be times when the target websites will use a self-signed or an expired certificate. You’ll receive the SSL certificate error: invalid certificate chain error when trying to access it.
+
+cURL is able to ignore SSL certificate errors by adding the -k or ‐‐insecure option:
+
+cURL allows sending POST requests to the web server instead of just fetching data. This way, you can fill in forms, log in, and otherwise interact with the website. To do so, use the -X or ‐‐request option:
+
+To specify the data you want to send, you’ll also need the -d or ‐‐data option.
+
+Sending values to specific variables:
+
+Sending JSON-formatted data:
+
+Note: Sometimes, you may need to escape specific characters (more often on Windows systems) using the backslash character (\). An escaped JSON would look like this:
+
+This marks the end of my brief introduction to using cURL with proxy servers. I hope you’ve found it instructive. Now go curl some proxies!
+
+By default cURL uses TCP.
+
+Yes, you can download and use cURL free of charge.
+
+Yes, you can. cURL has the -U option for username and password authentication.
+
+Sure. cURL supports plain old HTTP, and you can configure it to ignore SSL errors.
+
+Simply enter curl ipinfo.io into the terminal, and it will show your current IP address.
+
+You May Also Like:
+
+
+
+				What Are Proxies? Your Go-To Guide in 2024			
+
+
+
+
+				The Different Types of Proxies Explained			
+
+
+Leave a Reply Cancel reply
+
+Your email address will not be published. Required fields are marked *
+
+Comment * 
+
+Name * 
+
+Email * 
+
+ 
+
+
+
+====================================================================================================

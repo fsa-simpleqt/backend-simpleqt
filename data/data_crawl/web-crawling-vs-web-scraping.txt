@@ -1,0 +1,91 @@
+Content from https://proxyway.com/guides/web-crawling-vs-web-scraping:
+
+All Reviews
+
+Types
+
+All Types
+
+Use Cases
+
+All Use Cases
+
+Locations
+
+All Locations
+
+Best Tools
+
+All Best Tools
+
+Our Tools
+
+All Our Tools
+
+We use affiliate links. They let us sustain ourselves at no cost to you.
+
+Learn about the differences between web crawling and web scraping.
+
+You’ve probably encountered the terms web crawling and web scraping multiple times. They are used in very similar contexts, sometimes even interchangeably. But they don’t mean the same things. This guide will explain to you how exactly web crawling and web scraping compare to one another. 
+
+If the internet is called the web, then what does a web crawler do..? Exactly! Also referred to as spiders, web crawlers travel through websites. On their way, they note down everything they encounter: the website’s structure, content, and relations to other websites on the web. This whole process is web crawling. 
+
+The biggest web crawlers are search engines, especially Google. Their job is to continuously crawl through all the websites they can find and make a big index of the results. Then, the search engines apply certain algorithms to their findings, for example, how many other pages link to yours, and rank the websites accordingly. 
+
+But it doesn’t have to be a search engine. You can build a web crawler yourself or use specialized tools like Screaming Frog to crawl websites. And as we’ll very soon find out, web crawling plays an important role in the web scraping process. 
+
+Without going into much detail, the process of web scraping deals with extracting data from websites. That can be anything from laptop prices in e-commerce websites to phone numbers in online yellow pages, to lists of movies and their main actors in movie databases. 
+
+
+				You can read more about scraping, how it works, and the main scraping tools in our comprehensive 
+ guide to web scraping.  
+
+So, what’s the difference between web crawling and web scraping?
+
+Web crawling is much less picky. It goes through a website and looks for any information it can find: starting from the URL structure and ending with the contents. In other words, the job of a web crawler is to index, or catalogue, data. 
+
+On the other hand, web scraping is significantly more focused. If you’re looking for a competitor’s pricing information, you don’t need to scrape the privacy policy or the About Us page. You don’t even need the full product page – an item’s name, model number, and pricing data might be enough. 
+
+Crawling and scraping aren’t the same thing, but they do go hand in hand. If you want to scrape data from more than one page, you’ll have to navigate through the website’s URLs. To do so, you’ll need to outfit your scraper with crawling logic. At this point, it becomes unclear whether you’re dealing with a scraper or crawler anymore, hence the interchangeable uses. 
+
+So, to answer how the two relate: web crawling delivers your scraper to the right place so that it can do its job. 
+
+That was the technical side of things. When we look at how crawling and scraping are perceived, the difference becomes much starker.
+
+Due to their association with search engines, web crawlers have a relatively good reputation. They respect the websites’ robots.txt files (documents that tell crawlers what they can do on the website), don’t put a burden on the server, and are friendly little robots in general.
+
+Web scraping, however, carries a negative rep. Scrapers ignore robots.txt, collect illegal information, and bring down websites by recklessly making too many requests. They don’t have to – and often don’t. But whenever a comparison is made, it’s usually web scraping that’s regarded as the bad seed. 
+
+Web crawling is mostly used by search engines to index websites and their webpages on the internet. It’s also used in web scraping, to guide the web scraper from page to page.
+
+In practical use – yes. However, web scraping and data scraping are not the same. The latter includes not only websites but also other data, such as .pdf documents.
+
+It can be but doesn’t have to. For example, no one calls the Google Bot a web scraper, even though it does scrape every page it visits. But when you build a crawling logic to extract specific data form multiple webpages, then web crawling becomes part of the web scraping process.
+
+You May Also Like:
+
+
+
+				What Is Data Parsing and What’s It For?			
+
+
+
+
+				What Is Web Scraping: The Ultimate Beginner’s Guide			
+
+
+Leave a Reply Cancel reply
+
+Your email address will not be published. Required fields are marked *
+
+Comment * 
+
+Name * 
+
+Email * 
+
+ 
+
+
+
+====================================================================================================
