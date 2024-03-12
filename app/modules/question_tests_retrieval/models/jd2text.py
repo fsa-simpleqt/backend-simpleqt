@@ -17,7 +17,7 @@ parser = JsonOutputParser()
 
 def jobdes2text(jobdes):
     # setup the gemini pro
-    llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY)
+    llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY, request_timeout=120)
 
     # create the prompt template
     finnal_jd_chat_template = ChatPromptTemplate.from_messages(
@@ -27,7 +27,7 @@ def jobdes2text(jobdes):
                     """Return Job title, level(Fresher, Junior, Senior, ...) and Brief summary of required skills about 20 words from the job description. Use the following format: Job Title is {job title}, Level is {level}, and Brief summary of required skills is {brief summary of required skills}."""
                 )
             ),
-            HumanMessagePromptTemplate.from_template("{text}"), 
+            HumanMessagePromptTemplate.from_template("{text}"),
         ]
     )
 
