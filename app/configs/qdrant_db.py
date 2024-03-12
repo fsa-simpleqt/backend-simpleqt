@@ -1,5 +1,6 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
+import qdrant_client 
 
 import os
 from dotenv import load_dotenv
