@@ -25,6 +25,4 @@ async def send_jd(txt_file: Annotated[UploadFile, File(..., description="The JD 
             return {"message": "Please upload only .txt file", "error": str(e)}
     except Exception as e:
         return {"message": "Please upload only .txt file", "error": str(e)}
-    
-# @qtretrieval_router.post("/download_tests")
-# async def download_tests()
+

@@ -36,7 +36,7 @@ gemini_evaluator = load_evaluator("embedding_distance", distance_metric=Embeddin
 #     else:
 #         return False
     
-def compare_vector(description_vector, max_number_of_points=10):
+def compare_vector(description_vector, max_number_of_points=3):
     similarity_list = qdrant_client.search(
         collection_name="question_tests",
         query_vector=description_vector,
