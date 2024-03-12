@@ -6,7 +6,7 @@ services:
     container_name: "cv_container"
     image: "cv-image"
     ports:
-      - "7860:7860"
+      - 7860:7860
     volumes:
       - .:/code
     env_file:
