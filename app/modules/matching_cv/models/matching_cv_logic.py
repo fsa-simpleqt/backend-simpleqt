@@ -47,6 +47,3 @@ def result_matching_cv_jd(cv_text, jd_text):
     result = chain.invoke(chat_message)
 
     return result
-
-def load_jd_from_id():
-    pass

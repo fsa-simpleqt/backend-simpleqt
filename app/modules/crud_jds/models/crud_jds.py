@@ -17,6 +17,12 @@ def remove_file_jds(file_url):
     blob.delete()
     return True
 
+def download_file_jds(file_url):
+    # download file from firebase storage using "gs://" link
+    blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
+    # download file and return string in file
+    return blob.download_as_text()
+
 def get_all_jds():
     # Get all documents from the collection
     docs = firebase_db.collection("jds").stream()
