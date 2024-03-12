@@ -15,7 +15,7 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 # define the parser object
 parser = JsonOutputParser()
 
-def jobdes2text(jobdes):
+def jobdes2text(jobdes: str) -> str:
     # setup the gemini pro
     llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY)
 
