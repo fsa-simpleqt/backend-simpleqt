@@ -1,0 +1,182 @@
+Content from https://proxyway.com/reviews/geosurf-proxies:
+
+All Reviews
+
+Types
+
+All Types
+
+Use Cases
+
+All Use Cases
+
+Locations
+
+All Locations
+
+Best Tools
+
+All Best Tools
+
+Our Tools
+
+All Our Tools
+
+Unfortunately, GeoSurf had to close after losing a legal dispute to another proxy provider, Bright Data. Open the link below to find our recommended alternatives.
+
+GeoSurf is one of the veterans of the proxy server market. While pricey, its residential proxies are known for quality and location targeting options. Businesses often consider them in comparison to Oxylabs, Bright Data, and other top proxy vendors. 
+
+But the market has been moving fast, especially in recent years. Does GeoSurf still have what it takes to win your business, and can it outmatch its premium competitors in 2023? Let’s find out.
+
+GeoSurf Is Shutting Down on December 20
+
+GeoSurf is an Israeli provider of proxies and web scraping tools. It can sell you access to a residential proxy network, datacenter, ISP, mobile proxies, and a VPN. 
+
+GeoSurf has been around for a while. It started in 2009, under Israeli company BiScience, to help companies view localized content. You’d get an Internet Explorer toolbar, and it’d let you change your location with proxies. Even TechCrunch wrote about it – in 2011. Funnily enough, GeoSurf still uses that article as a testimonial on its homepage.  
+
+Localization testing is still an important use case for GeoSurf, though the provider has expanded its reach to data collection, social media management, sneakers, and other proxy server uses. According to GeoSurf, anything goes, as long as it adheres to the Terms of Service. 
+
+The service is not for everyone, though. GeoSurf is very much a premium provider, both in pricing and business practices. The entry point is high, and you can’t even see how much some of the services cost – this requires contacting sales. And don’t even think about self-service. 
+
+For a few years, GeoSurf’s website looked pretty much abandoned. Latest reviews from 2017? A blog that hasn’t been updated since 2020? That’s not very reassuring at a time when the provider’s main competitors have only accelerated their efforts. 
+
+That said, it would be unfair to discount GeoSurf so soon. It still sells proxies and has started showing signs of life again. The provider not only introduced a cheaper entry plan but also added more services to the roster. So maybe it has a future, after all? We’ll see. For now, though, GeoSurf remains one of the major options for enterprise clients.
+
+Residential proxies are GeoSurf’s main service. The provider controls over 3.5 million monthly IPs. This isn’t much, but the proxies are known to be of good quality. What’s more, they’re peppered throughout many cities to serve GeoSurf’s location tester clients. Let’s have a closer look at what they offer. 
+
+
+				Enough for all tasks that don’t require SOCKS5.			
+
+Format: Proxy pool with 3.5M IPsLocations: 150+ countriesFiltering: Country, state, cityRotation: Every request, 1, 10, 30 mins
+
+Geosurf’s residential proxies cover over 150 countries around the world. More impressive is the number of available cities: you can get proxies in about 1,700 locations. This makes the provider a good choice for geography-sensitive tasks.
+
+Geosurf advertises the IPs as clean, meaning they haven’t been blocked or blacklisted, as well as unlimited – having no limitations on the number of connections, threads, and locations. The only limit you’ll encounter is traffic; and that too can be solved by buying a bigger plan.
+
+Geosurf also has specialized proxies for Instagram and ad verification. Turns out, there’s nothing unique about them – they’re just like any other residential IP. Even so, it’s a nice way to market the proxies, and whoever wrote the description deserves a raise:
+
+SOCKS5 isn’t available, so Geosurf won’t be a perfect choice for bandwidth-intensive tasks like torrenting or gaming.
+
+
+				One of the most expensive entry points in the market.			
+
+GeoSurf uses a subscription-based pricing model and charges for traffic expenditure. The plans aren’t rigid: you commit to spend a set amount of money at a fixed rate, and there’s nothing to stop you from using more. The rate improves once you reach a new checkpoint. 
+
+GeoSurf’s plans start from $300 for 25 GB of data. Even though the entry point decreased (it used to be $450), it remains the highest on the market. The difference became even more apparent when premium competitors like Oxylabs introduced low-cost plans starting from $15-20. 
+
+So, Geosurf naturally falls off if you have limited needs. And if you don’t? GeoSurf’s rates are competitive for a premium provider and cheaper compared to something like Bright Data. However, you don’t get everything out of the box: features like city targeting cost extra. This makes the provider a pretty tough sell. 
+
+You won’t get a trial or a refund here. Instead, team GeoSurf is prepared to arrange a live demo for prospective clients.
+
+
+				Decently sized proxy pool, thoroughly mediocre performance.			
+
+#1: Pool size & composition
+
+We ran 1M requests over 21 days using the unfiltered pool, 500,000 requests over 14 days using the country pools, and 140,000 connection requests over 7 days using the Australian pool. We enriched IP data with the IP2Location database.
+
+GeoSurf had a decent number of unique IPs in its residential proxy network. It couldn’t really compare with the leading providers in numbers – but that’s to be expected given that Bright Data advertises 20 times more IPs. On the other hand, GeoSurf beat Infatica (10 million proxies) and PacketStream (7 million proxies).
+
+One problem we encountered was that a database treated quite a few of the IPs as non-residential. This was especially apparent in the US where the provider likely boosted its pool with ISP proxies.
+
+#2: Infrastructure performance
+
+This benchmark shared the same parameters as the pool test. Our computer was located in Germany. We targeted a global CDN – it pinged a server nearest to the proxy IP and had a response size of several kilobytes.
+
+GeoSurf’s infrastructure performance was mediocre overall. Between four and 10% of the requests failed, and the response time put these proxies among the slowest we tested. It was okay in the US but multiple times slower than Oxylabs, Shifter, or Infatica in Europe.
+
+In addition, something went terribly wrong with GeoSurf’s unfiltered pool. We treat this as an exception rather than the norm, as the provider’s results over the years were always solid.
+
+#3: Performance with popular targets
+
+We made ~2,600 connection requests to each target using US-filtered proxies and a non-headless Python scraper. Our computer was located in Germany. Note that your results may differ based on your web scraping setup.
+
+
+				Polished proxy management tools mired in old-school business practices. 			
+
+GeoSurf has different dashboards for its products, so parts of this section apply only to the residential proxy service. 
+
+To register on GeoSurf, simply fill in a form on the website. You’ll have to enter your full name, email address, and country.
+
+However, you won’t be able to buy a plan and start using proxies just yet. You’ll receive an email from GeoSurf’s salesman, and they’ll ask you to jump on Skype and discuss your needs or schedule an appointment. When you both agree on a plan, you’ll get a user account and be able to actually access the proxies.
+
+After logging in with the provided credentials, you’ll find yourself in a simple and elegant dashboard. There, you’ll be able to see your balance and traffic use, change the password, whitelist IPs, access Geosurf’s gateways, and add credits.
+
+If I could change anything, I’d include easier access to the FAQs and the customer support (now, pressing on ‘Support’ only prompts you to create an email). Oh, there’s really no way to change the profile picture, so why have that at all?
+
+But these are all minor gripes, and overall the dashboard is pleasant to use.
+
+GeoSurf offers no self-service, meaning that your account has to be activated by the sales team. 
+
+The dashboard has a wallet that’s only available when you have an active subscription. You can use it to top up the plan, and you can also upgrade to a bigger plan if needed. In reality though, GeoSurf’s answer to most account-related activities involves the words contact us, and we’ll…. 
+
+There’s also an option to see your payment history with transaction IDs, as well as usage history by month. You can export both to CSV.
+
+Geosurf uses backconnect gateways to give you access to its proxy network. In other words, you get one address with a port number or a range of ports and not a proxy list.
+
+The provider has a handy setup wizard in the dashboard to help you get started. It lets you choose preferred locations and IP rotation, and then automatically generates a gateway address. GeoSurf gives two formats in the dashboard: with or without a username and password. 
+
+There’s one more way to set up proxies, though it’s buried in the help docs. GeoSurf lets you send requests by adding proxy headers. This way, you can establish longer sessions and get IPs from several countries at once. 
+
+Here’s what the three setup formats look like:
+
+One inconvenience is that the dashboard doesn’t let you generate multiple sticky IP gateways at once – you’ll have to do it by hand. 
+
+All in all, the basic setup process is straightforward, though it can get pretty complex.
+
+GeoSurf has a visual graph for data use. It can show you traffic expenditure during various time periods: last 12, 24 hours, 7 days, 30 days, and so on. There’s also an option to pick a custom range, though the system doesn’t seem to store data that’s older than six months.
+
+You can use Geosurf’s proxies via a residential proxy API. It allows whitelisting and removing IPs, monitoring traffic and balance information, and retrieving available proxies in particular locations.
+
+Geosurf has a browser extension for Chrome, Chrome-based browsers (such as Opera, Vivaldi, or Brave), and Firefox. It lets you use proxies on your browser – kind of like a localised VPN. With it, you can easily select the location of your proxy IP address and its rotation time. You can also clear cookies and cache at the press of a button. Pretty neat.
+
+The name Geosurf Toolbar points to the company’s long lineage. Remember the Techcrunch article from 2011? Yup, it’s about the toolbar – only back then you could download it for now discontinued Internet Explorer.
+
+GeoSurf has extensive help docs explaining how to use its services. They include a lengthy FAQ with over 60 answers and code samples, a residential proxy integration guide, video tutorials, integration instructions, and several basic white papers. Overall, there’s no lack of information. 
+
+On a closer look, things are less pretty. While all of the above stands, you’ll find that many of the video guides have become outdated, walking you through a dashboard that’s long changed. A good part of the integration instructions cover tools that are no longer popular or used. And there’s very little information about the non-residential services. 
+
+GeoSurf’s support works 24/7; you can contact it via email or Skype. I tried sending several email messages, and on average, a reply came in 14 hours. This isn’t very fast.
+
+To be fair to GeoSurf, it prefers talking over Skype, where clients can interact with their assigned account manager. Communication this way went quicker and smoother than when using email.
+
+For an old-timer, Geosurf puts up a good fight. You wouldn’t say that looking at its website (it either needs an update or is in the process of getting one), but the whole package is solid.
+
+The proxies perform okay and have flexible management options. They come with nifty tools to help you, like the well-made dashboard and browser extension. It’s evident that GeoSurf has experience and knows what it’s doing.
+
+But at the same time, GeoSurf looks like it’s stuck somewhere in 2019, especially on the business end. Does that mean it’s been reduced to the level of newly-sprung cheap service like IPRoyal? Not exactly. But when compared to the premium alternatives – and weighed pound for pound, GeoSurf becomes a tough sell. 
+
+Nonetheless, it still provides a quality service, and an alternative proxy pool to the other popular options. If you want to try something different, or simply found that GeoSurf meets your needs, go ahead and try it. You’ll likely be treated well.
+
+Geosurf was closed due to legal disputes.
+
+
+			6 Responses		
+
+hello! this is a excellent blog and i often appreciate the information posted right here. Bookmarked and shared. Many thanks once more!
+
+Considering how big and old Geosurf is as a company, it’s quite weird that they only have residential pool of only 2.5m, compared to both Oxylabs and Luminati having over 30m. Is this something I should pay attention to, when choosing a provider for webs…
+
+Hey proxyuser, thanks for the comment. Residential proxies are usually shared and come from the same pool. So, more proxies mean there’s less chance you’ll get an IP that’s been abused on your target website. Considering that Geosurf has quality proxie…
+
+Love them, it’s just that they’re a bit too expensive for me. Perhaps you know if it’s possible to make a custom deal with them? Or further customize their plans? Im planning a small scale webscraping project sometime this year, so that’s what Im going f…
+
+Maxime, I suppose you can. But to be sure, you should contact Geosurf and ask them.
+
+after 10 years of working with ips and proxys, this is the worse company ive ever used, i tested a 38gb package, which worked fantastic, within hours of paying for a 500gb pack, its been almost unusable, waiting proxy tunnel, establishing secure connecti…
+
+Leave a Reply Cancel reply
+
+Your email address will not be published. Required fields are marked *
+
+Comment * 
+
+Name * 
+
+Email * 
+
+ 
+
+
+
+====================================================================================================

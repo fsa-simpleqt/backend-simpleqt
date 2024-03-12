@@ -1,0 +1,82 @@
+Content from https://proxyway.com/tools/free-online-proxy-checker:
+
+All Reviews
+
+Types
+
+All Types
+
+Use Cases
+
+All Use Cases
+
+Locations
+
+All Locations
+
+Best Tools
+
+All Best Tools
+
+Our Tools
+
+All Our Tools
+
+We use affiliate links. They let us sustain ourselves at no cost to you.
+
+Proxyway’s Proxy Checker lets you test a list of proxies on your web browser. It uses an IP database to provide comprehensive information about the IPs, such as checking proxy performance, location, and detection status. The tool works with all proxy servers, as long as they support username:password authentication (or require no authentication at all).
+
+Features:
+
+
+				If you have any feedback or feature requests, get in touch.			
+
+Proxy Checker gets most of its information from IP-API, which is an online IP database. Note that other IP databases can show different results, based on when they were updated.
+
+After entering your proxy list, you’ll see 7 columns. Here’s what each reveals:
+
+No magic here. It simply shows the proxy server’s address you entered.
+
+Whether the proxy tester was able to connect via the proxy IP. If the connection succeeds, you’ll see Success with results in other columns. Otherwise, you’ll see an error. Proxy Checker forwards the errors received from the proxy server.
+
+We use Cloudflare’s servers as our target. Even if one of them fails, the request should be rerouted to a nearest server, ensuring nearly 100% uptime.
+
+How long the proxy server took to respond in milliseconds. Proxy Checker should connect to a target nearest to the proxy IP’s location if DNS is resolved at the proxy server (it usually is). Connection is set to time out after 10 seconds.
+
+Note that we send requests from our servers and not your own machine. So, the proxy speed will differ compared to running the test locally.
+
+The country and city associated with the proxy server.
+
+The organization that controls the IP address. You can use it to check if the proxy server belongs to a cloud hosting company or a residential ISP.
+
+A similar data point that specifically tries to determine if the proxy IP is hosted at a data center. True means yes. The results may not be 100% accurate.
+
+Whether the database knows that the IP address is used as a proxy server. Once again, the data may not be completely accurate. But if the result is True, you can expect to experience more blocks and security measures.
+
+In addition to uptime, speed, and location metrics, people sometimes want to test their proxies for anonymity. There are three major anonymity levels: 1) transparent proxies, which don’t try to hide your original IP address; 2) anonymous proxies, which hide your IP address but not the fact that you’re using a proxy; and 3) elite proxies, which hide both. You can learn more here.
+
+Unfortunately, Proxy Checker doesn’t provide anonymity information at this time. But you can learn your proxy type by going to websites like ProxyDB which check HTTP headers for signs of a proxy.
+
+There are multiple ways to test proxy servers. One is using our Proxy Checker. We list other methods in our guide on how to test proxies
+
+You can use Proxy Checker for that. Enter the proxy’s IP address; if the Status column shows Success, it means the server is working.
+
+It’s very hard to test sneaker proxies. That’s because shoe stores enable much stricter security measures during releases, and proxies are just one piece of the puzzle (a good sneaker bot with correct setup is as important). You can find providers we recommend in our list of the best sneaker proxies.
+
+The simplest way to test SEO proxies is to see if they can open Google without excessive CAPTCHA prompts. Unfortunately, Proxy Checker doesn’t allow testing proxy servers with individual websites at this point, so you’ll have to use another tool.
+
+You can test SOCKS5 proxies the same way you’d test any other proxy server. Despite using a different protocol, they still rely on the same parameters: uptime, speed, usage history, etc. Proxy Checker can help you test your IPs.
+
+You May Also Like:
+
+
+
+				2 Reasons You Should Never Use a Free Proxy Again			
+
+
+
+
+				ParseHub Review			
+
+
+====================================================================================================
