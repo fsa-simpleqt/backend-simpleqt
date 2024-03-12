@@ -68,6 +68,8 @@ def create_question_test(data):
 def update_question_test(id, data):
     # Update a document by id
     firebase_db.collection("question_tests").document(id).update(data)
+    # Update corrensponding vector in Qdrant
+    
     return True
 
 def delete_question_test(id):
@@ -76,4 +78,19 @@ def delete_question_test(id):
     remove_file_question_tests(file_url)
     # Delete a document by id
     firebase_db.collection("question_tests").document(id).delete()
+
+    # Delete corresponding vector from Qdrant
+    qdrant_client.delete(
+        collection_name="question_tests",
+        points_selector=models.FilterSelector(
+            filter=models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="id",
+                        match=models.MatchValue(value=id),
+                    ),
+                ],
+            )
+        ),
+    )
     return True
