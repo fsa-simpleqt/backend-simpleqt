@@ -1,4 +1,4 @@
-FROM python:3.10.9
+FROM python:3.11.7-alpine3.19
 
 WORKDIR /code
 
@@ -8,4 +8,6 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY . .
 
-CMD ["python", "main.py"]
+EXPOSE 8000
+
+CMD python main.py

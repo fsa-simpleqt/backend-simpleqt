@@ -42,11 +42,8 @@ def result_matching_cv_jd(cv_text, jd_text):
     # create the chat message
     chat_message =  chat_template.format_messages(cv=cv_text, jd=jd_text)
 
-    llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY)
+    llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY, request_timeout=120)
     chain = llm | parser
     result = chain.invoke(chat_message)
 
     return result
-
-def load_jd_from_id():
-    pass

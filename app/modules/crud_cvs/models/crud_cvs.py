@@ -1,5 +1,7 @@
 import uuid
 from app.configs.database import firebase_bucket, firebase_db
+import io
+from docx import Document
 
 # CRUD operation
 def upload_file_cvs(file):
@@ -15,6 +17,23 @@ def remove_file_cvs(file_url):
     blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
     blob.delete()
     return True
+
+def file_cv_doc2text(file_url):
+    # download file from firebase storage using "gs://" link
+    blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
+    # download file and return string in file
+    file_bytes = blob.download_as_bytes()
+    # Create a BytesIO object from the file bytes
+    file_stream = io.BytesIO(file_bytes)
+    # Read the .docx file from the BytesIO object
+    doc = Document(file_stream)
+    # Extract text from the .docx file
+    text = ""
+    for paragraph in doc.paragraphs:
+        text += paragraph.text + "\n"
+    
+    return text
+
 
 def get_all_cvs():
     # Get all documents from the collection
