@@ -27,7 +27,7 @@ def jobdes2text(jobdes):
                     """Return Job title, level(Fresher, Junior, Senior, ...) and Brief summary of required skills about 20 words from the job description. Use the following format: Job Title is {job title}, Level is {level}, and Brief summary of required skills is {brief summary of required skills}."""
                 )
             ),
-            HumanMessagePromptTemplate.from_template("{text}"),
+            HumanMessagePromptTemplate.from_template("{text}"), 
         ]
     )
 
