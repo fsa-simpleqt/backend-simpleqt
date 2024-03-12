@@ -2,8 +2,8 @@ from fastapi import APIRouter, UploadFile, File
 from typing import Annotated
 
 from app.modules.question_tests_retrieval.models.jd2text import jobdes2text
-# from app.modules.question_tests_retrieval.models.text2tector import text2vector
-from app.modules.question_tests_retrieval.models.question_tests_logic import get_question_test
+# from app.modules.question_tests_retrieval.models.text2vector import text2vector
+from app.modules.question_tests_retrieval.models.question_tests_logic import get_question_tests
 
 qtretrieval_router = APIRouter(prefix="/qtretrieval", tags=["qtretrieval"])
 
@@ -18,10 +18,13 @@ async def send_jd(txt_file: Annotated[UploadFile, File(..., description="The JD 
         # read the txt file with format
         jobdes = txt_file.file.read().decode("utf-8")
         sumaryjd_text = jobdes2text(jobdes)
-        if get_question_test(sumaryjd_text):
+        if get_question_tests(sumaryjd_text):
             return {"message": "Send JD successfully and get question test successfully",
                     "sumaryjd_text": sumaryjd_text}
         else:
             return {"message": "Please upload only .txt file", "error": str(e)}
     except Exception as e:
         return {"message": "Please upload only .txt file", "error": str(e)}
+    
+# @qtretrieval_router.post("/download_tests")
+# async def download_tests()

@@ -36,7 +36,7 @@ gemini_evaluator = load_evaluator("embedding_distance", distance_metric=Embeddin
 #     else:
 #         return False
     
-def compare_vector(description_vector, max_number_of_points=10):
+def compare_vector(description_vector, max_number_of_points=3):
     similarity_list = qdrant_client.search(
         collection_name="question_tests",
         query_vector=description_vector,
@@ -72,7 +72,7 @@ def download_question_test(question_test_url_list):
         blob.download_to_filename(f'data/question_tests/{name_bucket}')
 
     return True
-
+    
 
 # def get_question_test(text):
 #     all_question_tests = get_all_question_tests()
@@ -88,7 +88,7 @@ def download_question_test(question_test_url_list):
 #             return True
 #         else:
 #             return False
-
+        
 def get_question_tests(text):
     # Get formatted similarity list
     formatted_similarity_list = compare_vector(text2vector(text))
@@ -97,8 +97,11 @@ def get_question_tests(text):
     for point in formatted_similarity_list:
         id = point.get("id")
         question_test_url_list.append(get_question_test_by_id(id).get("question_tests_url"))
+    # question_test_url_list = [get_question_test_by_id(id).get("question_tests_url") for point in formatted_similarity_list]
 
     if download_question_test(question_test_url_list):
         return True
     else:
         return False
+    
+get_question_tests("I am a Junior AI Engineer")
