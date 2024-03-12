@@ -20,14 +20,6 @@ load_dotenv()
 os.environ['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY')
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
-# def load cv from docx file
-def load_cv_from_docx(file):
-    doc = docx.Document(file)
-    fullText = []
-    for para in doc.paragraphs:
-        fullText.append(para.text)
-    return '\n'.join(fullText)
-
 # def matching cv and jd return percentage of matching using prompt template
 def result_matching_cv_jd(cv_text, jd_text):
     # create the prompt template
