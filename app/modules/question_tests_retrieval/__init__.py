@@ -13,7 +13,7 @@ async def index():
 
 @qtretrieval_router.post("/send_jd")
 # only upload .txt file
-async def send_jd(txt_file: Annotated[UploadFile, File(..., description="The JD file", media_type=["text/plain"])]):
+async def send_jd(txt_file: Annotated[UploadFile, File(..., description="The JD file (only .txt file)", media_type=["text/plain"])]):
     try:
         # read the txt file with format
         jobdes = txt_file.file.read().decode("utf-8")
