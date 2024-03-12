@@ -17,7 +17,7 @@ def remove_file_jds(file_url):
     blob.delete()
     return True
 
-def download_file_jds(file_url):
+def file_jd_txt2text(file_url):
     # download file from firebase storage using "gs://" link
     blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
     # download file and return string in file
