@@ -13,7 +13,6 @@ colorama==0.4.6
 cryptography==42.0.5
 dataclasses-json==0.6.4
 dnspython==2.6.1
-docx2txt==0.8
 email_validator==2.1.1
 fastapi==0.110.0
 firebase-admin==6.4.0
