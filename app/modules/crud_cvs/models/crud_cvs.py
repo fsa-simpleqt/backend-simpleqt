@@ -8,6 +8,7 @@ from docx import Document
 from datetime import datetime
 
 from langchain_community.document_loaders import UnstructuredPDFLoader
+from app.modules.crud_jds.models.crud_jds import get_jd_by_id
 
 # CRUD operation
 def upload_file_cvs(file_path):
@@ -54,6 +55,8 @@ def get_all_cvs():
     for doc in docs:
         doc_data = doc.to_dict()
         doc_data["id_cv"] = doc.id
+        apply_jd_id = doc_data.get("apply_jd_id")
+        doc_data['apply_position'] = get_jd_by_id(apply_jd_id).get("position_applied_for")
         data.append(doc_data)
     return data
 
@@ -88,7 +91,7 @@ def create_cv(data):
     os.remove(cache_path)
 
     # Get the current time in UTC
-    utc_now = datetime.utcnow()
+    utc_now = datetime.now()
     # Specify the Vietnam time zone
     vietnam_timezone = pytz.timezone('Asia/Ho_Chi_Minh')
     # Convert the current time to Vietnam time zone
