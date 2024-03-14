@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from app.modules.question_tests_retrieval.models.jd2text import jobdes2text
 from app.modules.question_tests_retrieval.models.question_tests_logic import get_question_tests
-from app.modules.crud_jds.models.crud_jds import get_jd_by_id, get_jd_text_by_id
+from app.modules.crud_jds.models.crud_jds import get_jd_text_by_id
 
 qtretrieval_router = APIRouter(prefix="/qtretrieval", tags=["qtretrieval"])
 
