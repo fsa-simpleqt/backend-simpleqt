@@ -17,10 +17,11 @@ async def quiz_gen(txt_file: Annotated[UploadFile, File(..., description="The JD
         # read the txt file with format
         jobdes = txt_file.file.read().decode("utf-8")
         sumaryjd_text = jobdes2text(jobdes)
-        if question_rag(sumaryjd_text):
-            return {"message": "Generate quiz success",
-                    "quiz": question_rag(sumaryjd_text)}
-        else:
-            return {"message": "Please upload only .txt file", "error": str(e)}
+
+        generated_quiz = question_rag(sumaryjd_text)
+
+        return {"message": "Generate quiz success",
+                    "quiz": generated_quiz}
+    
     except Exception as e:
-        return {"message": "Please upload only .txt file", "error": str(e)}
+        return {"error": str(e)}

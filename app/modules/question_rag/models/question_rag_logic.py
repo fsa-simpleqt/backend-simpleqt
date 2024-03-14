@@ -23,26 +23,22 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY")
 QDRANT_URL = os.environ.get("QDRANT_URL")
 
-def question_rag(jobtext: str):
-    llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY, request_timeout=120)
+llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY, request_timeout=120, temperature=0.1)
+embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+client = qdrant_client.QdrantClient(
+    url=QDRANT_URL,
+    api_key=QDRANT_API_KEY,
+)
+doc_store = Qdrant(
+    client=client,
+    collection_name="rag_documents_test", 
+    embeddings=embeddings,
+)
 
-    client = qdrant_client.QdrantClient(
-        url=QDRANT_URL,
-        api_key=QDRANT_API_KEY,
-    )
-    
-    doc_store = Qdrant(
-        client=client,
-        collection_name="rag_documents_test", 
-        embeddings=embeddings,
-    )
-
-    json_parser = JsonOutputParser()
-
-    prompt = ChatPromptTemplate.from_template("""
-    Answer the question based only on the following context:                                
+json_parser = JsonOutputParser()
+prompt = ChatPromptTemplate.from_template("""
+    Answer the question based only on the following context. 
     <context>
     {context}
     </context>
@@ -52,11 +48,11 @@ def question_rag(jobtext: str):
     ("__count__": 10, "data": ( "id": "", "question": "", "choices": [ "A. ", "B. ", "C.", "D. " ], "explanation": "", "answer": "", "level": "", "domain": "" )).
     About level help me three levels: "Fresher, Junior, Senior".
     """)
+document_chain = create_stuff_documents_chain(llm, prompt, output_parser=json_parser)
 
-    document_chain = create_stuff_documents_chain(llm, prompt, output_parser=json_parser)
+retriever = doc_store.as_retriever()
+retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
-    retriever = doc_store.as_retriever()
-    retrieval_chain = create_retrieval_chain(retriever, document_chain)
+def question_rag(jobtext: str):
     response = retrieval_chain.invoke({"input": jobtext})
-
     return response["answer"]
