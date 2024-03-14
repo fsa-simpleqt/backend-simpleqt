@@ -15,7 +15,7 @@ async def index():
 # [POST] add JD
 @crud_jds_router.post("/")
 # only upload txt file
-async def add_jd(position_applied_for: str, file_jd: Annotated[UploadFile, File(..., description="Upload jd file (upload .txt)")]):
+async def add_jd(position_applied_for: str, file_jd: UploadFile = File(..., description="Upload jd file (upload .txt)")):
     try:
         file_jd_type = file_jd.filename.split(".")[-1]
         if file_jd_type in ["txt"]:
