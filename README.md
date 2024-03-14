@@ -1,8 +1,9 @@
 ---
-title: FSA PROJECT CV
-emoji: 🏢
-colorFrom: green
-colorTo: red
+title: Fsa Simpleqt
+emoji: 👁
+colorFrom: blue
+colorTo: indigo
 sdk: docker
 pinned: false
+license: mit
 ---
