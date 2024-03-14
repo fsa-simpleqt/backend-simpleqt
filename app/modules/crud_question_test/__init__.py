@@ -15,7 +15,7 @@ async def index():
 # [POST] add question test
 @crud_question_tests_router.post("/")
 # only upload pdf or json file
-async def add_question_test(description: str, role: str, file_question_tests: Annotated[UploadFile, File(..., description="The question test file (Upload .pdf or .json)", media_type=["application/pdf", "application/json"])]):
+async def add_question_test(description: str, role: str, file_question_tests: UploadFile = File(..., description="The question test file (Upload .pdf or .json)")):
     try:
         question_tests_upload_type = file_question_tests.filename.split(".")[-1]
         # check if file is pdf or json
