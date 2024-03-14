@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_core.messages import SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_anthropic import ChatAnthropic
-from langchain_openai import OpenAI
+# from langchain_anthropic import ChatAnthropic
+# from langchain_openai import OpenAI
 
 # import the json oupput parser from the langchain core
 from langchain_core.output_parsers import JsonOutputParser

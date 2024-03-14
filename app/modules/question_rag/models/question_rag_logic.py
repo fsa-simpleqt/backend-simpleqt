@@ -5,9 +5,13 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_core.output_parsers import JsonOutputParser
 
+from app.modules.crud_rag_question_tests.models.crud_rag_question_tests import create_rag_question_test
+
 from langchain_community.vectorstores import Qdrant
 import qdrant_client
 
+import json
+import uuid
 import os
 from dotenv import load_dotenv
 
@@ -53,6 +57,12 @@ document_chain = create_stuff_documents_chain(llm, prompt, output_parser=json_pa
 retriever = doc_store.as_retriever()
 retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
-def question_rag(jobtext: str):
-    response = retrieval_chain.invoke({"input": jobtext})
-    return response["answer"]
+def question_rag(sumaryjd_text: str, id_jd: str):
+    try:
+        # gen question
+        response = retrieval_chain.invoke({"input": sumaryjd_text})
+        result = response["answer"]
+        create_rag_question_test({"id_jd": id_jd, "question_generator_tests_url": result})
+        return result
+    except Exception as e:
+        return {"logic error": str(e)}
