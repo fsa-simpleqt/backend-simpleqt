@@ -12,7 +12,7 @@ async def index():
 
 @quiz_gen_router.post("/quiz_gen")
 # only upload .txt file
-async def quiz_gen(txt_file: Annotated[UploadFile, File(..., description="The JD file (only .txt file)", media_type=["text/plain"])]):
+async def quiz_gen(txt_file: UploadFile = File(..., description="The JD file (only .txt file)")):
     try:
         # read the txt file with format
         jobdes = txt_file.file.read().decode("utf-8")
