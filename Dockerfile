@@ -10,9 +10,10 @@ RUN useradd -m -u 1000 user
 # Switch to the "user" user
 USER user
 
-COPY --chown=user:user ./requirements.txt $HOME/code/requirements.txt
-
 COPY --chown=user:user . .
+
+# Explicitly set permissions for .local directory
+RUN mkdir -p $HOME/.local && chown -R user:user $HOME/.local
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r $HOME/code/requirements.txt
