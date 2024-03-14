@@ -6,14 +6,12 @@ RUN useradd -m -u 1000 user
 # Switch to the "user" user
 USER user
 
+COPY --chown=user ./requirements.txt /code/requirements.txt
+COPY --chown=user . .
+
 WORKDIR /code
 
-COPY --chown=user ./requirements.txt /code/requirements.txt
-
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-
-COPY . .
-
-EXPOSE 8000
 
 CMD python main.py
