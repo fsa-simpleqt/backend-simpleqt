@@ -4,6 +4,8 @@ from app.configs.qdrant_db import qdrant_client
 from app.configs.qdrant_db import models
 from app.modules.question_tests_retrieval.models.text2vector import text2vector
 
+from datetime import datetime
+import pytz
 
 # CRUD operation
 def upload_file_question_tests(file):
@@ -48,6 +50,16 @@ def create_question_test(data):
     file_question_tests = data["question_tests_url"]
     # upload file to firebase storage
     file_url = upload_file_question_tests(file_question_tests)
+
+    # Get the current time in UTC
+    utc_now = datetime.utcnow()
+    # Specify the Vietnam time zone
+    vietnam_timezone = pytz.timezone('Asia/Ho_Chi_Minh')
+    # Convert the current time to Vietnam time zone
+    vietnam_now = utc_now.replace(tzinfo=pytz.utc).astimezone(vietnam_timezone).strftime("%Y-%m-%d %H:%M:%S")
+    # add created_at
+    data["created_at"] = vietnam_now
+
     # add file url to data
     data["question_tests_url"] = file_url
     question_tests_des = data["question_tests_description"]
@@ -63,13 +75,6 @@ def create_question_test(data):
     point = models.PointStruct(id=points_count+1, payload=payload, vector=description_vector)
     qdrant_client.upsert(collection_name="question_tests", points=[point])
 
-    return True
-
-def update_question_test(id, data):
-    # Update a document by id
-    firebase_db.collection("question_tests").document(id).update(data)
-    # Update corrensponding vector in Qdrant
-    
     return True
 
 def delete_question_test(id):

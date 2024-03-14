@@ -14,13 +14,13 @@ async def index():
 
 # [POST] add JD
 @crud_jds_router.post("/")
-# only upload pdf or json file
+# only upload txt file
 async def add_jd(position_applied_for: str, file_jd: Annotated[UploadFile, File(..., description="Upload jd file (upload .txt)")]):
     try:
         file_jd_type = file_jd.filename.split(".")[-1]
         if file_jd_type in ["txt"]:
             # create a new document
-            if create_jd({"position_applied_for": position_applied_for,"jd_url": file_jd}):
+            if create_jd({"position_applied_for": position_applied_for,"jd_text": file_jd}):
                 return {"message": "JD added successfully"}
             else:
                 return {"message": "Error while adding JD file to database"}

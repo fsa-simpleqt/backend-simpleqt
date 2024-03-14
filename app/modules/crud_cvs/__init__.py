@@ -21,7 +21,7 @@ async def add_cv(name_candidate: str, apply_position: str, file_cv: Annotated[Up
         file_cv_type = file_cv.filename.split(".")[-1]
         if file_cv_type in ["pdf", "docx"]:
             # create a new document
-            if create_cv({"name_candidate": name_candidate, "apply_position":apply_position, "cv_url": file_cv}):
+            if create_cv({"name_candidate": name_candidate, "apply_position":apply_position, "cv_content": file_cv}):
                 return {"message": "CV added successfully"}
             else:
                 return {"message": "Error while adding CV file to database"}
