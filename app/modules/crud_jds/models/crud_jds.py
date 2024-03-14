@@ -34,9 +34,9 @@ def get_all_jds():
         data.append(doc_data)
     return data
 
-def get_jd_by_id(id):
+def get_jd_by_id(id_jd):
     # Get a document by id
-    doc = firebase_db.collection("jds").document(id).get()
+    doc = firebase_db.collection("jds").document(id_jd).get()
     return doc.to_dict()
 
 def create_jd(data):

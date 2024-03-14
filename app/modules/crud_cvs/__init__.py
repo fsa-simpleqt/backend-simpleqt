@@ -14,20 +14,20 @@ async def index():
 # [POST] add CV
 @crud_cvs_router.post("/")
 # only upload pdf or docx file
-async def add_cv(name_candidate: str = Form(...), apply_position: str = Form(...), file_cv: UploadFile = File(..., description="Upload cv file (upload .pdf or .docx file)")):
+async def add_cv(name_candidate: str = Form(...), apply_jd_id: str = Form(...), file_cv: UploadFile = File(..., description="Upload cv file (upload .pdf or .docx file)")):
     try:
         # take file_cv and cv_upload type file
         file_cv_type = file_cv.filename.split(".")[-1]
         if file_cv_type in ["pdf", "docx"]:
             # create a new document
-            if create_cv({"name_candidate": name_candidate, "apply_position":apply_position, "cv_content": file_cv}):
+            if create_cv({"name_candidate": name_candidate, "apply_jd_id":apply_jd_id, "cv_content": file_cv}):
                 return {"message": "CV added successfully"}
             else:
                 return {"message": "Error while adding CV file to database"}
         else:
             return {"message": "File type not supported"}
     except Exception as e:
-        return {"message": "Error", "error": str(e)}
+        return {"message": str(e)}
 
 # [DELETE] CV by id
 @crud_cvs_router.delete("/{id}")
