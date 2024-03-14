@@ -40,7 +40,7 @@ chat_template = ChatPromptTemplate.from_messages(
                 Given the following CV and JD, calculate the percentage match between the candidate's qualifications and the job requirements:
                 CV: {cv}
                 JD: {jd}
-                To determine the match percentage, analyze the skills and experience in the CV and compare them to the requirements outlined in the JD. Provide the final match percentage as a numeric value between 0-100%, along with a brief explanation of your analysis. Follow this json format: {"Skills Match": {"Required Skills": "","Candidate  Skills": "","Match Percentage": "",}, "Experience Match": {"Required Experience": "","Candidate Experience": "","Match Percentage": "",}, "Overall Match Percentage:": "", "Explanation": ""}
+                To determine the match percentage, analyze the skills and experience in the CV and compare them to the requirements outlined in the JD. Provide the final match percentage as a numeric value between 0-100%, along with a brief explanation of your analysis. Follow this json format: {"Skills Match": {"Required Skills": "","Candidate Skills": "","Match Percentage": "",}, "Experience Match": {"Required Experience": "","Candidate Experience": "","Match Percentage": "",}, "Overall Match Percentage:": "", "Explanation": ""}
                 """
             )
         ),

@@ -1,5 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
-from typing import Annotated
+from fastapi import APIRouter, UploadFile, File, Form
 
 from app.modules.crud_cvs.models.crud_cvs import get_all_cvs, create_cv, delete_cv
 
@@ -15,7 +14,7 @@ async def index():
 # [POST] add CV
 @crud_cvs_router.post("/")
 # only upload pdf or docx file
-async def add_cv(name_candidate: str, apply_position: str, file_cv: Annotated[UploadFile, File(..., description="Upload cv file (upload .pdf or .docx file)")]):
+async def add_cv(name_candidate: str = Form(...), apply_position: str = Form(...), file_cv: UploadFile = File(..., description="Upload cv file (upload .pdf or .docx file)")):
     try:
         # take file_cv and cv_upload type file
         file_cv_type = file_cv.filename.split(".")[-1]

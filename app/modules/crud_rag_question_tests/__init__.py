@@ -1,4 +1,5 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Form
+from typing import Annotated
 
 from app.modules.crud_rag_question_tests.models.crud_rag_question_tests import get_all_rag_question_tests, create_rag_question_test, delete_question_test
 
@@ -14,7 +15,7 @@ async def index():
 # [POST] add question test
 @crud_rag_question_tests_router.post("/")
 # only upload pdf or json file
-async def add_question_generator(id_jd: str, file_question_generator_tests: UploadFile = File(..., description="The question generator test file", media_type=["application/json"])):
+async def add_question_generator(id_jd: str, file_question_generator_tests: UploadFile = File(..., description="The question generator test file")):
     try:
         question_tests_upload_type = file_question_generator_tests.filename.split(".")[-1]
         # check if file is json

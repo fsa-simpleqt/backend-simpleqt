@@ -17,5 +17,5 @@ jobs:
       # Push to hub
       - name: Push to hub
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push -f https://MillMin:$HF_TOKEN@huggingface.co/spaces/MillMin/FSA-PROJECT-CV main
+          HUYDN_HF_TOKEN: ${{ secrets.HUYDN_HF_TOKEN }}
+        run: git push -f https://tony2802:$HUYDN_HF_TOKEN@huggingface.co/spaces/tony2802/fsa-simpleqt main
