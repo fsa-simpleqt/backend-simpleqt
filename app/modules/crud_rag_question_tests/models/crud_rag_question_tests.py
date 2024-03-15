@@ -2,9 +2,16 @@ import uuid
 from app.configs.database import firebase_bucket, firebase_db
 import json
 import os
+import threading
+import time
 
 from datetime import datetime
 import pytz
+
+def delete_file_after_delay(file_path, delay):
+    time.sleep(delay)
+    os.remove(file_path)
+    print(f"File '{file_path}' has been deleted.")
 
 # CRUD operation
 def upload_file_rag_question_tests(data_dict):
@@ -15,9 +22,11 @@ def upload_file_rag_question_tests(data_dict):
         json.dump(data_dict, outfile)
     # upload file to firebase storage
     blob = firebase_bucket.blob(re_name_file)
-    blob.upload_from_file(cache_path)
-    # delete cache
-    os.remove(cache_path)
+    blob.upload_from_filename(cache_path)
+    # # delete cache
+    # os.remove(cache_path)
+    # delete the file after 10 second
+    threading.Thread(target=delete_file_after_delay, args=(cache_path, 10)).start()
     # return gs link
     return f"gs://{firebase_bucket.name}/{re_name_file}"
 
@@ -56,7 +65,7 @@ def create_rag_question_test(data):
     file_url = upload_file_rag_question_tests(dict_rag_question_tests)
 
     # Get the current time in UTC
-    utc_now = datetime.utcnow()
+    utc_now = datetime.now()
     # Specify the Vietnam time zone
     vietnam_timezone = pytz.timezone('Asia/Ho_Chi_Minh')
     # Convert the current time to Vietnam time zone

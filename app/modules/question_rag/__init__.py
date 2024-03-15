@@ -19,10 +19,10 @@ async def quiz_gen(id_jd: str):
         jobdes = get_jd_text_by_id(id_jd)
         sumaryjd_text = jobdes2text(jobdes)
 
-        result = question_rag(sumaryjd_text=sumaryjd_text, id_jd= id_jd)
-        return result
+        message = question_rag(sumaryjd_text=sumaryjd_text, id_jd= id_jd)
+        return message
     except Exception as e:
-        return {"controller error": str(e)}
+        return {"message": str(e)}
 
 @quiz_gen_router.post("/test_gen")
 async def test_gen(url: str):

@@ -63,6 +63,6 @@ def question_rag(sumaryjd_text: str, id_jd: str):
         response = retrieval_chain.invoke({"input": sumaryjd_text})
         result = response["answer"]
         create_rag_question_test({"id_jd": id_jd, "question_generator_tests_url": result})
-        return result
+        return {"message":"Generative Question Successfully"}
     except Exception as e:
         return {"logic error": str(e)}
