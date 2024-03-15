@@ -17,10 +17,8 @@ async def send_jd_to_get_question(id_jd: str):
         # get jd_text by id
         jd_text = get_jd_text_by_id(id_jd)
         sumaryjd_text = jobdes2text(jd_text)
-        if get_question_tests(sumaryjd_text):
-            return {"message": "Send JD successfully and get question test successfully",
-                    "sumary JD": sumaryjd_text}
-        else:
-            return {"error": str(e)}
+        result = get_question_tests(sumaryjd_text)
+        return {"message": "Send JD successfully and get question test successfully",
+                "result": result}
     except Exception as e:
         return {"message": "Have error when find JD in database", "error": str(e)}
