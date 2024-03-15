@@ -21,18 +21,23 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY, request_timeout=120)
 gemini_evaluator = load_evaluator("embedding_distance", distance_metric=EmbeddingDistance.COSINE, embeddings=embedding_model)
     
-def compare_vector(description_vector, max_number_of_points=3):
+def compare_vector(description_vector, max_number_of_points=1):
     similarity_list = qdrant_client.search(
         collection_name="question_tests",
         query_vector=description_vector,
         limit=max_number_of_points,
-        with_vectors=False,
+        with_vectors=True,
         with_payload=True,
     )
 
     formatted_similarity_list = []
     for point in similarity_list:
-        formatted_similarity_list.append({"id": point.payload.get("id"), "score": point.score})
+        formatted_similarity_list.append({
+            "id": point.payload.get("id"), 
+            "score": point.score,
+            "role": point.payload.get("question_tests_role"),
+            "description": point.payload.get("question_tests_description")
+        })
 
     return formatted_similarity_list
 
@@ -61,3 +66,9 @@ def get_question_tests(text: str):
         return True
     else:
         return False
+    
+def get_question_tests_info(text: str):
+    # Get formatted similarity list
+    formatted_similarity_list = compare_vector(text2vector(text))
+    return formatted_similarity_list
+

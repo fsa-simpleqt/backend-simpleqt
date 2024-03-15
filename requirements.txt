@@ -93,7 +93,7 @@ networkx==3.2.1
 nltk==3.8.1
 numpy==1.26.4
 omegaconf==2.3.0
-onnxruntime==1.15.1
+onnxruntime
 openai==1.13.3
 opencv-python==4.9.0.80
 orjson==3.9.15
@@ -157,9 +157,9 @@ typing-inspect==0.9.0
 typing_extensions==4.9.0
 tzdata==2024.1
 ujson==5.9.0
-unstructured==0.12.6
-unstructured-client==0.18.0
-unstructured-inference==0.7.24
+unstructured
+# unstructured-client==0.18.0
+# unstructured-inference==0.7.24
 uritemplate==4.1.1
 urllib3==1.26.18
 uvicorn==0.27.1
