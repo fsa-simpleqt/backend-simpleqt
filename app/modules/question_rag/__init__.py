@@ -13,8 +13,6 @@ async def index():
     return {"message": "Welcome to quiz generator page"}
 
 @quiz_gen_router.post("/quiz_gen")
-# only upload .txt file
-async def quiz_gen(txt_file: UploadFile = File(..., description="The JD file (only .txt file)")):
 async def quiz_gen(id_jd: str):
     try:
         # get jd_text from id_jd

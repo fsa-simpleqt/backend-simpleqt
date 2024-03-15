@@ -11,7 +11,6 @@ async def index():
     return {"message": "Welcome to question retrieval page"}
 
 @qtretrieval_router.post("/send_jd_to_get_question")
-# only upload .txt file
 async def send_jd_to_get_question(id_jd: str):
     try:
         # get jd_text by id
