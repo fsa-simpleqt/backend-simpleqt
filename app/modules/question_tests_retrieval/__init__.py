@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 
-from app.modules.question_tests_retrieval.models.jd2text import jobdes2text
 from app.modules.question_tests_retrieval.models.question_tests_logic import get_question_tests
-from app.modules.crud_jds.models.crud_jds import get_jd_text_by_id
+from app.modules.crud_jds.models.crud_jds import get_jd_summary_by_id
 
 qtretrieval_router = APIRouter(prefix="/qtretrieval", tags=["qtretrieval"])
 
@@ -15,8 +14,7 @@ async def index():
 async def send_jd_to_get_question(id_jd: str):
     try:
         # get jd_text by id
-        jd_text = get_jd_text_by_id(id_jd)
-        sumaryjd_text = jobdes2text(jd_text)
+        sumaryjd_text = get_jd_summary_by_id(id_jd)
         result = get_question_tests(sumaryjd_text)
         return {"message": "Send JD successfully and get question test successfully",
                 "result": result}
