@@ -1,8 +1,7 @@
 import uuid
 from app.configs.database import firebase_bucket, firebase_db
-from app.configs.qdrant_db import qdrant_client
-from app.configs.qdrant_db import models
-from app.modules.question_tests_retrieval.models.text2vector import text2vector
+from app.configs.qdrant_db import qdrant_client, models
+from app.utils.text2vector import text2vector
 
 from datetime import datetime
 import pytz

@@ -1,13 +1,12 @@
 import os
-import docx
 from dotenv import load_dotenv
+from app.modules.crud_jds.models.crud_jds import get_jd_summary_by_id
+from app.modules.crud_cvs.models.crud_cvs import get_cv_by_id
 
 # import prompt template
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_core.messages import SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_anthropic import ChatAnthropic
-from langchain_openai import OpenAI
 
 # import the json oupput parser from the langchain core
 from langchain_core.output_parsers import JsonOutputParser
@@ -27,8 +26,6 @@ CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY, request_timeout=120)
-# llm = ChatAnthropic(temperature=0.3, model_name="claude-3-opus-20240229", anthropic_api_key=CLAUDE_API_KEY, default_request_timeout=120)
-# llm = OpenAI(model_name="gpt-3.5-turbo-0125", openai_api_key=OPENAI_API_KEY)
 chain = llm | parser
 
 # create the prompt template
@@ -49,9 +46,11 @@ chat_template = ChatPromptTemplate.from_messages(
 )
 
 # def matching cv and jd return percentage of matching using prompt template
-def result_matching_cv_jd(cv_text:str, jd_text:str):
+def result_matching_cv_jd(id_cv:str, id_jd:str):
+    cv_content = get_cv_by_id(id_cv)
+    jd_summary = get_jd_summary_by_id(id_jd)
     # create the chat message
-    chat_message =  chat_template.format_messages(cv=cv_text, jd=jd_text)
+    chat_message =  chat_template.format_messages(cv=cv_content, jd=jd_summary)
     result = chain.invoke(chat_message)
 
     return result

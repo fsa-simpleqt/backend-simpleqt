@@ -16,15 +16,22 @@ print("Qdrant Database connected")
 if qdrant_client.collection_exists('question_tests') == False:
     qdrant_client.create_collection(
     collection_name="question_tests",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),
     )
     print("Collection question_tests created")
 # 3. Check if the rag_documents_test exists
-elif qdrant_client.collection_exists('rag_documents_test') == False:
+if qdrant_client.collection_exists('rag_documents_test') == False:
     qdrant_client.create_collection(
     collection_name="rag_documents_test",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),
     )
     print("Collection rag_documents_test created")
+# 3. Check if the jds exists
+if qdrant_client.collection_exists('jds') == False:
+    qdrant_client.create_collection(
+    collection_name="jds",
+    vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),
+    )
+    print("Collection jds created")
 else:
     print("Collections already exist")

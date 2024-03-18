@@ -21,22 +21,24 @@ parser = JsonOutputParser()
 
 # setup the gemini pro
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY, request_timeout=120)
-# llm = ChatAnthropic(temperature=0, anthropic_api_key=CLAUDE_API_KEY, model_name="claude-3-opus-20240229")
 # create the prompt template
 finnal_jd_chat_template = ChatPromptTemplate.from_messages(
     [
         SystemMessage(
             content=(
-                """Return Job title, level(Fresher, Junior, Senior, ...) and Brief summary of required skills about 20 words from the job description. Use the following format: Job Title is {job title}, Level is {level}, and Brief summary of required skills is {brief summary of required skills}."""
+                """Based on the following job description:
+{jobdes}
+Play the role of an expert in job description analysis. Carefully analyze candidate requirements and job descriptions. Let's separate them into 2 separate parts
+                """
             )
         ),
-        HumanMessagePromptTemplate.from_template("{text}"),
+        HumanMessagePromptTemplate.from_template("{jobdes}"),
     ]
 )
 
-def jobdes2text(jobdes: str):
+def summary_jd(jobdes: str):
     # create the chat message
-    chat_message =  finnal_jd_chat_template.format_messages(text=jobdes)
+    chat_message =  finnal_jd_chat_template.format_messages(jobdes=jobdes)
     # create a chain 
     chain =  llm
     result = chain.invoke(chat_message)
