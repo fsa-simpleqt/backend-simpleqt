@@ -51,7 +51,7 @@ def create_question_test(data):
     file_url = upload_file_question_tests(file_question_tests)
 
     # Get the current time in UTC
-    utc_now = datetime.utcnow()
+    utc_now = datetime.now()
     # Specify the Vietnam time zone
     vietnam_timezone = pytz.timezone('Asia/Ho_Chi_Minh')
     # Convert the current time to Vietnam time zone

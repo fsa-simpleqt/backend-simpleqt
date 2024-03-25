@@ -51,7 +51,7 @@ if "question_tests" not in [collection.id for collection in firebase_db.collecti
 # check if have cvs collection
 if "cvs" not in [collection.id for collection in firebase_db.collections()]:
     # Create a collection
-    firebase_db.collection("cvs").add({"name_candidate": "test", "apply_position": "test", "cv_url": "test"})
+    firebase_db.collection("cvs").add({"apply_jd_id": "test"})
     print("Collection cvs created")
 
 # check if have jds collection
