@@ -1,5 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
-from typing import Annotated
+from fastapi import APIRouter, UploadFile, File, Form
 
 from app.modules.crud_jds.models.crud_jds import get_all_jds, create_jd, delete_jd
 
@@ -15,7 +14,7 @@ async def index():
 # [POST] add JD
 @crud_jds_router.post("/")
 # only upload txt file
-async def add_jd(position_applied_for: str, file_jd: Annotated[UploadFile, File(..., description="Upload jd file (upload .txt)")]):
+async def add_jd(position_applied_for: str = Form(...), file_jd: UploadFile = File(..., description="Upload jd file (upload .txt)")):
     try:
         file_jd_type = file_jd.filename.split(".")[-1]
         if file_jd_type in ["txt"]:

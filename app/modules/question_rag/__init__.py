@@ -1,8 +1,7 @@
 from fastapi import APIRouter, UploadFile, File
-from typing import Annotated
 
 from app.modules.question_rag.models.question_rag_logic import question_rag
-from app.modules.question_tests_retrieval.models.jd2text import jobdes2text
+from app.utils.summary_jd import summary_jd
 
 quiz_gen_router = APIRouter(prefix="/quiz_gen", tags=["quiz_gen"])
 
@@ -12,11 +11,11 @@ async def index():
 
 @quiz_gen_router.post("/quiz_gen")
 # only upload .txt file
-async def quiz_gen(txt_file: Annotated[UploadFile, File(..., description="The JD file (only .txt file)", media_type=["text/plain"])]):
+async def quiz_gen(txt_file: UploadFile = File(..., description="The JD file (only .txt file)")):
     try:
         # read the txt file with format
         jobdes = txt_file.file.read().decode("utf-8")
-        sumaryjd_text = jobdes2text(jobdes)
+        sumaryjd_text = summary_jd(jobdes)
         if question_rag(sumaryjd_text):
             return {"message": "Generate quiz success",
                     "quiz": question_rag(sumaryjd_text)}
