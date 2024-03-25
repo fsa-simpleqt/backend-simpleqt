@@ -97,12 +97,18 @@ def create_cv(data):
     # Convert the current time to Vietnam time zone
     vietnam_now = utc_now.replace(tzinfo=pytz.utc).astimezone(vietnam_timezone).strftime("%Y-%m-%d %H:%M:%S")
 
+    # add file name to data
+    data["file_cv_name"] = re_name_file
     # add file url to data
     data["cv_url"] = cv_uploaded_url
     # add cv_content
     data["cv_content"] = cv_text
     # add created_at
     data["created_at"] = vietnam_now
+    # add matched_status
+    data['matched_status'] = False
+    # add matched_result
+    data['matched_result'] = None
     # Create a new document
     firebase_db.collection("cvs").add(data)
     return True
@@ -113,4 +119,9 @@ def delete_cv(id):
     remove_file_cvs(file_url)
     # Delete a document by id
     firebase_db.collection("cvs").document(id).delete()
+    return True
+
+def edit_cv(id_cv, data):
+    # Update a document
+    firebase_db.collection("cvs").document(id_cv).update(data)
     return True
