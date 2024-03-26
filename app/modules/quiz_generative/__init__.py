@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File
 
-from app.modules.question_rag.models.question_rag_logic import question_rag
+from app.modules.quiz_generative.models.quiz_gen_logic import question_rag
 from app.utils.summary_jd import summary_jd
 
 quiz_gen_router = APIRouter(prefix="/quiz_gen", tags=["quiz_gen"])

@@ -11,7 +11,7 @@ from app.modules.crud_jds import crud_jds_router
 from app.modules.crud_cvs import crud_cvs_router
 from app.modules.crud_question_test import crud_question_tests_router
 from app.modules.crud_rag_question_tests import crud_rag_question_tests_router
-from app.modules.question_rag import quiz_gen_router
+from app.modules.quiz_generative import quiz_gen_router
 from app.modules.question_tests_retrieval import qtretrieval_router
 from app.modules.matching_cv import cvmatching_router
 
