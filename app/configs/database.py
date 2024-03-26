@@ -42,26 +42,26 @@ print("Firestore connected")
 firebase_bucket = storage.bucket(app=firebase_admin.get_app())
 print("Storage connected")
 
-# check if have question_tests collection
-if "question_tests" not in [collection.id for collection in firebase_db.collections()]:
-    # Create a collection
-    firebase_db.collection("question_tests").add({"question_tests_description": "test", "question_tests_role": "test", "question_tests_url": "test"})
-    print("Collection question_tests created")
+# # check if have question_tests collection
+# if "question_tests" not in [collection.id for collection in firebase_db.collections()]:
+#     # Create a collection
+#     firebase_db.collection("question_tests").add({"question_tests_description": "test", "question_tests_role": "test", "question_tests_url": "test"})
+#     print("Collection question_tests created")
 
-# check if have cvs collection
-if "cvs" not in [collection.id for collection in firebase_db.collections()]:
-    # Create a collection
-    firebase_db.collection("cvs").add({"apply_jd_id": "test"})
-    print("Collection cvs created")
+# # check if have cvs collection
+# if "cvs" not in [collection.id for collection in firebase_db.collections()]:
+#     # Create a collection
+#     firebase_db.collection("cvs").add({"apply_jd_id": "test"})
+#     print("Collection cvs created")
 
-# check if have jds collection
-if "jds" not in [collection.id for collection in firebase_db.collections()]:
-    # Create a collection
-    firebase_db.collection("jds").add({"position_applied_for": "test","jd_url": "test"})
-    print("Collection jds created")
+# # check if have jds collection
+# if "jds" not in [collection.id for collection in firebase_db.collections()]:
+#     # Create a collection
+#     firebase_db.collection("jds").add({"position_applied_for": "test","jd_url": "test"})
+#     print("Collection jds created")
 
-# check if have rag_question_tests collection
-if "rag_question_tests" not in [collection.id for collection in firebase_db.collections()]:
-    # Create a collection
-    firebase_db.collection("rag_question_tests").add({"id_jd": "test","question_generator_tests_url": "test"})
-    print("Collection rag_question_tests created")
+# # check if have rag_question_tests collection
+# if "rag_question_tests" not in [collection.id for collection in firebase_db.collections()]:
+#     # Create a collection
+#     firebase_db.collection("rag_question_tests").add({"id_jd": "test","question_generator_tests_url": "test"})
+#     print("Collection rag_question_tests created")
