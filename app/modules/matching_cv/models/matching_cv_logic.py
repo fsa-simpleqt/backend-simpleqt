@@ -5,11 +5,6 @@ from app.modules.crud_cvs.models.crud_cvs import get_cv_content_by_id, edit_cv
 from app.utils.chat_templates import chat_template_cv_matching
 
 from langchain_google_genai import ChatGoogleGenerativeAI
-<<<<<<< HEAD
-# from langchain_anthropic import ChatAnthropic
-# from langchain_openai import OpenAI
-=======
->>>>>>> main
 
 # import the json oupput parser from the langchain core
 from langchain_core.output_parsers import JsonOutputParser

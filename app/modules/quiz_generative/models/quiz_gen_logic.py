@@ -35,7 +35,7 @@ def question_rag(jobtext: str):
     
     doc_store = Qdrant(
         client=client,
-        collection_name="rag_documents_test", 
+        collection_name="rag_documents_test",
         embeddings=embeddings,
     )
 
