@@ -13,6 +13,7 @@ WORKDIR $HOME/code
 
 COPY --chown=user:user . .
 
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r $HOME/code/requirements.txt
 
