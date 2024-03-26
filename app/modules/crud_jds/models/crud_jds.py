@@ -8,11 +8,6 @@ from datetime import datetime
 from app.utils.summary_jd import summary_jd
 from app.utils.text2vector import text2vector
 
-def get_jd_summary_by_id(id_jd):
-    # Get a document by id
-    doc = firebase_db.collection("jds").document(id_jd).get()
-    return doc.to_dict()["jd_summary"]
-
 def get_all_jds():
     # Get all documents from the collection
     docs = firebase_db.collection("jds").stream()
@@ -27,6 +22,11 @@ def get_jd_by_id(id_jd):
     # Get a document by id
     doc = firebase_db.collection("jds").document(id_jd).get()
     return doc.to_dict()
+
+def get_jd_summary_by_id(id_jd):
+    # Get a document by id
+    doc = firebase_db.collection("jds").document(id_jd).get()
+    return doc.to_dict()["jd_summary"]
 
 def create_jd(data):
     # get file_jds

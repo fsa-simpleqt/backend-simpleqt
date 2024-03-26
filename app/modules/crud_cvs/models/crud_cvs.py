@@ -2,12 +2,11 @@ import uuid
 import pytz
 import io
 import os
-
-from app.configs.database import firebase_bucket, firebase_db
 from docx import Document
 from datetime import datetime
-
 from langchain_community.document_loaders import UnstructuredPDFLoader
+
+from app.configs.database import firebase_bucket, firebase_db
 from app.modules.crud_jds.models.crud_jds import get_jd_by_id
 
 # CRUD operation
@@ -43,11 +42,6 @@ def file_cv_pdf2text(file_path):
     page_content  = json_result[0].page_content
     return page_content
 
-def get_cv_content_by_id(id_cv):
-    # Get a document by id
-    doc = firebase_db.collection("cvs").document(id_cv).get()
-    return doc.to_dict()["cv_content"]
-
 def get_all_cvs():
     # Get all documents from the collection
     docs = firebase_db.collection("cvs").stream()
@@ -57,6 +51,21 @@ def get_all_cvs():
         doc_data["id_cv"] = doc.id
         apply_jd_id = doc_data.get("apply_jd_id")
         doc_data['apply_position'] = get_jd_by_id(apply_jd_id).get("position_applied_for")
+        data.append(doc_data)
+    return data
+
+def get_cv_content_by_id(id_cv):
+    # Get a document by id
+    doc = firebase_db.collection("cvs").document(id_cv).get()
+    return doc.to_dict()["cv_content"]
+
+def get_all_cv_by_apply_jd_id(apply_jd_id):
+    # Get all documents from the collection
+    docs = firebase_db.collection("cvs").where("apply_jd_id", "==", apply_jd_id).stream()
+    data = []
+    for doc in docs:
+        doc_data = doc.to_dict()
+        doc_data["id_cv"] = doc.id
         data.append(doc_data)
     return data
 
