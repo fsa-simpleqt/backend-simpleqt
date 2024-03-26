@@ -14,18 +14,23 @@ async def index():
 # [POST] add CV
 @crud_cvs_router.post("/")
 # only upload pdf or docx file
-async def add_cv(name_candidate: str = Form(...), apply_jd_id: str = Form(...), file_cv: UploadFile = File(..., description="Upload cv file (upload .pdf or .docx file)")):
+async def add_cv(apply_jd_id: str, files_cv: list[UploadFile] = File(..., description="Upload cv file (upload .pdf or .docx)")):
     try:
-        # take file_cv and cv_upload type file
-        file_cv_type = file_cv.filename.split(".")[-1]
-        if file_cv_type in ["pdf", "docx"]:
-            # create a new document
-            if create_cv({"name_candidate": name_candidate, "apply_jd_id":apply_jd_id, "cv_content": file_cv}):
-                return {"message": "CV added successfully"}
+        count_sucessful = 0
+        count_failed = 0
+        for file_cv in files_cv:
+            file_cv_type = file_cv.filename.split(".")[-1]
+            if file_cv_type in ["pdf", "docx"]:
+                # create a new document
+                if create_cv({"apply_jd_id": apply_jd_id, "cv_content": file_cv}):
+                    count_sucessful += 1
+                else:
+                    count_failed += 1
             else:
-                return {"message": "Error while adding CV file to database"}
-        else:
-            return {"message": "File type not supported"}
+                count_failed += 1
+        return {"message": "CVs added successfully",
+                "count_sucessful": count_sucessful,
+                "count_failed": count_failed}
     except Exception as e:
         return {"message": str(e)}
 

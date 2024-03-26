@@ -2,12 +2,11 @@ import uuid
 import pytz
 import io
 import os
-
-from app.configs.database import firebase_bucket, firebase_db
 from docx import Document
 from datetime import datetime
-
 from langchain_community.document_loaders import UnstructuredPDFLoader
+
+from app.configs.database import firebase_bucket, firebase_db
 from app.modules.crud_jds.models.crud_jds import get_jd_by_id
 
 # CRUD operation
@@ -43,11 +42,6 @@ def file_cv_pdf2text(file_path):
     page_content  = json_result[0].page_content
     return page_content
 
-def get_cv_content_by_id(id_cv):
-    # Get a document by id
-    doc = firebase_db.collection("cvs").document(id_cv).get()
-    return doc.to_dict()["cv_content"]
-
 def get_all_cvs():
     # Get all documents from the collection
     docs = firebase_db.collection("cvs").stream()
@@ -57,6 +51,21 @@ def get_all_cvs():
         doc_data["id_cv"] = doc.id
         apply_jd_id = doc_data.get("apply_jd_id")
         doc_data['apply_position'] = get_jd_by_id(apply_jd_id).get("position_applied_for")
+        data.append(doc_data)
+    return data
+
+def get_cv_content_by_id(id_cv):
+    # Get a document by id
+    doc = firebase_db.collection("cvs").document(id_cv).get()
+    return doc.to_dict()["cv_content"]
+
+def get_all_cv_by_apply_jd_id(apply_jd_id):
+    # Get all documents from the collection
+    docs = firebase_db.collection("cvs").where("apply_jd_id", "==", apply_jd_id).stream()
+    data = []
+    for doc in docs:
+        doc_data = doc.to_dict()
+        doc_data["id_cv"] = doc.id
         data.append(doc_data)
     return data
 
@@ -97,12 +106,18 @@ def create_cv(data):
     # Convert the current time to Vietnam time zone
     vietnam_now = utc_now.replace(tzinfo=pytz.utc).astimezone(vietnam_timezone).strftime("%Y-%m-%d %H:%M:%S")
 
+    # add file name to data
+    data["file_cv_name"] = re_name_file
     # add file url to data
     data["cv_url"] = cv_uploaded_url
     # add cv_content
     data["cv_content"] = cv_text
     # add created_at
     data["created_at"] = vietnam_now
+    # add matched_status
+    data['matched_status'] = False
+    # add matched_result
+    data['matched_result'] = None
     # Create a new document
     firebase_db.collection("cvs").add(data)
     return True
@@ -113,4 +128,9 @@ def delete_cv(id):
     remove_file_cvs(file_url)
     # Delete a document by id
     firebase_db.collection("cvs").document(id).delete()
+    return True
+
+def edit_cv(id_cv, data):
+    # Update a document
+    firebase_db.collection("cvs").document(id_cv).update(data)
     return True

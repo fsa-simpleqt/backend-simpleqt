@@ -5,13 +5,9 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_core.output_parsers import JsonOutputParser
 
-from app.modules.crud_rag_question_tests.models.crud_rag_question_tests import create_rag_question_test
-
 from langchain_community.vectorstores import Qdrant
 import qdrant_client
 
-import json
-import uuid
 import os
 from dotenv import load_dotenv
 
@@ -27,22 +23,26 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY")
 QDRANT_URL = os.environ.get("QDRANT_URL")
 
-llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY, request_timeout=120, temperature=0.1)
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+def question_rag(jobtext: str):
+    llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY, request_timeout=120)
 
-client = qdrant_client.QdrantClient(
-    url=QDRANT_URL,
-    api_key=QDRANT_API_KEY,
-)
-doc_store = Qdrant(
-    client=client,
-    collection_name="rag_documents_test", 
-    embeddings=embeddings,
-)
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-json_parser = JsonOutputParser()
-prompt = ChatPromptTemplate.from_template("""
-    Answer the question based only on the following context. 
+    client = qdrant_client.QdrantClient(
+        url=QDRANT_URL,
+        api_key=QDRANT_API_KEY,
+    )
+    
+    doc_store = Qdrant(
+        client=client,
+        collection_name="rag_documents_test", 
+        embeddings=embeddings,
+    )
+
+    json_parser = JsonOutputParser()
+
+    prompt = ChatPromptTemplate.from_template("""
+    Answer the question based only on the following context:                                
     <context>
     {context}
     </context>
@@ -52,17 +52,11 @@ prompt = ChatPromptTemplate.from_template("""
     ("__count__": 10, "data": ( "id": "", "question": "", "choices": [ "A. ", "B. ", "C.", "D. " ], "explanation": "", "answer": "", "level": "", "domain": "" )).
     About level help me three levels: "Fresher, Junior, Senior".
     """)
-document_chain = create_stuff_documents_chain(llm, prompt, output_parser=json_parser)
 
-retriever = doc_store.as_retriever()
-retrieval_chain = create_retrieval_chain(retriever, document_chain)
+    document_chain = create_stuff_documents_chain(llm, prompt, output_parser=json_parser)
 
-def question_rag(sumaryjd_text: str, id_jd: str):
-    try:
-        # gen question
-        response = retrieval_chain.invoke({"input": sumaryjd_text})
-        result = response["answer"]
-        create_rag_question_test({"id_jd": id_jd, "question_generator_tests_url": result})
-        return {"message":"Generative Question Successfully"}
-    except Exception as e:
-        return {"logic error": str(e)}
+    retriever = doc_store.as_retriever()
+    retrieval_chain = create_retrieval_chain(retriever, document_chain)
+    response = retrieval_chain.invoke({"input": jobtext})
+
+    return response["answer"]

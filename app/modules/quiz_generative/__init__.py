@@ -1,10 +1,14 @@
 from fastapi import APIRouter, UploadFile, File
-from typing import Annotated
 
+<<<<<<< HEAD:app/modules/question_rag/__init__.py
 from app.modules.question_rag.models.question_rag_logic import question_rag
 from app.modules.question_tests_retrieval.models.jd2text import jobdes2text
 from app.modules.crud_jds.models.crud_jds import get_jd_text_by_id
 from app.modules.crud_rag_question_tests.models.crud_rag_question_tests import download_file_rag_question_tests, get_all_rag_question_tests
+=======
+from app.modules.quiz_generative.models.quiz_gen_logic import question_rag
+from app.utils.summary_jd import summary_jd
+>>>>>>> main:app/modules/quiz_generative/__init__.py
 
 quiz_gen_router = APIRouter(prefix="/quiz_gen", tags=["quiz_gen"])
 

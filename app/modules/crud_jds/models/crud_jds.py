@@ -1,28 +1,12 @@
 import uuid
-from app.configs.database import firebase_bucket, firebase_db
-from datetime import datetime
 import pytz
 import os
 
-# CRUD operation
-def upload_file_jds(file):
-    re_name_file = str(uuid.uuid4()).replace("-","_") + "_" + file.filename
-    # upload file to firebase storage
-    blob = firebase_bucket.blob(re_name_file)
-    blob.upload_from_file(file.file)
-    # return gs link
-    return f"gs://{firebase_bucket.name}/{re_name_file}"
-
-def remove_file_jds(file_url):
-    # remove file from firebase storage using "gs://" link
-    blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
-    blob.delete()
-    return True
-
-def get_jd_text_by_id(id_jd):
-    # Get a document by id
-    doc = firebase_db.collection("jds").document(id_jd).get()
-    return doc.to_dict()["jd_text"]
+from app.configs.qdrant_db import qdrant_client, models
+from app.configs.database import firebase_db
+from datetime import datetime
+from app.utils.summary_jd import summary_jd
+from app.utils.text2vector import text2vector
 
 def get_all_jds():
     # Get all documents from the collection
@@ -39,6 +23,11 @@ def get_jd_by_id(id_jd):
     doc = firebase_db.collection("jds").document(id_jd).get()
     return doc.to_dict()
 
+def get_jd_summary_by_id(id_jd):
+    # Get a document by id
+    doc = firebase_db.collection("jds").document(id_jd).get()
+    return doc.to_dict()["jd_summary"]
+
 def create_jd(data):
     # get file_jds
     file_jds = data["jd_text"]
@@ -53,28 +42,48 @@ def create_jd(data):
     # delete file in tmp folder
     os.remove(f"tmp/{re_name_file}")
 
-    # # upload file to firebase storage
-    # file_url = upload_file_jds(file_jds)
-
     # Get the current time in UTC
-    utc_now = datetime.utcnow()
+    utc_now = datetime.now()
     # Specify the Vietnam time zone
     vietnam_timezone = pytz.timezone('Asia/Ho_Chi_Minh')
     # Convert the current time to Vietnam time zone
     vietnam_now = utc_now.replace(tzinfo=pytz.utc).astimezone(vietnam_timezone).strftime("%Y-%m-%d %H:%M:%S")
 
-    # add file url to data
+    # add jd_text url to data
     data["jd_text"] = jd_text
+    # add file url to data
+    summary_jd_text = summary_jd(jd_text)
+    data["jd_summary"] = summary_jd_text
     # add created_at
     data["created_at"] = vietnam_now
     # Create a new document
-    firebase_db.collection("jds").add(data)
+    document_ref = firebase_db.collection("jds").add(data)
+    document_id = document_ref[1].id
+    
+    # Upload vector to Qdrant
+    collection_info = qdrant_client.get_collection('jds')
+    points_count = collection_info.points_count
+    summary_jd_vector = text2vector(summary_jd_text)
+    payload = {"id_jd": document_id}
+    point = models.PointStruct(id=points_count+1, payload=payload, vector=summary_jd_vector)
+    qdrant_client.upsert(collection_name="jds", points=[point])
     return True
 
 def delete_jd(id):
-    # # Delete a file from firebase storage
-    # file_url = get_jd_by_id(id)["jd_url"]
-    # remove_file_jds(file_url)
     # Delete a document by id
     firebase_db.collection("jds").document(id).delete()
+    # Delete corresponding vector from Qdrant
+    qdrant_client.delete(
+        collection_name="jds",
+        points_selector=models.FilterSelector(
+            filter=models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="id",
+                        match=models.MatchValue(value=id),
+                    ),
+                ],
+            )
+        ),
+    )
     return True

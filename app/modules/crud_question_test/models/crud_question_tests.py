@@ -1,8 +1,7 @@
 import uuid
 from app.configs.database import firebase_bucket, firebase_db
-from app.configs.qdrant_db import qdrant_client
-from app.configs.qdrant_db import models
-from app.modules.question_tests_retrieval.models.text2vector import text2vector
+from app.configs.qdrant_db import qdrant_client, models
+from app.utils.text2vector import text2vector
 
 from datetime import datetime
 import pytz
@@ -52,7 +51,7 @@ def create_question_test(data):
     file_url = upload_file_question_tests(file_question_tests)
 
     # Get the current time in UTC
-    utc_now = datetime.utcnow()
+    utc_now = datetime.now()
     # Specify the Vietnam time zone
     vietnam_timezone = pytz.timezone('Asia/Ho_Chi_Minh')
     # Convert the current time to Vietnam time zone
