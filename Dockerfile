@@ -3,6 +3,8 @@ FROM python:3.11.8-bullseye
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
+RUN apt-get update && apt-get install libgl1 -y
+
 # Set up a new user named "user" with user ID 1000
 RUN useradd -m -u 1000 user
 
@@ -13,7 +15,6 @@ WORKDIR $HOME/code
 
 COPY --chown=user:user . .
 
-RUN apt-get update && apt-get install libgl1 -y
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r $HOME/code/requirements.txt
 
