@@ -5,13 +5,6 @@ from app.modules.crud_question_test.models.crud_question_tests import get_questi
 from app.utils.text2vector import text2vector
 from app.configs.database import firebase_bucket
 from app.configs.qdrant_db import qdrant_client
-
-# # Import API key
-# load_dotenv()
-
-# # Define the google api key
-# os.environ['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY')
-# GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
     
 def compare_vector(description_vector, max_number_of_points=1):
     similarity_list = qdrant_client.search(
