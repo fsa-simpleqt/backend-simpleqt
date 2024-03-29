@@ -20,6 +20,9 @@ async def matching_cv_jd(id_jd: str, id_cv:str):
             return {"message": "CV already matched with a JD"}
         else:
             matched_result = result_matching_cv_jd(id_cv=id_cv,id_jd=id_jd)
+            matched_result = matched_result.get("text")
+            print(type(matched_result))
+            print(matched_result)
             return {"message": matched_result}
     except Exception as e:
         return {"Error": str(e)}
