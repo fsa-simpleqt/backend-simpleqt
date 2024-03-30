@@ -13,14 +13,16 @@ from app.modules.crud_jds.models.crud_jds import get_jd_by_id
 def upload_file_cvs(file_path):
     # upload file to firebase storage from file_path
     name_file = file_path.split("/")[-1]
-    blob = firebase_bucket.blob(name_file)
+    # upload file to folder "cvs" in firebase storage
+    blob = firebase_bucket.blob(f"cvs/{name_file}")
     blob.upload_from_filename(file_path)
-    # return gs link
-    return f"gs://{firebase_bucket.name}/{name_file}"
+    blob.make_public()
+    # return Download URL of the file
+    return blob.public_url
 
-def remove_file_cvs(file_url):
+def remove_file_cvs(file_cv_name):
     # remove file from firebase storage using "gs://" link
-    blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
+    blob = firebase_bucket.blob("cvs/" + file_cv_name)
     blob.delete()
     return True
 
@@ -124,8 +126,8 @@ def create_cv(data):
 
 def delete_cv(id):
     # Delete a file from firebase storage
-    file_url = get_cv_by_id(id)["cv_url"]
-    remove_file_cvs(file_url)
+    file_cv_name = get_cv_by_id(id)["file_cv_name"]
+    remove_file_cvs(file_cv_name)
     # Delete a document by id
     firebase_db.collection("cvs").document(id).delete()
     return True
