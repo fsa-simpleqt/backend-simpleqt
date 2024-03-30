@@ -10,7 +10,6 @@ async def index():
     return {"message": "Welcome to CV matching page"}
 
 @cvmatching_router.post("/matching")
-# only upload .pdf or .docx file
 async def matching_cv_jd(id_jd: str, id_cv:str):
     try:
         data_cv = get_cv_by_id(id_cv)
@@ -20,9 +19,20 @@ async def matching_cv_jd(id_jd: str, id_cv:str):
             return {"message": "CV already matched with a JD"}
         else:
             matched_result = result_matching_cv_jd(id_cv=id_cv,id_jd=id_jd)
-            matched_result = matched_result.get("text")
-            print(type(matched_result))
-            print(matched_result)
-            return {"message": matched_result}
+            return {"message": "Matched successfully", "matched_result": matched_result}
+    except Exception as e:
+        return {"Error": str(e)}
+
+@cvmatching_router.post("/rematching")
+async def rematching_cv_jd(id_jd: str, id_cv:str):
+    try:
+        data_cv = get_cv_by_id(id_cv)
+        # get matched status in database
+        matched_status = data_cv.get("matched_status")
+        if matched_status:
+            matched_result = result_matching_cv_jd(id_cv=id_cv,id_jd=id_jd)
+            return {"message": "Rematched successfully", "matched_result": matched_result}
+        else:
+            return {"message": "CV not matched with a JD yet"}
     except Exception as e:
         return {"Error": str(e)}

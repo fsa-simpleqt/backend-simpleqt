@@ -43,11 +43,13 @@ def load_history_and_matching(cv_need_matching: str, id_jd: str):
         llm=llm,
         prompt=chat_template_cv_matching,
         verbose=True,
-        memory=retrieved_memory,
-        output_parser=parser)
-
-    matched_result = chat_llm_chain_matchcv({"cv": cv_need_matching})
-
+        memory=retrieved_memory,)
+    
+    llm_respond = chat_llm_chain_matchcv.invoke({"cv": cv_need_matching})
+    matched_result = llm_respond.get("text")
+    # convert matched_result to json
+    matched_result = parser.parse(matched_result)
+    
     return matched_result
 
 # def matching cv and jd return percentage of matching using prompt template
@@ -58,6 +60,6 @@ def result_matching_cv_jd(id_cv:str, id_jd:str):
     matched_result = load_history_and_matching(cv_need_matching=cv_content, id_jd=id_jd)
 
     # update matched status and matched_result in database
-    # edit_cv(id_cv, {"matched_status": True, "matched_result": matched_result})
+    edit_cv(id_cv, {"matched_status": True, "matched_result": matched_result})
 
     return matched_result

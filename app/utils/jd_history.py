@@ -37,7 +37,7 @@ def create_jd_history(jd_summary: str, id_jd: str):
         memory=memory,
     )
 
-    chat_llm_chain_jd({"jd_summary": jd_summary})
+    chat_llm_chain_jd.invoke({"jd_summary": jd_summary})
 
     # check if the folder exist
     if not os.path.exists("data/chat_history"):

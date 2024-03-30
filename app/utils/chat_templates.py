@@ -47,26 +47,25 @@ You will be penalized if you make up information or provide inaccurate informati
         HumanMessagePromptTemplate.from_template("""
 Given the CV below, calculate the matching score between the candidate's qualifications and the job requirements in the JD.
 {cv}
-You MUST respond using JSON format. Follow this json format:
-{{
+You MUST ONLY respond JSON using this format:
+(
     "technical_skills":
-        {{ "technical score": "", "explanation": "" }},
+        ( "technical score": "", "explanation": "" ),
     "experience":
-        {{ 
-            {{
+        ( 
+            (
             "project_name": "", 
             "score": "", 
             "explanation": "" 
-            }},
+            ),
         # ... more projects
-        }},
-        {{ "quality score": "" }},
-        {{ "quantity score": "" }},
-        {{ "experience score": "" }}
-        # experience score = quality score * quantity score
-    }},
-    "overall_score": "At the Overall Score section, show the score only."
-}}
+        ),
+        ( "quality score": "" ),
+        ( "quantity score": "" ),
+        ( "experience score": "quality score * quantity score" )
+    ),
+    "overall_score": "Show the SCORE only."
+)
 """),
     ]
 )
