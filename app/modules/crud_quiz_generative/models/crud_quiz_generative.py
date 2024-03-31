@@ -5,7 +5,7 @@ from datetime import datetime
 import pytz
 
 # CRUD operation
-def upload_file_rag_question_tests(file):
+def upload_file_quiz_generative(file):
     re_name_file = str(uuid.uuid4()).replace("-","_") + "_" + file.filename
     # upload file to firebase storage
     blob = firebase_bucket.blob(re_name_file)
@@ -13,15 +13,15 @@ def upload_file_rag_question_tests(file):
     # return gs link
     return f"gs://{firebase_bucket.name}/{re_name_file}"
 
-def remove_file_rag_question_tests(file_url):
+def remove_file_quiz_generative(file_url):
     # remove file from firebase storage using "gs://" link
     blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
     blob.delete()
     return True
 
-def get_all_rag_question_tests():
+def get_all_quiz_generative():
     # Get all documents from the collection
-    docs = firebase_db.collection("rag_question_tests").stream()
+    docs = firebase_db.collection("quiz_generative").stream()
     data = []
     for doc in docs:
         doc_data = doc.to_dict()
@@ -31,17 +31,17 @@ def get_all_rag_question_tests():
 
 def get_question_test_by_id(id):
     # Get a document by id
-    doc = firebase_db.collection("rag_question_tests").document(id).get()
+    doc = firebase_db.collection("quiz_generative").document(id).get()
     return doc.to_dict()
 
 def create_rag_question_test(data):
-    # get file_rag_question_tests
-    file_rag_question_tests = data["question_generator_tests_url"]
+    # get file_quiz_generative
+    file_quiz_generative = data["question_generator_tests_url"]
     # upload file to firebase storage
-    file_url = upload_file_rag_question_tests(file_rag_question_tests)
+    file_url = upload_file_quiz_generative(file_quiz_generative)
 
     # Get the current time in UTC
-    utc_now = datetime.utcnow()
+    utc_now = datetime.now()
     # Specify the Vietnam time zone
     vietnam_timezone = pytz.timezone('Asia/Ho_Chi_Minh')
     # Convert the current time to Vietnam time zone
@@ -52,13 +52,13 @@ def create_rag_question_test(data):
     # add file url to data
     data["question_generator_tests_url"] = file_url
     # Create a new document
-    document_ref = firebase_db.collection("rag_question_tests").add(data)
+    document_ref = firebase_db.collection("quiz_generative").add(data)
     return True
 
 def delete_question_test(id):
     # Delete a file from firebase storage
     file_url = get_question_test_by_id(id)["question_generator_tests_url"]
-    remove_file_rag_question_tests(file_url)
+    remove_file_quiz_generative(file_url)
     # Delete a document by id
-    firebase_db.collection("rag_question_tests").document(id).delete()
+    firebase_db.collection("quiz_generative").document(id).delete()
     return True
