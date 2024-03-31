@@ -1,10 +1,12 @@
 import os
-# from dotenv import load_dotenv
+import json
 
 from app.modules.crud_question_test.models.crud_question_tests import get_question_test_by_id
 from app.utils.text2vector import text2vector
 from app.configs.database import firebase_bucket
 from app.configs.qdrant_db import qdrant_client
+# import urllib library 
+from urllib.request import urlopen 
     
 def compare_vector(description_vector, max_number_of_points=1):
     similarity_list = qdrant_client.search(
@@ -38,8 +40,11 @@ def get_question_tests(text: str):
     # Get corresponding document url in Firebase and download them
     question_test_url_list = []
     for point in formatted_similarity_list:
-        id = point.get("id")
-        question_tests_url = get_question_test_by_id(id).get("question_tests_url")
+        id_question_tests = point.get("id")
         match_score = point.get("score")
-        question_test_url_list.append({"id": id, "question_tests_url": question_tests_url, "match_score": match_score})
-    return question_test_url_list
+        question_tests_url = get_question_test_by_id(id_question_tests).get("question_tests_url")
+        # store the response of URL 
+        response = urlopen(question_tests_url)
+        data_question_tests_json = json.loads(response.read())
+        question_test_url_list.append({"id_question_tests": id_question_tests, "question_tests_url": question_tests_url, "match_score": match_score, "data_question_tests_json": data_question_tests_json})
+    return question_test_url_list[0]
