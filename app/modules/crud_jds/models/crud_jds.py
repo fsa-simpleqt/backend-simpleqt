@@ -19,17 +19,17 @@ def get_all_jds():
         data.append(doc_data)
     return data
 
-def get_jd_by_id(id_jd):
+def get_jd_by_id(id_jd: str):
     # Get a document by id
     doc = firebase_db.collection("jds").document(id_jd).get()
     return doc.to_dict()
 
-def get_jd_summary_by_id(id_jd):
+def get_jd_summary_by_id(id_jd: str):
     # Get a document by id
     doc = firebase_db.collection("jds").document(id_jd).get()
     return doc.to_dict()["jd_summary"]
 
-def create_jd(data):
+def create_jd(data: dict):
     # get file_jds
     file_jds = data["jd_text"]
     # change file name to uuid
@@ -55,6 +55,12 @@ def create_jd(data):
     data["jd_summary"] = summary_jd_text
     # add created_at
     data["created_at"] = vietnam_now
+    # add generate_question_tests
+    data['is_generate_question_tests'] = False
+    # add have_question_tests
+    data['have_question_tests'] = False
+    # add id_question_tests
+    data['id_question_tests'] = None
     # Create a new document
     document_ref = firebase_db.collection("jds").add(data)
     document_id = document_ref[1].id
@@ -71,11 +77,17 @@ def create_jd(data):
     create_jd_history(summary_jd_text, document_id)
     return True
 
-def delete_jd(id):
+def edit_jds(id_jd: str, data_change: dict):
+    # Update a document
+    firebase_db.collection("jds").document(id_jd).update(data_change)
+
+    return True
+
+def delete_jd(id_jd: str):
     # Delete history of JD
-    os.remove(f"data/chat_history/{id}_chat_history.json")
+    os.remove(f"data/chat_history/{id_jd}_chat_history.json")
     # Delete a document by id
-    firebase_db.collection("jds").document(id).delete()
+    firebase_db.collection("jds").document(id_jd).delete()
     # Delete corresponding vector from Qdrant
     qdrant_client.delete(
         collection_name="jds",
@@ -84,7 +96,7 @@ def delete_jd(id):
                 must=[
                     models.FieldCondition(
                         key="id",
-                        match=models.MatchValue(value=id),
+                        match=models.MatchValue(value=id_jd),
                     ),
                 ],
             )

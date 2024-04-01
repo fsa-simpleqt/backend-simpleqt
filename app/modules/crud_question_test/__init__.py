@@ -33,8 +33,11 @@ async def add_question_test(id_jd: str, description: str = Form(...), file_quest
 # [DELETE] question test by id
 @crud_question_tests_router.delete("/{id}")
 async def delete_question_test_by_id(id: str):
-    # Delete a document by id
-    if delete_question_test(id):
-        return {"message": f"Question test have id {id} deleted successfully"}
-    else:
-        return {"message": "Error"}
+    try:
+        # Delete a document by id
+        if delete_question_test(id):
+            return {"message": f"Question test have id {id} deleted successfully"}
+        else:
+            return {"message": "Error"}
+    except Exception as e:
+        return {"message": "Error", "error": str(e)}
