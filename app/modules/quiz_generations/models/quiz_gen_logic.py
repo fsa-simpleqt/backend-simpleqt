@@ -23,7 +23,7 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY")
 QDRANT_URL = os.environ.get("QDRANT_URL")
 
-def question_rag(jobtext: str):
+def generate_question(jobtext: str):
     llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY, request_timeout=120)
 
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
