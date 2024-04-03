@@ -1,23 +1,31 @@
-FROM python:3.11.8-bullseye
+FROM python:3.10.13-slim-bookworm
 
-ENV HOME=/home/user \
+# Set environment variables
+ENV CLOUD_HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
+
+# Setup new user named user with UID 1000
+RUN useradd -m -u 1000 user
+
+
+# Define working directory
+WORKDIR $CLOUD_HOME/app
+
+# Switch to user
+USER user
 
 RUN apt-get update && apt-get install libgl1 -y
 
-# Set up a new user named "user" with user ID 1000
-RUN useradd -m -u 1000 user
+# Copy the requirements file
+COPY --chown=user:user requirements.txt $CLOUD_HOME/app
 
-# Switch to the "user" user
-USER user
+# Install the requirements
+RUN pip install -r requirements.txt
 
-WORKDIR $HOME/code
+# Copy the rest of the files
+COPY --chown=user:user . $CLOUD_HOME/app
 
-COPY --chown=user:user . .
+# Expose the port
+EXPOSE 7860/tcp
 
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir --upgrade -r $HOME/code/requirements.txt
-
-EXPOSE 7860
-
-CMD python main.py
+CMD ["python", "main.py"]
