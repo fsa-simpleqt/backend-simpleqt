@@ -15,18 +15,11 @@ async def index():
 # [POST] add question test
 @crud_quiz_generative_router.post("/")
 # only upload pdf or json file
-async def add_question_generator(id_jd: str, file_question_generator_tests: UploadFile = File(..., description="The question generator test file")):
+async def add_quiz_generation(id_jd: str, json_quiz_generation_tests: dict):
     try:
-        question_tests_upload_type = file_question_generator_tests.filename.split(".")[-1]
-        # check if file is json
-        if question_tests_upload_type == "json":
-            # create a new document
-            if create_quiz_generation({"id_jd": id_jd, "question_generator_tests_url": file_question_generator_tests}):
-                return {"message": "Question test added successfully"}
-            else:
-                return {"error": str(e)}
-        else:
-            return {"message": "File type not supported"}
+        data_quiz_generation = {"id_jd": id_jd, "json_quiz_generation_tests": json_quiz_generation_tests}
+        create_quiz_generation(data_quiz_generation)
+        return {"message": "Created generation question test successfully"}
     except Exception as e:
         return {"message": "Error", "error": str(e)}
 

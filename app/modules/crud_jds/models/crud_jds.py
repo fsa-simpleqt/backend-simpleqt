@@ -31,7 +31,7 @@ def get_jd_summary_by_id(id_jd: str):
 
 def create_jd(data: dict):
     # get file_jds
-    file_jds = data["jd_text"]
+    file_jds = data["jd_text_file"]
     # change file name to uuid
     re_name_file = str(uuid.uuid4()).replace("-","_") + "_" + file_jds.filename
     # save uploaded file to tmp folder
@@ -50,19 +50,26 @@ def create_jd(data: dict):
     # Convert the current time to Vietnam time zone
     vietnam_now = utc_now.replace(tzinfo=pytz.utc).astimezone(vietnam_timezone).strftime("%Y-%m-%d %H:%M:%S")
 
-    data["jd_text"] = jd_text
+    # create a new document
+    firebase_save_data = {}
+    # add jd_text to firebase_save_data
+    firebase_save_data["jd_text"] = jd_text
+    # add jd_summary to firebase_save_data
     summary_jd_text = summary_jd(jd_text)
-    data["jd_summary"] = summary_jd_text
-    # add created_at
-    data["created_at"] = vietnam_now
-    # add generate_question_tests
-    data['is_generate_question_tests'] = False
-    # add have_question_tests
-    data['have_question_tests'] = False
-    # add id_question_tests
-    data['id_question_tests'] = None
+    firebase_save_data["jd_summary"] = summary_jd_text
+    # add position_applied_for to firebase_save_data
+    firebase_save_data["position_applied_for"] = data["position_applied_for"]
+    # add created_at to firebase_save_data
+    firebase_save_data["created_at"] = vietnam_now
+    # add generate_question_tests to firebase_save_data
+    firebase_save_data['is_generate_question_tests'] = False
+    # add have_question_tests to firebase_save_data
+    firebase_save_data['have_question_tests'] = False
+    # add id_question_tests to firebase_save_data
+    firebase_save_data['id_question_tests'] = None
+
     # Create a new document
-    document_ref = firebase_db.collection("jds").add(data)
+    document_ref = firebase_db.collection("jds").add(firebase_save_data)
     document_id = document_ref[1].id
     
     # Upload vector to Qdrant

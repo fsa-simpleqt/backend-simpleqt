@@ -1,5 +1,4 @@
 from fastapi import APIRouter, UploadFile, File, Form
-from fastapi.responses import StreamingResponse
 
 from app.modules.crud_cvs.models.crud_cvs import get_all_cvs, create_cv, delete_cv
 

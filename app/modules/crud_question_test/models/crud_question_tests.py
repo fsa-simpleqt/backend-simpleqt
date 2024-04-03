@@ -71,8 +71,6 @@ def create_question_test(data):
     
     # create a new document
     firebase_save_data = {}
-    # add id_jd to firebase_save_data
-    firebase_save_data["id_jd"] = data["id_jd"]
     # add vietnam_now to firebase_save_data
     firebase_save_data["created_at"] = vietnam_now
     # add question_tests_url to firebase_save_data
