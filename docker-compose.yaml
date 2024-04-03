@@ -4,10 +4,9 @@ services:
   app: 
     build: .
     container_name: "cv_container"
-    image: "cv-image"
     ports:
       - 7860:7860
     volumes:
-      - .:/code
+      - .:/app
     env_file:
       - .env
