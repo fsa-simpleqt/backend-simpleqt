@@ -7,14 +7,13 @@ ENV CLOUD_HOME=/home/user \
 # Setup new user named user with UID 1000
 RUN useradd -m -u 1000 user
 
-
 # Define working directory
 WORKDIR $CLOUD_HOME/app
 
+RUN apt-get update && apt-get install libgl1 -y
+
 # Switch to user
 USER user
-
-RUN apt-get update && apt-get install libgl1 -y
 
 # Copy the requirements file
 COPY --chown=user:user requirements.txt $CLOUD_HOME/app
