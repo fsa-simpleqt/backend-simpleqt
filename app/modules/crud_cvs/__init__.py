@@ -14,7 +14,7 @@ async def index():
 # [POST] add CV
 @crud_cvs_router.post("/")
 # only upload pdf or docx file
-async def add_cv(apply_jd_id: str, files_cv: list[UploadFile] = File(..., description="Upload cv file (upload .pdf or .docx)")):
+async def add_cv(apply_jd_id: str = Form(...), files_cv: list[UploadFile] = File(..., description="Upload cv file (upload .pdf or .docx)")):
     try:
         count_sucessful = 0
         count_failed = 0
@@ -36,9 +36,9 @@ async def add_cv(apply_jd_id: str, files_cv: list[UploadFile] = File(..., descri
 
 # [DELETE] CV by id
 @crud_cvs_router.delete("/{id}")
-async def delete_cv_by_id(id: str):
+async def delete_cv_by_id(id_cvs: str):
     # Delete a document by id
-    if delete_cv(id):
-        return {"message": f"CV have id {id} deleted successfully"}
+    if delete_cv(id_cvs):
+        return {"message": f"CV have id {id_cvs} deleted successfully"}
     else:
         return {"message": "Error while deleting CV file from database"}

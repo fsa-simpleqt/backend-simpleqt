@@ -30,11 +30,11 @@ async def add_jd(position_applied_for: str = Form(...), file_jd: UploadFile = Fi
         return {"message": "Error", "error": str(e)}
 
 # [DELETE] JD by id
-@crud_jds_router.delete("/{id}")
-async def delete_jd_by_id(id: str):
+@crud_jds_router.delete("/{id_jds}")
+async def delete_jd_by_id(id_jds: str):
     
     # Get all CVs that apply for this JD
-    cv_list = get_all_cv_by_apply_jd_id(id)
+    cv_list = get_all_cv_by_apply_jd_id(id_jds)
     # check cv_list is not empty
     count_cv = len(cv_list)
     print(count_cv)
@@ -43,7 +43,7 @@ async def delete_jd_by_id(id: str):
         for cv in cv_list:
             delete_cv(cv["id_cv"])
     # Delete a document by id
-    if delete_jd(id):
-        return {"message": f"JD have id {id} deleted successfully"}
+    if delete_jd(id_jds):
+        return {"message": f"JD have id {id_jds} deleted successfully"}
     else:
         return {"message": "Error"}

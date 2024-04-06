@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Form
 
 from app.modules.matching_cv.models.matching_cv_logic import result_matching_cv_jd, matchingcv_testzone
 from app.modules.crud_cvs.models.crud_cvs import get_cv_by_id
@@ -11,7 +11,7 @@ async def index():
     return {"message": "Welcome to CV matching page"}
 
 @cvmatching_router.post("/matching")
-async def matching_cv_jd(id_jd: str, id_cv:str):
+async def matching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
     try:
         data_cv = get_cv_by_id(id_cv)
         # get matched status in database
@@ -25,7 +25,7 @@ async def matching_cv_jd(id_jd: str, id_cv:str):
         return {"Error": str(e)}
 
 @cvmatching_router.post("/rematching")
-async def rematching_cv_jd(id_jd: str, id_cv:str):
+async def rematching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
     try:
         data_cv = get_cv_by_id(id_cv)
         # get matched status in database
@@ -39,5 +39,5 @@ async def rematching_cv_jd(id_jd: str, id_cv:str):
         return {"Error": str(e)}
 
 @cvmatching_router.post("/matchingcv_testzone")
-async def matching_cv_jd_testzone(id_jd: str, id_cv:str):
+async def matching_cv_jd_testzone(id_jd: str = Form(...), id_cv:str = Form(...)):
     pass
