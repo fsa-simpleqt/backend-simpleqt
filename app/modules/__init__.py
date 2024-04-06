@@ -1,5 +1,5 @@
 import os
-from fastapi import APIRouter,HTTPException
+from fastapi import APIRouter, Form
 from fastapi.responses import FileResponse
 import threading
 import time
@@ -35,7 +35,7 @@ async def index():
 
 # download from "gs://" link
 @modules_router.get("/download_file_gs_link")
-async def download_file_gs_link(gs_link:str):
+async def download_file_gs_link(gs_link:str = Form(...)):
     # Get the blob name from the gs link
     file_name = gs_link.split(f"gs://{firebase_bucket.name}/")[1]
     blob = firebase_bucket.blob(file_name)
