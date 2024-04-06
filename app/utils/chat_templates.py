@@ -19,7 +19,7 @@ You MUST ONLY respond JSON using this format:
         "explanation": "" 
         ),
     "projects":
-        ( 
+        [ 
             (
             "project_name": "", 
             "relevance_score": "",
@@ -28,10 +28,8 @@ You MUST ONLY respond JSON using this format:
             "explanation": "" 
             ),
         # ... more projects
-        ),
-        ( "number_of_projects": "" ),
-        ( "quantity_score": "" ),
-        ( "explanation": "" )
+        ],
+    "explanation": ""
 )
 """
     return input_data_cv_matching

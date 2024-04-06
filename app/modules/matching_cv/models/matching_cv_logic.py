@@ -70,8 +70,8 @@ def load_history_and_matching(cv_need_matching: str, id_jd: str):
     
     input_data = input_data_cv_matching(cv_need_matching=cv_need_matching, jd_summary=jd_summary)
     
-    llm_respond = chat_llm_chain_matchcv.invoke({"input_data_cv_matching": input_data})
-    matched_result = llm_respond.get("text")
+    llm_response = chat_llm_chain_matchcv.invoke({"input_data_cv_matching": input_data})
+    matched_result = llm_response.get("text")
     # convert matched_result to json
     matched_result = parser.parse(matched_result)
     
