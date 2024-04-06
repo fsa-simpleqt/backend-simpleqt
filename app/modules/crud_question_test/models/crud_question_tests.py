@@ -93,7 +93,7 @@ def create_question_test(data):
     point = models.PointStruct(id=points_count+1, payload=payload, vector=description_vector)
     qdrant_client.upsert(collection_name="question_tests", points=[point])
 
-    return True
+    return firebase_save_data
 
 def delete_question_test(id_question_tests):
     # Delete a file from firebase storage

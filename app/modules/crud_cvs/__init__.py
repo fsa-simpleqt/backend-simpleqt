@@ -18,20 +18,21 @@ async def add_cv(apply_jd_id: str = Form(...), files_cv: list[UploadFile] = File
     try:
         count_sucessful = 0
         count_failed = 0
+        cv_list = []
         for file_cv in files_cv:
             file_cv_type = file_cv.filename.split(".")[-1]
-            if file_cv_type in ["pdf", "docx"]:
-            #     # create a new document
-            #     if create_cv({"apply_jd_id": apply_jd_id, "cv_content": file_cv}):
-            #         count_sucessful += 1
-            #     else:
-            #         count_failed += 1
+            if file_cv_type in ["pdf", "docx", "doc", "PDF", "DOCX", "DOC"]:
+                # create a new document
+                firebase_save_data = create_cv({"apply_jd_id": apply_jd_id, "cv_content": file_cv})
+                cv_list.append(firebase_save_data)
                 count_sucessful += 1
             else:
                 count_failed += 1
+                next
         return {"message": "CVs added successfully",
                 "count_sucessful": count_sucessful,
-                "count_failed": count_failed}
+                "count_failed": count_failed,
+                "cv_list": cv_list}
     except Exception as e:
         return {"message": str(e)}
 
