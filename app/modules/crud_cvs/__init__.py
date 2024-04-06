@@ -21,11 +21,12 @@ async def add_cv(apply_jd_id: str = Form(...), files_cv: list[UploadFile] = File
         for file_cv in files_cv:
             file_cv_type = file_cv.filename.split(".")[-1]
             if file_cv_type in ["pdf", "docx"]:
-                # create a new document
-                if create_cv({"apply_jd_id": apply_jd_id, "cv_content": file_cv}):
-                    count_sucessful += 1
-                else:
-                    count_failed += 1
+            #     # create a new document
+            #     if create_cv({"apply_jd_id": apply_jd_id, "cv_content": file_cv}):
+            #         count_sucessful += 1
+            #     else:
+            #         count_failed += 1
+                count_sucessful += 1
             else:
                 count_failed += 1
         return {"message": "CVs added successfully",

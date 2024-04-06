@@ -4,7 +4,7 @@ FROM python:3.10.13-slim-bookworm
 ENV CLOUD_HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
-RUN apt-get update && apt-get install libgl1 -y
+RUN apt-get update && apt-get install libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 -y
 
 # Setup new user named user with UID 1000
 RUN useradd -m -u 1000 user
