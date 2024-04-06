@@ -82,7 +82,7 @@ def create_jd(data: dict):
 
     # Create JD history
     create_jd_history(summary_jd_text, document_id)
-    return True
+    return firebase_save_data
 
 def edit_jds(id_jd: str, data_change: dict):
     # Update a document

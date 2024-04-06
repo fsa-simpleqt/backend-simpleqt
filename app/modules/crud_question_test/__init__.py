@@ -20,10 +20,8 @@ async def add_question_test(description: str = Form(...), file_question_tests: U
         # check if file is pdf or json
         if question_tests_upload_type == "pdf" or question_tests_upload_type == "json":
             # create a new document
-            if create_question_test({"question_tests_description": description, "file_question_tests": file_question_tests, "question_tests_upload_type": question_tests_upload_type}):
-                return {"message": "Question test added successfully"}
-            else:
-                return {"message": "Error", "error": str(e)}
+            firebase_save_data = create_question_test({"question_tests_description": description, "file_question_tests": file_question_tests, "question_tests_upload_type": question_tests_upload_type})
+            return {"message": "Question test added successfully", "question_tests_data": firebase_save_data}
         else:
             return {"message": "File type not supported"}
     except Exception as e:

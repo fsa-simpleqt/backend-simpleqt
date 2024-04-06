@@ -20,10 +20,9 @@ async def add_jd(position_applied_for: str = Form(...), file_jd: UploadFile = Fi
         file_jd_type = file_jd.filename.split(".")[-1]
         if file_jd_type in ["txt"]:
             # create a new document
-            if create_jd({"position_applied_for": position_applied_for,"jd_text_file": file_jd}):
-                return {"message": "JD added successfully"}
-            else:
-                return {"message": "Error while adding JD file to database"}
+            firebase_save_data = create_jd({"position_applied_for": position_applied_for,"jd_text_file": file_jd})
+            return {"message": "JD added successfully",
+                    "jd_data": firebase_save_data}
         else:
             return {"message": "File type not supported"}
     except Exception as e:
