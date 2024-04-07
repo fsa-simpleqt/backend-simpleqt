@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Form, HTTPException
 
 from app.modules.matching_cv.models.matching_cv_logic import result_matching_cv_jd, matchingcv_testzone
 from app.modules.crud_cvs.models.crud_cvs import get_cv_by_id
@@ -22,7 +22,7 @@ async def matching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
             matched_result = result_matching_cv_jd(id_cv=id_cv,id_jd=id_jd)
             return {"message": "Matched successfully", "matched_result": matched_result}
     except Exception as e:
-        return {"Error": str(e)}
+        return HTTPException(status_code=400, detail=f"{str(e)}")
 
 @cvmatching_router.post("/rematching")
 async def rematching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
@@ -36,7 +36,7 @@ async def rematching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
         else:
             return {"message": "CV not matched with a JD yet"}
     except Exception as e:
-        return {"Error": str(e)}
+        return HTTPException(status_code=400, detail=f"{str(e)}")
 
 @cvmatching_router.post("/matchingcv_testzone")
 async def matching_cv_jd_testzone(id_jd: str = Form(...), id_cv:str = Form(...)):

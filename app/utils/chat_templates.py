@@ -10,7 +10,6 @@ This is repeat JD need to matching with CV:
 {jd_summary}
 
 YOUR TASK is CALCULATING the matching score between the candidate's qualifications in the CV and the job requirements in the JD using SCORING GUIDE.
-
 You MUST ONLY respond JSON using this format:
 (
     "technical_skills":
@@ -55,13 +54,13 @@ For each section provide the matching score as a numeric value between 0-100, al
         For each project, prioritize the relevance, then the level of difficulty, then the duration.
         RELEVANCE section: 
             Evaluated based on the relevance of the projects to the job.
-            For this section, you must consider how directly the project's domain, technologies, and core tasks align with the target job requirements.
-            Project with more relevant experience must get higher score.
+            For this section, you must consider how closely the project's domain, technologies, and core tasks align with the job requirements.
+            Projects demonstrating direct application of skills and experience related to the required technical competencies, frameworks, programming languages and other key areas mentioned in the job description must get higher scores.
             Score range:
-                from 0 - 25: Poor match
-                from 25 - 50: Fair match
-                from 50 - 80: Good match
-                from 80 - 100: Excellent match
+                from 0 to 25: Poor match
+                from 25 to 50: Fair match
+                from 50 to 80: Good match
+                from 80 to 100: Excellent match
         LEVEL OF DIFFICULTY section:
             Evaluated based on the level of difficulty of the projects.
             For this section, you must consider the complexity of the projects, the technologies used, and the size of the projects.
@@ -69,8 +68,8 @@ For each section provide the matching score as a numeric value between 0-100, al
                 from 50 to 60: simple projects
                 from 60 to 70: medium projects
                 from 70 to 80: intermediate projects
-                from 80 to 90: advanced projects
-                from 90 to 100: impossible projects
+                from 80 to 90: complex projects
+                from 90 to 100: highly complex projects
         DURATION section:
             Evaluated based on the duration of the projects.
             For this section, you must consider the duration of the projects.
@@ -79,17 +78,8 @@ For each section provide the matching score as a numeric value between 0-100, al
                 from 60 to 75: 3 to 6 months
                 from 75 to 90: 6 to 12 months
                 from 90 to 100: more than 12 months
-        Give a Quantity score to the experience section
-            QUANTITY SCORE is calculated by the NUMBER of PROJECTS:
-            Score range:
-                from 0.6 to 0.7: 1 to 3 projects
-                from 0.7 to 0.8: 3 to 5 projects
-                from 0.8 to 0.9: 5 to 7 projects
-                from 0.9 to 1.0: more than 7 projects
 """),
-
         MessagesPlaceholder(variable_name="chat_history"),
-
         HumanMessagePromptTemplate.from_template("""{input_data_cv_matching}"""),
     ]
 )
@@ -113,17 +103,11 @@ chat_template_summary_jd = ChatPromptTemplate.from_messages(
     [
         SystemMessage(
             content=("""To enhance your prompt for summarizing job descriptions (JDs) and extracting minimal requirements, the goal is to guide the response towards generating summaries that closely align with the format CVs typically present technical skills and other qualifications. This can improve the matching process between CVs and JD summaries by focusing on the structured extraction of skills and qualifications that candidates are likely to list on their CVs. Here's a revised version of your prompt:
-
 Given the job description, our objective is to condense and structure it into four distinct sections with a strategic emphasis on the distribution. This approach aims to facilitate a more effective match with candidates' CVs by aligning the summary's format with common CV presentations, especially regarding technical skills. Please summarize as follows:
-
     Job Responsibilities: Concisely outline the core duties and projects involved in the role. Focus on what the candidate will primarily engage in, using action-oriented language that matches the phrasing candidates often use to describe their experiences in CVs.
-
     Required Hard Skills: This is the most crucial section. Please list the essential technical skills, educational background, and any specialized knowledge required for the job. Structure this information in bullet points or numbered lists, reflecting how candidates typically itemize their skills in CVs. Also, include relevant software, tools, and technologies, ensuring that this section comprehensively covers the technical qualifications needed.
-
     Experience Requirements: Detail the desired level of experience and specific types of previous work or projects that are significant for the role. Use clear, quantifiable criteria (e.g., "3+ years of experience in...") to mirror the direct way candidates state their work history and accomplishments in CVs.
-
     Soft Skills in Context: Enumerate the soft skills crucial for success in the role, such as teamwork, communication, and problem-solving abilities. Phrase these in a way that reflects how they might be demonstrated or applied in a work setting, aligning with how candidates might describe these skills in their CVs.
-
     Additional Notes: Include any preferred qualifications or aspects not covered in the main sections. This may involve certifications, languages, or personal attributes that would be a plus, offering a holistic view of the ideal candidate.
 """
             )

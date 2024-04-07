@@ -1,9 +1,7 @@
-import os
 import json
 
 from app.modules.crud_question_test.models.crud_question_tests import get_question_test_by_id
 from app.utils.text2vector import text2vector
-from app.configs.database import firebase_bucket
 from app.configs.qdrant_db import qdrant_client
 # import urllib library 
 from urllib.request import urlopen 

@@ -1,5 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Form
-from typing import Annotated
+from fastapi import APIRouter, HTTPException, Form
 
 from app.modules.crud_quiz_generations.models.crud_quiz_generations import get_all_quiz_generations, create_quiz_generation, delete_quiz_generation
 
@@ -21,13 +20,14 @@ async def add_quiz_generation(json_quiz_generation_tests: dict = Form(...), id_j
         create_quiz_generation(data_quiz_generation)
         return {"message": "Created generation question test successfully"}
     except Exception as e:
-        return {"message": "Error", "error": str(e)}
+        return HTTPException(status_code=400, detail=f"{str(e)}")
 
 # [DELETE] question test by id
 @crud_quiz_generative_router.delete("/{id_quiz_generative}")
 async def delete_question_test_by_id(id_quiz_generative: str):
-    # Delete a document by id
-    if delete_quiz_generation(id_quiz_generative):
-        return {"message": f"Question test have id {id_quiz_generative} deleted successfully"}
-    else:
-        return {"message": "Error"}
+    try:
+        # Delete a document by id
+        if delete_quiz_generation(id_quiz_generative):
+            return {"message": f"Question test have id {id_quiz_generative} deleted successfully"}
+    except Exception as e:
+        return HTTPException(status_code=400, detail=f"{str(e)}")
