@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 
 from app.modules.crud_question_test.models.crud_question_tests import get_all_question_tests, create_question_test, delete_question_test
 
@@ -25,7 +25,7 @@ async def add_question_test(description: str = Form(...), file_question_tests: U
         else:
             return {"message": "File type not supported"}
     except Exception as e:
-        return {"message": "Error", "error": str(e)}
+        return HTTPException(status_code=400, detail=f"{str(e)}")
 
 # [DELETE] question test by id
 @crud_question_tests_router.delete("/{id_question_test}")
@@ -37,4 +37,4 @@ async def delete_question_test_by_id(id_question_test: str):
         else:
             return {"message": "Error"}
     except Exception as e:
-        return {"message": "Error", "error": str(e)}
+        return HTTPException(status_code=400, detail=f"{str(e)}")

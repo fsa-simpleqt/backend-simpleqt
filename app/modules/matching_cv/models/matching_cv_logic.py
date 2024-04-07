@@ -1,12 +1,12 @@
 import os
 import json
 
-from dotenv import load_dotenv
-from app.modules.crud_jds.models.crud_jds import get_jd_summary_by_id
+from app.modules.crud_jds.models.crud_jds import get_jd_summary_by_id, get_jd_by_id
 from app.modules.crud_cvs.models.crud_cvs import get_cv_content_by_id, edit_cv
 from app.utils.chat_templates import chat_template_cv_matching, input_data_cv_matching
 from app.configs.llm_model import llm
 from app.utils.jd_history import create_jd_history
+from urllib.request import urlopen
 
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import LLMChain
@@ -15,26 +15,32 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain.schema import messages_from_dict
 parser = JsonOutputParser()
 
-def change_llm(jd_summary, id_jd):
-    # delete json file
-    os.remove(f"data/chat_history/{id_jd}_chat_history.json")
-    # create new json file
-    create_jd_history(jd_summary, id_jd)
+def calculate_quantity_score(projects):
+    n = len(projects)
+    quantity_score = 0.45 + 0.05 * n
+    if quantity_score > 0.9:
+        return 0.9
+    else:
+        return quantity_score
 
 def calculate_matching_score(result):
-    scores = []
-    w1 = 0.8
-    w2 = 0.15
-    w3 = 0.05
-    # Quantity score
-    S_quantity = float(result['quantity_score'])
+    w_relevance_score = 0.8
+    w_difficulty_score = 0.15
+    w_duration_score = 0.05
+
     # Technical score
-    technical_score = float(result['technical_skills']['technical_score'])
-    for project in result['projects']:
-        s1 = int(project['relevance_score'])
-        s2 = int(project['difficulty_score'])
-        s3 = int(project['duration_score'])
-        scores.append(w1 * s1 + w2 * s2 + w3 * s3)
+    technical_score = float(result["technical_skills"]["technical_score"])
+    # Quantity score
+    projects = result["projects"]
+    S_quantity = calculate_quantity_score(projects)
+
+    # Project score
+    scores = []
+    for project in result["projects"]:
+        s1 = float(project["relevance_score"])
+        s2 = float(project["difficulty_score"])
+        s3 = float(project["duration_score"])
+        scores.append(w_relevance_score * s1 + w_difficulty_score * s2 + w_duration_score * s3)
     total_score = sum(scores)
     score_project = 0
     for score in scores:
@@ -48,15 +54,10 @@ def calculate_matching_score(result):
 
 def load_history_and_matching(cv_need_matching: str, id_jd: str):
     jd_summary = get_jd_summary_by_id(id_jd=id_jd)
+    chat_history_url = get_jd_by_id(id_jd).get("chat_history_url")
 
-    # Change llm only - testing zone
-    # change_llm(jd_summary, id_jd)
-
-    save_json_name = id_jd + "_chat_history.json"
-    save_json_path = os.path.join("data/chat_history", save_json_name)
-
-    with open(save_json_path, 'r') as f:
-        retrieve_from_db = json.load(f)
+    response = urlopen(chat_history_url)
+    retrieve_from_db = json.loads(response.read())
 
     retrieved_messages = messages_from_dict(retrieve_from_db)
     retrieved_chat_history = ChatMessageHistory(messages=retrieved_messages)
@@ -84,11 +85,11 @@ def result_matching_cv_jd(id_cv:str, id_jd:str):
     # Result matching cv and jd
     matched_result = load_history_and_matching(cv_need_matching=cv_content, id_jd=id_jd)
 
-    calculated_score = calculate_matching_score(matched_result)
+    matching_score = calculate_matching_score(matched_result)
 
     # update matched status and matched_result in database
-    edit_cv(id_cv, {"matched_status": True, "matched_result": matched_result, "calculated_score": calculated_score})
-    return {"matched_result": matched_result, "calculated_score": calculated_score}
+    edit_cv(id_cv, {"matched_status": True, "matched_result": matched_result, "matching_score": matching_score})
+    return {"matched_result": matched_result, "matching_score": matching_score}
 
 def matchingcv_testzone(cv_need_matching: str, jd_summary:str):
     pass

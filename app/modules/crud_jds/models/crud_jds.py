@@ -7,7 +7,7 @@ from app.configs.database import firebase_db
 from datetime import datetime
 from app.utils.summary_jd import summary_jd
 from app.utils.text2vector import text2vector
-from app.utils.jd_history import create_jd_history
+from app.utils.jd_history import create_jd_history, remove_file_chat_history
 
 def get_all_jds():
     # Get all documents from the collection
@@ -22,7 +22,10 @@ def get_all_jds():
 def get_jd_by_id(id_jd: str):
     # Get a document by id
     doc = firebase_db.collection("jds").document(id_jd).get()
-    return doc.to_dict()
+    # add id_jd to doc_data
+    doc_data = doc.to_dict()
+    doc_data["id_jd"] = doc.id
+    return doc_data
 
 def get_jd_summary_by_id(id_jd: str):
     # Get a document by id
@@ -81,8 +84,16 @@ def create_jd(data: dict):
     qdrant_client.upsert(collection_name="jds", points=[point])
 
     # Create JD history
-    create_jd_history(summary_jd_text, document_id)
-    return firebase_save_data
+    history_save_data = {}
+    chat_history_url, save_json_name = create_jd_history(summary_jd_text, document_id)
+    # add chat_history_url to firebase_save_data
+    history_save_data["chat_history_url"] = chat_history_url
+    # add chat_history_file_name to firebase_save_data
+    history_save_data["chat_history_file_name"] = save_json_name
+    # Update a document
+    firebase_db.collection("jds").document(document_id).update(history_save_data)
+
+    return document_id
 
 def edit_jds(id_jd: str, data_change: dict):
     # Update a document
@@ -92,7 +103,8 @@ def edit_jds(id_jd: str, data_change: dict):
 
 def delete_jd(id_jd: str):
     # Delete history of JD
-    os.remove(f"data/chat_history/{id_jd}_chat_history.json")
+    chat_history_file_name = get_jd_by_id(id_jd).get("chat_history_file_name")
+    remove_file_chat_history(chat_history_file_name)
     # Delete a document by id
     firebase_db.collection("jds").document(id_jd).delete()
     # Delete corresponding vector from Qdrant

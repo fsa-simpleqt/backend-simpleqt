@@ -74,7 +74,10 @@ def get_all_cv_by_apply_jd_id(apply_jd_id):
 def get_cv_by_id(id):
     # Get a document by id
     doc = firebase_db.collection("cvs").document(id).get()
-    return doc.to_dict()
+    # add id_cv to doc_data
+    doc_data = doc.to_dict()
+    doc_data["id_cv"] = doc.id
+    return doc_data
 
 def create_cv(data):
     # get file_cv
@@ -125,12 +128,10 @@ def create_cv(data):
     # add matched_result
     firebase_save_data["matched_result"] = None
     # Create a new document
-    firebase_db.collection("cvs").add(firebase_save_data)
+    document_ref = firebase_db.collection("cvs").add(firebase_save_data)
+    document_id = document_ref[1].id
 
-    # add apply_position
-    apply_jd_id = data["apply_jd_id"]
-    firebase_save_data['apply_position'] = get_jd_by_id(apply_jd_id).get("position_applied_for")
-    return firebase_save_data
+    return document_id
 
 def delete_cv(id):
     # Delete a file from firebase storage
