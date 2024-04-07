@@ -8,7 +8,7 @@ from app.configs.qdrant_db import qdrant_client
 # import urllib library 
 from urllib.request import urlopen 
     
-def compare_vector(description_vector, max_number_of_points=1):
+def compare_vector(description_vector, max_number_of_points=3):
     similarity_list = qdrant_client.search(
         collection_name="question_tests",
         query_vector=description_vector,
@@ -32,8 +32,12 @@ def get_question_tests(text: str):
         id_question_tests = point.get("id")
         match_score = point.get("score")
         question_tests_url = get_question_test_by_id(id_question_tests).get("question_tests_url")
-        # store the response of URL 
-        response = urlopen(question_tests_url)
-        data_question_tests_json = json.loads(response.read())
-        question_test_url_list.append({"id_question_tests": id_question_tests, "question_tests_url": question_tests_url, "match_score": match_score, "data_question_tests_json": data_question_tests_json})
-    return question_test_url_list[0]
+        # check if question_tests_url have file extension .json
+        if question_tests_url.split(".")[-1] == "json":
+            # store the response of URL 
+            response = urlopen(question_tests_url)
+            data_question_tests_json = json.loads(response.read())
+            question_test_url_list.append({"id_question_tests": id_question_tests, "question_tests_url": question_tests_url, "match_score": match_score, "data_question_tests_json": data_question_tests_json})
+        else:
+            question_test_url_list.append({"id_question_tests": id_question_tests, "question_tests_url": question_tests_url, "match_score": match_score})
+    return question_test_url_list

@@ -127,6 +127,9 @@ def create_cv(data):
     # Create a new document
     firebase_db.collection("cvs").add(firebase_save_data)
 
+    # add apply_position
+    apply_jd_id = data["apply_jd_id"]
+    firebase_save_data['apply_position'] = get_jd_by_id(apply_jd_id).get("position_applied_for")
     return firebase_save_data
 
 def delete_cv(id):
