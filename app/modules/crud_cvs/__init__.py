@@ -37,7 +37,7 @@ async def add_cv(apply_jd_id: str = Form(...), files_cv: list[UploadFile] = File
         return {"message": str(e)}
 
 # [DELETE] CV by id
-@crud_cvs_router.delete("/{id}")
+@crud_cvs_router.delete("/{id_cvs}")
 async def delete_cv_by_id(id_cvs: str):
     # Delete a document by id
     if delete_cv(id_cvs):
