@@ -18,8 +18,8 @@ async def quiz_gen(id_jd: str):
         # get jd_text from id_jd
         sumaryjd_text = get_jd_summary_by_id(id_jd)
 
-        message = question_rag(sumaryjd_text=sumaryjd_text, id_jd= id_jd)
-        return message
+        quiz_gen_dict = question_rag(sumaryjd_text=sumaryjd_text)
+        return {"message": "Quiz generated successfully", "data": quiz_gen_dict}
     except Exception as e:
         return {"message": str(e)}
 

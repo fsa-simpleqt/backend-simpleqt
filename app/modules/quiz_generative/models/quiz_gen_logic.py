@@ -23,7 +23,7 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY")
 QDRANT_URL = os.environ.get("QDRANT_URL")
 
-def question_rag(jobtext: str):
+def question_rag(sumaryjd_text: str):
     llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY, request_timeout=120)
 
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
@@ -57,6 +57,6 @@ def question_rag(jobtext: str):
 
     retriever = doc_store.as_retriever()
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
-    response = retrieval_chain.invoke({"input": jobtext})
+    response = retrieval_chain.invoke({"input": sumaryjd_text})
 
     return response["answer"]
