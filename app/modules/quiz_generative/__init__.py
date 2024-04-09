@@ -26,3 +26,4 @@ async def quiz_gen(id_jd: str):
 @quiz_gen_router.post("/test_gen")
 async def test_gen(url: str):
     download_file_rag_question_tests(url)
+

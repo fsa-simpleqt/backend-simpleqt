@@ -2,7 +2,4 @@ venv/
 .env
 __pycache__/
 credentials/
-data/CV
-data/JD
-data/QUESTION
 !.gitkeep

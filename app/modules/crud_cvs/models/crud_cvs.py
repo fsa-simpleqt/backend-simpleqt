@@ -13,14 +13,16 @@ from app.modules.crud_jds.models.crud_jds import get_jd_by_id
 def upload_file_cvs(file_path):
     # upload file to firebase storage from file_path
     name_file = file_path.split("/")[-1]
-    blob = firebase_bucket.blob(name_file)
+    # upload file to folder "cvs" in firebase storage
+    blob = firebase_bucket.blob(f"cvs/{name_file}")
     blob.upload_from_filename(file_path)
-    # return gs link
-    return f"gs://{firebase_bucket.name}/{name_file}"
+    blob.make_public()
+    # return Download URL of the file
+    return blob.public_url
 
-def remove_file_cvs(file_url):
+def remove_file_cvs(file_cv_name):
     # remove file from firebase storage using "gs://" link
-    blob = firebase_bucket.blob(file_url.split(f"gs://{firebase_bucket.name}/")[1])
+    blob = firebase_bucket.blob("cvs/" + file_cv_name)
     blob.delete()
     return True
 
@@ -72,7 +74,10 @@ def get_all_cv_by_apply_jd_id(apply_jd_id):
 def get_cv_by_id(id):
     # Get a document by id
     doc = firebase_db.collection("cvs").document(id).get()
-    return doc.to_dict()
+    # add id_cv to doc_data
+    doc_data = doc.to_dict()
+    doc_data["id_cv"] = doc.id
+    return doc_data
 
 def create_cv(data):
     # get file_cv
@@ -87,9 +92,9 @@ def create_cv(data):
     # take file_cv and cv_upload type file
     file_cv_type = file_cv.filename.split(".")[-1]
     cv_text = ""
-    if file_cv_type == "pdf":
+    if file_cv_type in ["pdf", "PDF"]:
         cv_text = file_cv_pdf2text(cache_path)
-    elif file_cv_type == "docx":
+    elif file_cv_type in ["docx", "doc", "DOCX", "DOC"]:
         cv_text = file_cv_doc2text(cache_path)
     else:
         return False
@@ -106,26 +111,32 @@ def create_cv(data):
     # Convert the current time to Vietnam time zone
     vietnam_now = utc_now.replace(tzinfo=pytz.utc).astimezone(vietnam_timezone).strftime("%Y-%m-%d %H:%M:%S")
 
+    # create data to save to firebase
+    firebase_save_data = {}
+    # add apply_jd_id
+    firebase_save_data["apply_jd_id"] = data["apply_jd_id"]
     # add file name to data
-    data["file_cv_name"] = re_name_file
+    firebase_save_data["file_cv_name"] = re_name_file
     # add file url to data
-    data["cv_url"] = cv_uploaded_url
+    firebase_save_data["file_cv_url"] = cv_uploaded_url
     # add cv_content
-    data["cv_content"] = cv_text
+    firebase_save_data["cv_content"] = cv_text
     # add created_at
-    data["created_at"] = vietnam_now
+    firebase_save_data["created_at"] = vietnam_now
     # add matched_status
-    data['matched_status'] = False
+    firebase_save_data["matched_status"] = False
     # add matched_result
-    data['matched_result'] = None
+    firebase_save_data["matched_result"] = None
     # Create a new document
-    firebase_db.collection("cvs").add(data)
-    return True
+    document_ref = firebase_db.collection("cvs").add(firebase_save_data)
+    document_id = document_ref[1].id
+
+    return document_id
 
 def delete_cv(id):
     # Delete a file from firebase storage
-    file_url = get_cv_by_id(id)["cv_url"]
-    remove_file_cvs(file_url)
+    file_cv_name = get_cv_by_id(id)["file_cv_name"]
+    remove_file_cvs(file_cv_name)
     # Delete a document by id
     firebase_db.collection("cvs").document(id).delete()
     return True

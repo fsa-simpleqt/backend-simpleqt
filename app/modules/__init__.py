@@ -1,5 +1,5 @@
 import os
-from fastapi import APIRouter,HTTPException
+from fastapi import APIRouter, Form
 from fastapi.responses import FileResponse
 import threading
 import time
@@ -10,18 +10,18 @@ from app.configs.database import firebase_bucket
 from app.modules.crud_jds import crud_jds_router
 from app.modules.crud_cvs import crud_cvs_router
 from app.modules.crud_question_test import crud_question_tests_router
-from app.modules.crud_rag_question_tests import crud_rag_question_tests_router
-from app.modules.quiz_generative import quiz_gen_router
+from app.modules.crud_quiz_generations import crud_quiz_generative_router
+from app.modules.quiz_generations import quiz_gen_router
 from app.modules.question_tests_retrieval import qtretrieval_router
 from app.modules.matching_cv import cvmatching_router
 
 modules_router = APIRouter(prefix="/modules", tags=["modules"])
 modules_router.include_router(crud_jds_router)
 modules_router.include_router(crud_cvs_router)
-modules_router.include_router(qtretrieval_router)
 modules_router.include_router(cvmatching_router)
 modules_router.include_router(crud_question_tests_router)
-modules_router.include_router(crud_rag_question_tests_router)
+modules_router.include_router(qtretrieval_router)
+modules_router.include_router(crud_quiz_generative_router)
 modules_router.include_router(quiz_gen_router)
 
 def delete_file_after_delay(file_path, delay):
@@ -35,7 +35,7 @@ async def index():
 
 # download from "gs://" link
 @modules_router.get("/download_file_gs_link")
-async def download_file_gs_link(gs_link:str):
+async def download_file_gs_link(gs_link:str = Form(...)):
     # Get the blob name from the gs link
     file_name = gs_link.split(f"gs://{firebase_bucket.name}/")[1]
     blob = firebase_bucket.blob(file_name)

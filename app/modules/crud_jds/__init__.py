@@ -1,6 +1,6 @@
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 
-from app.modules.crud_jds.models.crud_jds import get_all_jds, create_jd, delete_jd
+from app.modules.crud_jds.models.crud_jds import get_all_jds, create_jd, delete_jd, get_jd_by_id
 from app.modules.crud_cvs.models.crud_cvs import get_all_cv_by_apply_jd_id, delete_cv
 
 crud_jds_router = APIRouter(prefix="/crud_jds_router", tags=["crud_jds_router"])
@@ -20,30 +20,30 @@ async def add_jd(position_applied_for: str = Form(...), file_jd: UploadFile = Fi
         file_jd_type = file_jd.filename.split(".")[-1]
         if file_jd_type in ["txt"]:
             # create a new document
-            if create_jd({"position_applied_for": position_applied_for,"jd_text": file_jd}):
-                return {"message": "JD added successfully"}
-            else:
-                return {"message": "Error while adding JD file to database"}
+            document_id = create_jd({"position_applied_for": position_applied_for,"jd_text_file": file_jd})
+            new_jd = get_jd_by_id(document_id)
+            return {"message": "JD added successfully",
+                    "jd_data": new_jd}
         else:
             return {"message": "File type not supported"}
     except Exception as e:
-        return {"message": "Error", "error": str(e)}
+        return HTTPException(status_code=400, detail=f"{str(e)}")
 
 # [DELETE] JD by id
-@crud_jds_router.delete("/{id}")
-async def delete_jd_by_id(id: str):
-    
-    # Get all CVs that apply for this JD
-    cv_list = get_all_cv_by_apply_jd_id(id)
-    # check cv_list is not empty
-    count_cv = len(cv_list)
-    print(count_cv)
-    if count_cv > 0:
-        # Delete all CVs that apply for this JD
-        for cv in cv_list:
-            delete_cv(cv["id_cv"])
-    # Delete a document by id
-    if delete_jd(id):
-        return {"message": f"JD have id {id} deleted successfully"}
-    else:
-        return {"message": "Error"}
+@crud_jds_router.delete("/{id_jds}")
+async def delete_jd_by_id(id_jds: str):
+    try:
+        # Get all CVs that apply for this JD
+        cv_list = get_all_cv_by_apply_jd_id(id_jds)
+        # check cv_list is not empty
+        count_cv = len(cv_list)
+        print(count_cv)
+        if count_cv > 0:
+            # Delete all CVs that apply for this JD
+            for cv in cv_list:
+                delete_cv(cv["id_cv"])
+        # Delete a document by id
+        if delete_jd(id_jds):
+            return {"message": f"JD have id {id_jds} deleted successfully"}
+    except Exception as e:
+        return HTTPException(status_code=400, detail=f"{str(e)}")

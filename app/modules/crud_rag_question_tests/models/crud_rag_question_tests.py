@@ -86,3 +86,4 @@ def delete_question_test(id):
     # Delete a document by id
     firebase_db.collection("rag_question_tests").document(id).delete()
     return True
+
