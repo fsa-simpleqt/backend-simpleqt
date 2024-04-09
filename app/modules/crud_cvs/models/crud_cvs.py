@@ -1,12 +1,13 @@
 import uuid
 import pytz
-import io
 import os
 from docx import Document
 from datetime import datetime
+
 from langchain_community.document_loaders import UnstructuredPDFLoader
 
 from app.configs.database import firebase_bucket, firebase_db
+from google.cloud.firestore_v1 import FieldFilter
 from app.modules.crud_jds.models.crud_jds import get_jd_by_id
 
 # CRUD operation
@@ -63,7 +64,7 @@ def get_cv_content_by_id(id_cv):
 
 def get_all_cv_by_apply_jd_id(apply_jd_id):
     # Get all documents from the collection
-    docs = firebase_db.collection("cvs").where("apply_jd_id", "==", apply_jd_id).stream()
+    docs = firebase_db.collection("cvs").where(filter=FieldFilter("apply_jd_id", "==", apply_jd_id)).get()
     data = []
     for doc in docs:
         doc_data = doc.to_dict()

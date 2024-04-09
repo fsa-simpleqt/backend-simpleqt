@@ -69,8 +69,8 @@ search = TavilySearchResults(max_results=3)
 class Quiz_Gen_Response(BaseModel):
     """Parsing quiz. Output format is JSON only."""
     output: str = Field(
-        description="The generated quiz in JSON format: { 'count': 10, 'data': [ { 'id': '', 'question': '', 'choices': [ 'A. ', 'B. ', 'C.', 'D. ' ], 'explanation': '', 'answer': '', 'level': '', 'domain': '' } ] } \nAbout level help me three levels: Fresher, Junior, Senior."
-    )
+        description='The generated quiz in JSON format: {"count":10,"data":[{"id":int,"question":str,"choices":["A.","B.","C.","D."],"explanation":str,"answer":str,"level":"Fresher,Junior,Senior","domain":str}]}'
+)
 
 # Custom parsing logic
 def parse(output):
@@ -149,11 +149,8 @@ with_message_history = RunnableWithMessageHistory(
 )
 
 def is_valid_json(json_string):
-        try:
-            valid_json = json.loads(json_string)
-            return valid_json
-        except ValueError:
-            raise ValueError("Invalid JSON")
+    valid_json = json.loads(json_string)
+    return valid_json
 
 def generate_question(jobtext: str):
     store.clear()
