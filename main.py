@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from app.modules import modules_router
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(title="RankSume API Services", version="1.0.0", description="API Services for RankSume")
 app.include_router(modules_router)
 
 origins = [

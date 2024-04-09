@@ -11,7 +11,7 @@ async def index():
     return {"message": "Welcome to CV matching page"}
 
 @cvmatching_router.post("/matching")
-async def matching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
+async def matching_cv_jd(id_jd: str, id_cv:str):
     try:
         data_cv = get_cv_by_id(id_cv)
         # get matched status in database
@@ -25,7 +25,7 @@ async def matching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
         return HTTPException(status_code=400, detail=f"{str(e)}")
 
 @cvmatching_router.post("/rematching")
-async def rematching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
+async def rematching_cv_jd(id_jd: str, id_cv:str):
     try:
         data_cv = get_cv_by_id(id_cv)
         # get matched status in database
@@ -37,7 +37,3 @@ async def rematching_cv_jd(id_jd: str = Form(...), id_cv:str = Form(...)):
             return {"message": "CV not matched with a JD yet"}
     except Exception as e:
         return HTTPException(status_code=400, detail=f"{str(e)}")
-
-@cvmatching_router.post("/matchingcv_testzone")
-async def matching_cv_jd_testzone(id_jd: str = Form(...), id_cv:str = Form(...)):
-    pass
