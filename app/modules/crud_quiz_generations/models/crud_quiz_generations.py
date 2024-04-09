@@ -35,7 +35,10 @@ def get_all_quiz_generations():
 def get_quiz_generation_by_id(id_quiz_generation: str):
     # Get a document by id
     doc = firebase_db.collection("quiz_generations").document(id_quiz_generation).get()
-    return doc.to_dict()
+    # add id_quiz_generation to doc
+    doc = doc.to_dict()
+    doc["id_quiz_generation"] = id_quiz_generation
+    return doc
 
 def create_quiz_generation(data):
     # get data
@@ -73,7 +76,8 @@ def create_quiz_generation(data):
 
     # Create a new document
     document_ref = firebase_db.collection("quiz_generations").add(firebase_save_data)
-    return True
+    id_quiz_generation = document_ref[1].id
+    return id_quiz_generation
 
 def delete_quiz_generation(id_quiz_generation):
     # delete file in firebase storage

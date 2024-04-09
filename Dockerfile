@@ -25,5 +25,5 @@ EXPOSE 7860/tcp
 
 # CMD ["python", "main.py"]
 # Run the application
-# ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
-ENTRYPOINT ["python", "main.py"]
+ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+# ENTRYPOINT ["python", "main.py"]
