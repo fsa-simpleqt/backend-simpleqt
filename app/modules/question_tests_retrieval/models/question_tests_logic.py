@@ -30,12 +30,13 @@ def get_question_tests(text: str):
         id_question_tests = point.get("id")
         match_score = point.get("score")
         question_tests_url = get_question_test_by_id(id_question_tests).get("question_tests_url")
+        question_tests_data = get_question_test_by_id(id_question_tests)
         # check if question_tests_url have file extension .json
         if question_tests_url.split(".")[-1] == "json":
             # store the response of URL 
             response = urlopen(question_tests_url)
             data_question_tests_json = json.loads(response.read())
-            question_test_url_list.append({"id_question_tests": id_question_tests, "question_tests_url": question_tests_url, "match_score": match_score, "data_question_tests_json": data_question_tests_json})
+            question_test_url_list.append({"question_tests_data": question_tests_data, "match_score": match_score, "data_question_tests_json": data_question_tests_json})
         else:
-            question_test_url_list.append({"id_question_tests": id_question_tests, "question_tests_url": question_tests_url, "match_score": match_score})
+            question_test_url_list.append({"question_tests_data": question_tests_data, "match_score": match_score})
     return question_test_url_list
