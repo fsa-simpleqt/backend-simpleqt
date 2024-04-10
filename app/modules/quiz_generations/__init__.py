@@ -51,6 +51,11 @@ async def add_gen_quiz_to_jd(gen_quiz_data: GenQuizModel):
 @quiz_gen_router.delete("/delete_gen_quiz_in_jd")
 async def delete_gen_quiz_in_jd(id_jd: str):
     try:
+        # check is_generate_question_tests = False
+        is_generate_question_tests = get_jd_by_id(id_jd).get("is_generate_question_tests")
+        if not is_generate_question_tests:
+            return HTTPException(status_code=400, detail="JD is retrieval question tests")
+        
         # Delete gen_quiz in quiz_generations collection
         id_question_tests = get_jd_by_id(id_jd).get("id_question_tests")
         delete_quiz_generation(id_quiz_generation=id_question_tests)
