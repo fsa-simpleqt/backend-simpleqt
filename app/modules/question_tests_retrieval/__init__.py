@@ -38,6 +38,11 @@ async def add_get_question_to_jd(id_jd: str, id_question_tests:str):
 @qtretrieval_router.delete("/delete_question_tests_in_jd")
 async def delete_question_tests_in_jd(id_jd: str):
     try:
+        # check is_generate_question_tests = False
+        is_generate_question_tests = get_jd_by_id(id_jd).get("is_generate_question_tests")
+        if is_generate_question_tests:
+            return HTTPException(status_code=400, detail="JD is generate question tests")
+        
         data_change = {"is_generate_question_tests": False, "have_question_tests": False, "id_question_tests": None}
         if edit_jds(id_jd=id_jd, data_change=data_change):
             return {"message": "Delete question tests in JD successfully"}
