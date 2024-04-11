@@ -4,32 +4,45 @@ from langchain_core.messages import SystemMessage
 
 def input_data_cv_matching(cv_need_matching: str, jd_summary: str):
     input_data_cv_matching = f"""
-This is CV need to matching: 
+This is the Resume needed to be matched with the JD:
 {cv_need_matching}
-This is repeat JD need to matching with CV:
+
+This is the repeated JD needed to be matched with Resume:
 {jd_summary}
 
 YOUR TASK is CALCULATING the matching score between the candidate's qualifications in the CV and the job requirements in the JD using SCORING GUIDE.
-You MUST ONLY respond JSON using this format:
-(
-    "technical_skills":
-        ( 
-        "technical_score": "", 
-        "explanation": "" 
-        ),
-    "projects":
-        [ 
-            (
-            "project_name": "", 
-            "relevance_score": "",
-            "difficulty_score": "",
-            "duration_score": "",
-            "explanation": "" 
-            ),
-        # ... more projects
-        ],
-    "explanation": ""
-)
+
+You MUST ONLY respond a string using this format:
+{{
+    "education": {{
+        "major": str,
+        "major_relevance_score": int,
+        "graduation_status": int[0, 1],
+        "explanation": str
+    }},
+    "language_skills": [
+        {{
+            "language": str,
+            "proficiency": int[1, 2, 3, 4, 5],
+            "certification": int[0, 1],
+            "required": int[0, 1],
+            "explanation": str
+        }}
+    ],
+    "technical_skills": {{
+        "technical_score": int,
+        "explanation": str
+    }},
+    "projects": [
+        {{
+            "project_name": str,
+            "relevance_score": int,
+            "difficulty_score": int,
+            "duration_score": int,
+            "explanation": str
+        }}
+    ]
+}}
 """
     return input_data_cv_matching
 
@@ -47,8 +60,49 @@ All comments must be written using singular pronouns such as "he", "she", "the c
 SCORING GUIDE:
 To determine the matching score, you must analyze the techinical skills, projetcs in the CV and compare them to the requirements outlined in the JD.
 For each section provide the matching score as a numeric value between 0-100, along with a brief explanation of your analysis.
-    TECHNICAL SKILLS section: 
+    EDUCATION section:
+        MUST only use the information in the Resume.
+            MAJOR section:
+                Extract the candidate's major.
+                If no MAJOR is listed, assign a value of null and state in the EXPLANATION section "No education information found on resume".
+            RELEVANCE section:
+                Evaluated based on the relevance of the major to the job ONLY IF the MAJOR has been identified.
+                If no MAJOR is listed, assign a score of 0 and state in the EXPLANATION section "No education information found on resume".
+                Score range:
+                    16: Unrelated major
+                    33: Slightly related major
+                    50: Moderately related major
+                    66: Strongly related major
+            GRADUATION section:
+                Evaluated based on the graduation status.
+                Score range:
+                    0: Not graduated
+                    1: Graduated
+    LANGUAGE SKILLS section:
+        For each language, evaluated based on the level of proficiency, the certification, and the requirement in the JD.
+        Rearrange the languages in this section in descending order of REQUIREMENT section score, then LEVEL OF PROFICIENCY section score.
+        LEVEL OF PROFICIENCY section:
+            Score range:
+                1: Elementary proficiency           (CEFR A1 or A2, IELTS from 1.0 to 3.5, TOEFL from 0 to 30, TOEIC from 10 to 250, JLPT N5, Topik 1, HSK 1, ect.)
+                2: Lower-intermediate proficiency   (CEFR B1, IELTS from 4.0 to 5.0, TOEFL from above 30 to 60, TOEIC from 255 to 400, JLPT N4, Topik 2, HSK 2, ect.)
+                3: Intermediate proficiency         (CEFR B2, IELTS from 5.5 to 6.5, TOEFL from above 60 to 80, TOEIC from 405 to 600, JLPT N3, Topik 3, HSK 3, DSH 1, ect.)
+                4: Upper-intermediate proficiency   (CEFR B2, IELTS from 7 to 7.5, TOEFL from above 80 to 100, TOEIC from 605 to 780, JLPT N2, Topik 4, HSK 4, DSH 2, ect.)
+                5: Advanced proficiency             (CEFR C1 or C2, IELTS from 8 to 9.0, TOEFL from above 100 to 120, TOEIC from 785 to 990, JLPT N1, Topik 5 - 6, HSK 5 - 6, DSH 3, ect.)
+        CERTIFICATION section:
+            Score range:
+                0: No certification
+                1: Certified (CEFR, IELTS, TOEFL, TOEIC, JLPT, Topik, KLAT, KLPT, HSK, DSH, TestDaF, ect.)
+        REQUIREMENT section:
+            Score range:
+                0: Not required in the JD
+                1: Required in the JD
+    TECHNICAL SKILLS section:
         Evaluated based on the relevance of the techinical skills to the job (programming languages, frameworks, databases, cloud technologies and other techinical skills).
+        Score range:
+            from 0 to 25: Poor match
+            from 25 to 50: Fair match
+            from 50 to 80: Good match
+            from 80 to 100: Excellent match
     PROJECTS section:
         For each project, evaluated based on the relevance, the level of difficulty and the duration of the projects to the job descriptions.
         For each project, prioritize the relevance, then the level of difficulty, then the duration.

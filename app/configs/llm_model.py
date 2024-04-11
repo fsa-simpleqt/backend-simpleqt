@@ -15,5 +15,5 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY, request_timeout=120)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY, request_timeout=120)
 # llm = ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, request_timeout=120)
