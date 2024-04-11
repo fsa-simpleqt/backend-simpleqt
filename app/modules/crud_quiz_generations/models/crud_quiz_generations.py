@@ -1,9 +1,11 @@
 import uuid
 import os
-from app.configs.database import firebase_bucket, firebase_db
-
-from datetime import datetime
 import pytz
+from datetime import datetime
+import json
+
+from urllib.request import urlopen
+from app.configs.database import firebase_bucket, firebase_db
 
 # CRUD operation
 def upload_file_quiz_generation(file_path):
@@ -38,6 +40,10 @@ def get_quiz_generation_by_id(id_quiz_generation: str):
     # add id_quiz_generation to doc
     doc = doc.to_dict()
     doc["id_quiz_generation"] = id_quiz_generation
+    # store the response of URL 
+    response = urlopen(doc["quiz_generation_url"])
+    data_quiz_generation_json = json.loads(response.read())
+    doc["data_quiz_generation"] = data_quiz_generation_json
     return doc
 
 def create_quiz_generation(data):
