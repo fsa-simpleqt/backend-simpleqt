@@ -100,8 +100,8 @@ prompt = ChatPromptTemplate.from_messages(
         MessagesPlaceholder(variable_name='agent_scratchpad')
     ]
 )
-tools = [search]
-llm_with_tools = llm.bind_functions([search, Quiz_Gen_Response])
+tools = []
+llm_with_tools = llm.bind_functions([Quiz_Gen_Response])
 agent = (
     {
         "input": lambda x: x["input"],
@@ -162,9 +162,7 @@ def generate_question(jobtext: str):
         {"input": f"Generate a 10 questions interview quiz based on the keywords technical skills."},
         config={"configurable": {"user_id": "quangdinh", "conversation_id": "abc123"}},
     )
-
-    print(response["output"])
-
     valid_output = is_valid_json(response["output"])
+    print(valid_output)
 
     return valid_output
