@@ -19,7 +19,7 @@ async def matching_cv_jd(matching_data: MatchingModel):
         if matching_data.config_score:
             check_config_score(matching_data.config_score)
         else:
-            return HTTPException(status_code=400, detail="config_score is required")
+            raise HTTPException(status_code=400, detail="config_score is required")
         
         # get matched status in database
         matched_status = get_cv_by_id(matching_data.id_cv).get("matched_status")
@@ -39,7 +39,7 @@ async def rematching_cv_jd(matching_data: MatchingModel):
         if matching_data.config_score:
             check_config_score(matching_data.config_score)
         else:
-            return HTTPException(status_code=400, detail="config_score is required")
+            raise HTTPException(status_code=400, detail="config_score is required")
         
         # get matched status in database
         matched_status = get_cv_by_id(matching_data.id_cv).get("matched_status")
