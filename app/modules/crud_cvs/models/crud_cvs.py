@@ -47,7 +47,7 @@ def file_cv_pdf2text(file_path):
 
 def get_all_cvs():
     # Get all documents from the collection
-    docs = firebase_db.collection("cvs").stream()
+    docs = firebase_db.collection("cvs").get()
     data = []
     for doc in docs:
         doc_data = doc.to_dict()
@@ -69,6 +69,8 @@ def get_all_cv_by_apply_jd_id(apply_jd_id):
     for doc in docs:
         doc_data = doc.to_dict()
         doc_data["id_cv"] = doc.id
+        apply_jd_id = doc_data.get("apply_jd_id")
+        doc_data['apply_position'] = get_jd_by_id(apply_jd_id).get("position_applied_for")
         data.append(doc_data)
     return data
 
@@ -78,6 +80,8 @@ def get_cv_by_id(id):
     # add id_cv to doc_data
     doc_data = doc.to_dict()
     doc_data["id_cv"] = doc.id
+    apply_jd_id = doc_data.get("apply_jd_id")
+    doc_data['apply_position'] = get_jd_by_id(apply_jd_id).get("position_applied_for")
     return doc_data
 
 def create_cv(data):

@@ -21,6 +21,9 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables import ConfigurableFieldSpec
 
+from langchain_core.output_parsers import JsonOutputParser
+parser_res = JsonOutputParser()
+
 import os
 from dotenv import load_dotenv
 
@@ -69,7 +72,7 @@ search = TavilySearchResults(max_results=3)
 class Quiz_Gen_Response(BaseModel):
     """Parsing quiz. Output format is JSON only."""
     output: str = Field(
-        description='The generated quiz in JSON format: {"count":10,"data":[{"id":int,"question":str,"choices":["A.","B.","C.","D."],"explanation":str,"answer":str,"level":"Fresher,Junior,Senior","domain":str}]}'
+        description='The generated quiz in JSON format: {"count":10,"data":[{"id":int,"question":str,"choices":["A.","B.","C.","D."],"explanation":str,"answer":str,"level":str[Fresher,Junior,Senior],"domain":str}]}'
 )
 
 # Custom parsing logic
@@ -154,15 +157,16 @@ def is_valid_json(json_string):
 
 def generate_question(jobtext: str):
     store.clear()
-    with_message_history.invoke(
-        {"input": f"What are the technical keywords mentioned in this job description: {jobtext}"},
+    keyword_res = with_message_history.invoke(
+        {"input": f"What are the technical keywords mentioned in this job description and level of JD need (Fresher, Junior, Senior): {jobtext}"},
         config={"configurable": {"user_id": "quangdinh", "conversation_id": "abc123"}},
     )
     response = with_message_history.invoke(
-        {"input": f"Generate a 10 questions interview quiz based on the keywords technical skills."},
+        {"input": f"""YOUR TASK is CREATE a 10 QUESTIONS based on the keywords technical skills below:
+         {keyword_res["output"]}"""},
         config={"configurable": {"user_id": "quangdinh", "conversation_id": "abc123"}},
     )
-    valid_output = is_valid_json(response["output"])
-    print(valid_output)
-
-    return valid_output
+    llm_res_json = parser_res.parse(response["output"])
+    print(type(response["output"]))
+    print(type(llm_res_json))
+    return llm_res_json
