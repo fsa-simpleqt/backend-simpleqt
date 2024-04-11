@@ -13,6 +13,16 @@ async def index():
     data = get_all_quiz_generations()
     return data
 
+# [GET] question test by id
+@crud_quiz_generative_router.get("/{id_quiz_generative}")
+async def get_question_test_by_id(id_quiz_generative: str):
+    try:
+        # Get a document by id
+        quiz_gen_data = get_quiz_generation_by_id(id_quiz_generative)
+        return quiz_gen_data
+    except Exception as e:
+        return HTTPException(status_code=400, detail=f"{str(e)}")
+
 # # [POST] add question test
 # @crud_quiz_generative_router.post("/")
 # # only upload pdf or json file
