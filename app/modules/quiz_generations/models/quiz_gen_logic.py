@@ -100,8 +100,8 @@ prompt = ChatPromptTemplate.from_messages(
         MessagesPlaceholder(variable_name='agent_scratchpad')
     ]
 )
-tools = [search, retriever_tool]
-llm_with_tools = llm.bind_functions([search, retriever_tool, Quiz_Gen_Response])
+tools = [search]
+llm_with_tools = llm.bind_functions([search, Quiz_Gen_Response])
 agent = (
     {
         "input": lambda x: x["input"],
