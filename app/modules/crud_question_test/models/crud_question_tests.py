@@ -37,7 +37,10 @@ def get_all_question_tests():
 def get_question_test_by_id(id_question_tests):
     # Get a document by id
     doc = firebase_db.collection("question_tests").document(id_question_tests).get()
-    return doc.to_dict()
+    # add id_question_tests to doc_data
+    doc_data = doc.to_dict()
+    doc_data["id_question_tests"] = doc.id
+    return doc_data
 
 def get_question_test_url_by_description(description):
     # Get a question_tests_url where question_tests_description is equal to description
@@ -71,8 +74,6 @@ def create_question_test(data):
     
     # create a new document
     firebase_save_data = {}
-    # add id_jd to firebase_save_data
-    firebase_save_data["id_jd"] = data["id_jd"]
     # add vietnam_now to firebase_save_data
     firebase_save_data["created_at"] = vietnam_now
     # add question_tests_url to firebase_save_data
@@ -95,7 +96,7 @@ def create_question_test(data):
     point = models.PointStruct(id=points_count+1, payload=payload, vector=description_vector)
     qdrant_client.upsert(collection_name="question_tests", points=[point])
 
-    return True
+    return document_id
 
 def delete_question_test(id_question_tests):
     # Delete a file from firebase storage

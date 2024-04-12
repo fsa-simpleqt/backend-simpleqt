@@ -1,31 +1,32 @@
 import os
 import json
-from dotenv import load_dotenv
-
 
 from langchain.memory import ConversationBufferMemory
 from langchain.schema import messages_to_dict
 from langchain.chains import LLMChain
-from langchain_google_genai import ChatGoogleGenerativeAI
-# from langchain_openai import ChatOpenAI
 
 # import promt template
 from app.utils.chat_templates import chat_template_history_jd
+from app.configs.llm_model import llm
 
+# import firebase
+from app.configs.database import firebase_bucket
 
-# Import API key
-load_dotenv()
+def upload_file_chat_history(file_path):
+    # upload file to firebase storage from file_path
+    name_file = file_path.split("/")[-1]
+    # upload file to folder "chat_history" in firebase storage
+    blob = firebase_bucket.blob(f"chat_histories/{name_file}")
+    blob.upload_from_filename(file_path)
+    blob.make_public()
+    # return Download URL of the file
+    return blob.public_url
 
-# Define the google api key
-os.environ['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY')
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
-
-# define the openai api key
-os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-
-llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, convert_system_message_to_human=True, api_key=GOOGLE_API_KEY, request_timeout=120)
-# llm = ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, request_timeout=120)
+def remove_file_chat_history(chat_history_file_name):
+    # remove file from firebase storage chat_history_file_name
+    blob = firebase_bucket.blob("chat_histories/" + chat_history_file_name)
+    blob.delete()
+    return True
 
 def create_jd_history(jd_summary: str, id_jd: str):
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
@@ -40,18 +41,23 @@ def create_jd_history(jd_summary: str, id_jd: str):
     chat_llm_chain_jd.invoke({"jd_summary": jd_summary})
 
     # check if the folder exist
-    if not os.path.exists("data/chat_history"):
-        os.makedirs("data/chat_history")
+    if not os.path.exists("tmp"):
+        os.makedirs("tmp")
 
     save_json_name = id_jd+"_chat_history.json"
-    save_json_path = os.path.join("data/chat_history", save_json_name)
+    save_json_path = f"tmp/{save_json_name}"
 
     extracted_messages = chat_llm_chain_jd.memory.chat_memory.messages
     ingest_to_db = messages_to_dict(extracted_messages)
 
-    # SAVE MEMORY
-    # with open(save_pkl_path, 'wb') as f:
-    #     pickle.dump(memory, f)
     json_history = json.dumps(ingest_to_db)
     with open(save_json_path, 'w') as f:
         f.write(json_history)
+
+    # upload file to firebase storage
+    chat_history_url = upload_file_chat_history(save_json_path)
+
+    # remove file from local
+    os.remove(save_json_path)
+
+    return chat_history_url, save_json_name
