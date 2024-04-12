@@ -20,7 +20,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, convert_system
 
 def summary_jd(jobdes: str):
     # create the chat message
-    chat_message =  chat_template_sumary_jd.format_messages(jobdes=jobdes)
+    chat_message =  chat_template_sumary_jd.format_messages(jd=jobdes)
     # create a chain 
     chain =  llm
     result = chain.invoke(chat_message)
