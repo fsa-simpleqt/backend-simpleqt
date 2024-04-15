@@ -2,6 +2,8 @@ from fastapi import APIRouter, Form, HTTPException
 
 from app.modules.question_tests_retrieval.models.question_tests_logic import get_question_tests
 from app.modules.crud_jds.models.crud_jds import get_jd_summary_by_id, edit_jds, get_jd_by_id
+from app.modules.crud_question_test.models.crud_question_tests import get_question_test_by_id, get_question_test_data_by_id
+from app.modules.crud_quiz_generations.models.crud_quiz_generations import get_quiz_generation_by_id
 
 qtretrieval_router = APIRouter(prefix="/qtretrieval", tags=["qtretrieval"])
 
@@ -46,5 +48,29 @@ async def delete_question_tests_in_jd(id_jd: str):
         data_change = {"is_generate_question_tests": False, "have_question_tests": False, "id_question_tests": None}
         if edit_jds(id_jd=id_jd, data_change=data_change):
             return {"message": "Delete question tests in JD successfully"}
+    except Exception as e:
+        return HTTPException(status_code=400, detail=f"{str(e)}")
+
+@qtretrieval_router.get("/get_exam_data_by_jd")
+async def get_exam_data_by_jd(id_jd: str):
+    try:
+        have_question_tests = get_jd_by_id(id_jd).get("have_question_tests")
+        id_question_tests = get_jd_by_id(id_jd).get("id_question_tests")
+        if have_question_tests:
+            is_generate_question_tests = get_jd_by_id(id_jd).get("is_generate_question_tests")
+            if is_generate_question_tests:
+                test_data = get_quiz_generation_by_id(id_question_tests)
+                return test_data
+            else:
+                doc = get_question_test_by_id(id_question_tests)
+                doc_name = doc.get("question_tests_file_name")
+                doc_name_ext = doc_name.split(".")[-1]
+                if doc_name_ext == "pdf":
+                    return doc
+                else:
+                    test_data = get_question_test_data_by_id(id_question_tests)
+                    return test_data
+        else:
+            return HTTPException(status_code=400, detail=f"No data")
     except Exception as e:
         return HTTPException(status_code=400, detail=f"{str(e)}")

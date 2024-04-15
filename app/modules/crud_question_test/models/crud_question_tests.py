@@ -1,5 +1,7 @@
 import uuid
 import os
+import json
+from urllib.request import urlopen
 from app.configs.database import firebase_bucket, firebase_db
 from app.configs.qdrant_db import qdrant_client, models
 from app.utils.text2vector import text2vector
@@ -48,6 +50,17 @@ def get_question_test_url_by_description(description):
     for doc in docs:
         return doc.to_dict()["question_tests_url"]
     return False
+
+def get_question_test_data_by_id(id_question_tests: str):
+    # Get a document by id
+    doc = firebase_db.collection("question_tests").document(id_question_tests).get()
+    doc = doc.to_dict()
+    doc["id_question_tests"] = id_question_tests
+    # store the response of URL 
+    response = urlopen(doc["question_tests_url"])
+    data_question_tests_json = json.loads(response.read())
+    doc["exam_data"] = data_question_tests_json
+    return doc
 
 
 def create_question_test(data):
