@@ -11,13 +11,18 @@ def compare_vector(description_vector, max_number_of_points=3):
         collection_name="question_tests",
         query_vector=description_vector,
         limit=max_number_of_points,
-        with_vectors=False,
+        with_vectors=True,
         with_payload=True,
     )
 
     formatted_similarity_list = []
     for point in similarity_list:
-        formatted_similarity_list.append({"id": point.payload.get("id"), "score": point.score})
+        formatted_similarity_list.append({
+            "id": point.payload.get("id"), 
+            "score": point.score,
+            "role": point.payload.get("question_tests_role"),
+            "description": point.payload.get("question_tests_description")
+        })
 
     return formatted_similarity_list
 

@@ -43,8 +43,9 @@ def get_quiz_generation_by_id(id_quiz_generation: str):
     # store the response of URL 
     response = urlopen(doc["quiz_generation_url"])
     data_quiz_generation_json = json.loads(response.read())
-    doc["data_quiz_generation"] = data_quiz_generation_json
+    doc["exam_data"] = data_quiz_generation_json
     return doc
+
 
 def create_quiz_generation(data):
     # get data

@@ -108,7 +108,7 @@ def delete_jd(id_jd: str):
     # Delete a document by id
     firebase_db.collection("jds").document(id_jd).delete()
     # Delete corresponding vector from Qdrant
-    qdrant_client.delete(
+    delete_result = qdrant_client.delete(
         collection_name="jds",
         points_selector=models.FilterSelector(
             filter=models.Filter(
@@ -121,4 +121,4 @@ def delete_jd(id_jd: str):
             )
         ),
     )
-    return True
+    return delete_result
