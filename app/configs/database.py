@@ -44,7 +44,7 @@ print("Storage connected")
 
 # setup CORS allow for http://localhost:3000 in google cloud storage
 firebase_bucket.cors = [{
-    "origin": ["http://localhost:3000"],
+    "origin": ["http://localhost:3000", "https://fsa-react-frontend.vercel.app"],
     "responseHeader": ["*"],
     "method": ["GET"],
     "maxAgeSeconds": 3600
